@@ -275,6 +275,8 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 .mx-lede { max-width: 520px; font-size: clamp(16px, 1.5vw, 22px); line-height: 1.22; letter-spacing: -.01em; color: #d8d8d8; }
 .mx-lede b { font-weight: 500; color: #fff; }
 .mx-act { display: grid; gap: 10px; justify-items: start; }
+.mx-dl { display: flex; flex-wrap: wrap; gap: 10px; }
+.mx-tip { color: var(--dim); }
 .mx-shot { margin: 8vh var(--pad) 0; }
 .mx-frame { overflow: hidden; border: 1px solid var(--line); border-radius: 4px; clip-path: inset(0 0 0 0); }
 .mx-frame img { width: 100%; transform: scale(var(--zs, 1.12)); will-change: transform; }

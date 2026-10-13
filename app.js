@@ -12,7 +12,8 @@ const LINKS = {
   twitch:    'https://www.twitch.tv/blushorelive',
   instagram: 'https://www.instagram.com/blushore_/',
   email:     '',            // e.g. 'blu@blushore.live'                 (hidden while empty)
-  metro:     '',            // METRO beta download / store page        (button says "Coming soon" while empty)
+  metroMac:      'https://github.com/blushore/metro/releases/latest/download/METRO-Apple-Silicon.dmg', // METRO for Apple Silicon Macs (repo blushore/metro)
+  metroMacIntel: 'https://github.com/blushore/metro/releases/latest/download/METRO-Intel.dmg',         // METRO for Intel Macs
 };
 const TWITCH_CHANNEL = 'blushorelive';
 
@@ -417,12 +418,14 @@ const FEATURES = [
   ['Snap control', 'Snap your fingers to play or pause. Snap twice to skip.', 'Licence'],
   ['Play on', 'Send playback to any Spotify Connect device.', 'Free'],
   ['Lyrics + visualizer', 'Time-synced lyrics full screen, and a visualizer that moves with the music.', 'Licence'],
-  ['Windows + macOS', 'Built for Windows, with a native macOS version.', 'Beta'],
+  ['macOS + Windows', 'Native on Mac, for Apple Silicon and Intel. Windows version coming soon.', 'Mac now'],
 ];
 $('#feat').innerHTML = FEATURES.map((f, i) => `<li data-r><span class="n">${pad2(i + 1)}</span><b>${f[0]}</b><p>${f[1]}</p><small>${f[2]}</small></li>`).join('');
-const cta = $('#metroCta');
-if (LINKS.metro) { cta.href = LINKS.metro; cta.target = '_blank'; cta.rel = 'noopener'; }
-else { cta.removeAttribute('href'); cta.classList.add('off'); $('#metroCtaTxt').textContent = 'Coming soon'; }
+// Download buttons: the Mac matching this visitor goes first (orange); an empty link hides its button.
+const macs = [['metroMac', 'Download for Mac', 'Apple Silicon'], ['metroMacIntel', 'Download for Intel Mac', 'Intel']];
+const intel = /Mac/.test(navigator.platform) && (() => { try { const r = document.createElement('canvas').getContext('webgl').getParameter(37446); return /Intel/i.test(r); } catch (e) { return false; } })();
+if (intel) macs.reverse();
+$('#metroDl').innerHTML = macs.filter(([k]) => LINKS[k]).map(([k, label], i) => `<a class="pill ${i ? 'ghost' : 'orange'}" href="${LINKS[k]}" download>${label}</a>`).join('');
 
 /* ───────── live ───────── */
 let liveChecked = false;

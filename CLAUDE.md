@@ -39,7 +39,7 @@ To find code cheaply, run `grep -n "───" app.js styles.css` and Read just 
   4. **Latest release:** a cover kaleidoscope (`.kal` / `.kring`) around a vinyl that slides out of its sleeve.
   5. **Rooms:** links to the other pages.
 - **Music:** release index rows (hover tints use `COLORS`). Clicking opens the release sheet with 30s Apple previews. Lenis is stopped while the sheet is open, so the sheet needs `data-lenis-prevent` to scroll (same for any future scrollable overlay). The mini player is a "dynamic" pill in the top-right (it replaces the sound button once a track plays): compact cover + eq, opens on hover/tap/focus and peeks open for ~3s on each track change.
-- **Apps:** METRO music player. `LINKS.metro` is empty, so its button says "Coming soon".
+- **Apps:** METRO music player, out now for Mac (Windows coming soon). Download buttons use `LINKS.metroMac` / `LINKS.metroMacIntel`, which point at GitHub Releases in the **separate** public repo `blushore/metro` (`releases/latest/download/METRO-Apple-Silicon.dmg` / `METRO-Intel.dmg`). Keep METRO files out of the site repo. For a new version: `gh release create vX.Y <dmgs> --repo blushore/metro` with the same file names, and the site links keep working. Source DMGs live in `/Volumes/SSD/Claude/METRO Dist/`.
 - **Live:** Twitch `blushorelive`. Live status comes from decapi.me. The embedded player only works on the real domain (Twitch checks `parent`).
 
 ## Design rules (keep new work consistent)
