@@ -458,6 +458,9 @@ const kRings = $$('.kring'), kal = $('.kal'), browse = $('#browse'), latestEl = 
 const dots = $$('#dots li'), dotTargets = [hero, browse, latestEl, $('#rooms')];
 const shot = $('#mxShot');
 let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1;
+// Hero photo: its size and where the face is (fractions). The circle starts centred on the face, then eases to the full frame.
+const PHOTO = { w: 1200, h: 1600, fx: .68, fy: .39 };
+let faceDx = 0, faceDy = 0, photoBox = [0, 0, 0, 0]; // photo edges at scale 1, relative to the screen centre: left, right, top, bottom
 function measure() {
   vw = innerWidth; vh = innerHeight;
   disc.style.setProperty('--vw', vw + 'px'); disc.style.setProperty('--vh', vh + 'px');
@@ -467,6 +470,11 @@ function measure() {
   ringText.style.width = ringText.style.height = W + 'px';
   ringText.style.margin = `${-W / 2}px 0 0 ${-W / 2}px`;
   disc.style.setProperty('--D', rMax * 2 + 'px');
+  const c = Math.max(vw / PHOTO.w, vh / PHOTO.h), dw = PHOTO.w * c, dh = PHOTO.h * c;
+  faceDx = (vw - dw) * PHOTO.fx + PHOTO.fx * dw - vw / 2;
+  faceDy = (vh - dh) * PHOTO.fy + PHOTO.fy * dh - vh / 2;
+  const l = (vw - dw) * PHOTO.fx - vw / 2, t = (vh - dh) * PHOTO.fy - vh / 2;
+  photoBox = [l, l + dw, t, t + dh];
   heroP = -1;
   if (sda) heroKeyframes();
 }
@@ -477,9 +485,12 @@ function heroAt(p) {
   const g = ease(clamp(p / .6)), r = lerp(r0, rMax, g), dk = r / rMax;
   const s = lerp(1.3, 1, g) * lerp(1, 1.12, clamp((p - .6) / .4)), k = (r + 14) / (r0 + 14);
   const hc = clamp(1 - p / .16), ab = clamp((p - .56) / .16) * clamp((1 - p) / .1);
+  // shift toward the face, but never so far that a photo edge shows inside the visible part of the circle
+  const [pl, pr, pt, pb] = photoBox, mx = Math.min(r, vw / 2), my = Math.min(r, vh / 2);
+  const ox = clamp(-s * faceDx * (1 - g), mx - s * pr, -mx - s * pl), oy = clamp(-s * faceDy * (1 - g), my - s * pb, -my - s * pt);
   return {
     disc: `transform: scale(${dk.toFixed(4)})`,
-    img: `transform: scale(${(s / dk).toFixed(4)})`,
+    img: `transform: translate(${(ox / dk).toFixed(1)}px, ${(oy / dk).toFixed(1)}px) scale(${(s / dk).toFixed(4)})`,
     dim: `opacity: ${(g * .6).toFixed(3)}`,
     ring: `transform: rotate(${(p * 260).toFixed(2)}deg) scale(${k.toFixed(4)}); opacity: ${clamp(1 - g * 2.4).toFixed(3)}`,
     copy: `opacity: ${hc.toFixed(3)}; transform: translateY(${((1 - hc) * -30).toFixed(2)}px)`,
