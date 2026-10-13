@@ -1,0 +1,4 @@
+.DS_Store
+# source artwork, not used by the site (92 MB)
+artworks/
+__pycache__/

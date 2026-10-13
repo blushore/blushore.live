@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blu Shore</title>
+<meta name="description" content="Blu Shore. Music, apps and live streams. Home of the METRO music player.">
+<meta name="theme-color" content="#0f0f0f">
+<meta property="og:title" content="Blu Shore">
+<meta property="og:description" content="Music, apps and live streams.">
+<meta property="og:image" content="assets/art/idk-what-it-is.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter+Tight:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="home" class="is-intro">
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- intro -->
+<div class="intro" id="intro">
+  <div class="ring" id="ring" aria-hidden="true"></div>
+  <div class="intro-core">
+    <h1 class="mark" aria-label="Blu Shore"><span>BLU</span><span>SHORE</span></h1>
+    <button class="pill" id="enter" type="button">Enter</button>
+    <button class="quiet" id="enterMute" type="button">Enter without sound</button>
+  </div>
+  <p class="intro-note"><svg class="bars" viewBox="0 0 16 12" aria-hidden="true"><path d="M2 4v4M6 1v10M10 3v6M14 5v2"/></svg> Best experienced with audio</p>
+</div>
+
+<!-- header -->
+<header class="top" id="top">
+  <a class="logo" href="#home" data-go="home" aria-label="Blu Shore, home">Blu Shore</a>
+  <button class="dot" id="dot" type="button" aria-label="Menu" aria-expanded="false"><i></i><span class="dot-t" aria-hidden="true"></span></button>
+  <button class="snd" id="snd" type="button" aria-label="Toggle sound" aria-pressed="false">
+    <svg class="bars" viewBox="0 0 16 12" aria-hidden="true"><path d="M2 4v4M6 1v10M10 3v6M14 5v2"/></svg>
+  </button>
+</header>
+
+<!-- menu -->
+<nav class="menu" id="menu" aria-label="Main" aria-hidden="true">
+  <ul class="menu-list">
+    <li><a href="#home" data-go="home"><span>01</span><b>Home</b></a></li>
+    <li><a href="#music" data-go="music"><span>02</span><b>Music</b></a></li>
+    <li><a href="#apps" data-go="apps"><span>03</span><b>Apps</b></a></li>
+    <li><a href="#live" data-go="live"><span>04</span><b>Live</b></a></li>
+  </ul>
+  <div class="menu-foot" id="menuLinks"></div>
+</nav>
+
+<!-- home progress dots -->
+<ol class="dots" id="dots" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
+
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<main id="main">
+
+<!-- ═════════ HOME ═════════ -->
+<section class="page" id="p-home" data-title="Blu Shore">
+  <div class="hero" id="hero">
+    <div class="stage">
+      <div class="disc" id="disc"><img src="assets/img/blu.jpg" alt="Blu Shore"></div>
+      <svg class="ring-text" id="ringText" viewBox="0 0 200 200" aria-hidden="true">
+        <defs><path id="rt" d="M100,100 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0"/></defs>
+        <text><textPath href="#rt" startOffset="0" textLength="550" lengthAdjust="spacing">LISTEN · LOOK · THINK · CREATE · LISTEN · LOOK · THINK · CREATE ·</textPath></text>
+      </svg>
+      <div class="hero-copy" id="heroCopy">
+        <h2 class="h-lede" data-split>Musician.<br>Gamer.<br>Developer.</h2>
+        <p class="cue">Scroll <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M2 7l4 4 4-4"/></svg></p>
+      </div>
+      <div class="about" id="about">
+        <p class="lab ab-lab" style="--s:0">About</p>
+        <div class="ab-row">
+          <p class="ab-hi up" style="--s:.06">Hey, I'm Blu.</p>
+          <div class="ab-side">
+            <p class="ab-msg"><span style="--s:.2">Most days I'm <b>making songs</b>,</span> <span style="--s:.32"><b>playing games</b></span> <span style="--s:.44">or <b>building apps</b>.</span></p>
+            <p class="ab-end" style="--s:.58">No big plan, just curiosity.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="browse" id="browse" aria-label="Browse music">
+    <div class="stage">
+      <div class="floaters" id="floaters"></div>
+      <a class="browse-cta" href="#music" data-go="music">
+        <small>Browse</small>
+        <b>Music</b>
+        <span>Browse <svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="latest" id="latest" aria-label="Latest release">
+    <div class="stage">
+      <p class="lab tl">Latest release</p>
+      <div class="vwrap" id="vwrap" data-cursor="Open">
+        <div class="vdisc"></div>
+        <div class="vinyl" id="lvVinyl"><i></i></div>
+        <img class="sleeve" id="lvArt" alt="">
+      </div>
+      <div class="latest-copy">
+        <h2 id="lvTitle" class="up"></h2>
+        <p class="meta" id="lvMeta"></p>
+        <button class="lnk" id="lvOpen" type="button">Listen <svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="rooms" id="rooms" aria-label="Rooms">
+    <p class="lab">Explore</p>
+    <ul class="rooms-list">
+      <li><a href="#music" data-go="music"><span class="n">01</span><b>Music</b><em id="rmMusic">Releases</em><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg></a></li>
+      <li><a href="#apps" data-go="apps"><span class="n">02</span><b>Apps</b><em>METRO</em><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg></a></li>
+      <li><a href="#live" data-go="live"><span class="n">03</span><b>Live</b><em id="rmLive">Twitch</em><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg></a></li>
+    </ul>
+  </section>
+</section>
+
+<!-- ═════════ MUSIC ═════════ -->
+<section class="page" id="p-music" data-title="Music · Blu Shore" hidden>
+  <header class="phead">
+    <p class="lab" data-r>Discography</p>
+    <h1 class="up" data-split>Music</h1>
+    <ul class="filters" id="filters" data-r>
+      <li><button class="on" data-f="all">All</button></li>
+      <li><button data-f="Album">Albums</button></li>
+      <li><button data-f="EP">EPs</button></li>
+      <li><button data-f="Single">Singles</button></li>
+    </ul>
+  </header>
+  <ol class="index" id="index"></ol>
+  <section class="ext">
+    <p class="lab" data-r>Listen everywhere</p>
+    <div class="ext-links" id="extLinks" data-r></div>
+  </section>
+</section>
+
+<!-- ═════════ APPS ═════════ -->
+<section class="page" id="p-apps" data-title="METRO · Blu Shore" hidden>
+  <header class="mx-hero">
+    <p class="lab" data-r>Apps · 01</p>
+    <h1 class="mx-title" aria-label="Metro"><span data-split>METRO</span><i></i></h1>
+    <div class="mx-row">
+      <p class="mx-lede" data-r>A music player that puts your albums first. It controls the Spotify app you already have, plays Apple Music, and lays your liked albums out as one living wall.</p>
+      <div class="mx-act" data-r>
+        <a class="pill orange" id="metroCta" href="#"><span id="metroCtaTxt">Get the beta</span></a>
+        <p class="note">Windows · macOS beta</p>
+      </div>
+    </div>
+  </header>
+  <figure class="mx-shot" id="mxShot">
+    <div class="mx-frame"><img src="assets/img/metro-shot.jpg" alt="METRO album wall" loading="lazy"></div>
+  </figure>
+  <section class="mx-feat">
+    <p class="lab" data-r>What it does</p>
+    <ol class="feat" id="feat"></ol>
+  </section>
+</section>
+
+<!-- ═════════ LIVE ═════════ -->
+<section class="page" id="p-live" data-title="Live · Blu Shore" hidden>
+  <header class="live-hero">
+    <p class="status" id="lStatus" data-r><i></i><span>Offline</span></p>
+    <h1 class="up giant" data-split>Live</h1>
+    <div class="live-row">
+      <p class="mx-lede" data-r>Track reviews, variety gaming and building things in public. Streaming on Twitch as <b>blushorelive</b>.</p>
+      <a class="pill" data-link="twitch" target="_blank" rel="noopener" data-r>Follow on Twitch</a>
+    </div>
+  </header>
+  <section class="player" id="player" data-cursor="Play">
+    <img src="assets/img/blu.jpg" alt="">
+    <button class="player-btn" id="loadTwitch" type="button" aria-label="Load the stream"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></button>
+    <p class="player-cap" id="playerCap">Load the stream</p>
+  </section>
+  <section class="cols">
+    <article data-r><span class="n">01</span><h3>Track reviews</h3><p>Bring your songs. We listen together, live, and talk about what works.</p></article>
+    <article data-r><span class="n">02</span><h3>Variety gaming</h3><p>Late nights, whatever game feels right. Chat picks more often than you would think.</p></article>
+    <article data-r><span class="n">03</span><h3>Making things</h3><p>Songs and apps get built on stream too. Watch it happen and tell me what to fix.</p></article>
+  </section>
+</section>
+
+</main>
+
+<footer class="foot" id="foot">
+  <div class="foot-grid">
+    <div><p class="lab">Pages</p><a href="#home" data-go="home">Home</a><a href="#music" data-go="music">Music</a><a href="#apps" data-go="apps">Apps</a><a href="#live" data-go="live">Live</a></div>
+    <div><p class="lab">Listen</p><a data-link="spotify" target="_blank" rel="noopener">Spotify</a><a data-link="apple" target="_blank" rel="noopener">Apple Music</a><a data-link="ytmusic" target="_blank" rel="noopener">YouTube Music</a><a data-link="amazon" target="_blank" rel="noopener">Amazon Music</a><a data-link="tidal" target="_blank" rel="noopener">Tidal</a><a data-link="jiosaavn" target="_blank" rel="noopener">JioSaavn</a></div>
+    <div><p class="lab">Follow</p><a data-link="youtube" target="_blank" rel="noopener">YouTube</a><a data-link="instagram" target="_blank" rel="noopener">Instagram</a><a data-link="twitch" target="_blank" rel="noopener">Twitch</a><a data-link="email">Email</a></div>
+  </div>
+  <p class="foot-mark" aria-hidden="true">BLU SHORE</p>
+  <p class="fine">© <span id="yr"></span> Blu Shore · blushore.live</p>
+</footer>
+
+<!-- release sheet -->
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="Release">
+  <button class="sheet-x" id="sheetX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+  <div class="sheet-in">
+    <div class="sheet-art">
+      <div class="vinyl" id="shVinyl"><i></i></div>
+      <img id="shArt" alt="">
+    </div>
+    <div class="sheet-body">
+      <p class="lab" id="shKind"></p>
+      <h2 class="up" id="shTitle"></h2>
+      <p class="meta" id="shMeta"></p>
+      <ol class="tracks" id="shTracks"></ol>
+      <div class="sheet-links"><a class="pill" id="shApple" target="_blank" rel="noopener">Apple Music</a><a class="pill ghost" data-link="spotify" target="_blank" rel="noopener">Spotify</a></div>
+      <p class="note">30-second previews.</p>
+    </div>
+  </div>
+</div>
+
+<!-- mini player -->
+<div class="mini" id="mini" hidden>
+  <img id="miniArt" alt="">
+  <div class="mini-t"><b id="miniTitle"></b><small id="miniSub"></small></div>
+  <button id="miniPrev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M7 6v12M18 6v12l-9-6z"/></svg></button>
+  <button id="miniToggle" type="button" aria-label="Play or pause"><svg viewBox="0 0 24 24"><path class="pp" d="M8 5.5v13l11-6.5z"/></svg></button>
+  <button id="miniNext" type="button" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M17 6v12M6 6v12l9-6z"/></svg></button>
+  <span class="mini-prog" id="miniProg"></span>
+</div>
+
+<div class="wipe" id="wipe" aria-hidden="true"><span id="wipeLabel"></span></div>
+<audio id="audio" preload="none"></audio>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/gallery.js"></script>
+<script src="assets/colors.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
