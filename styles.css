@@ -111,10 +111,8 @@ body.is-intro .top { opacity: 0; }
   clip-path: circle(0 at 50% 32px); visibility: hidden; transition: clip-path .9s var(--ease-io), visibility 0s .9s; }
 body.menu-open .menu { clip-path: circle(150vmax at 50% 32px); visibility: visible; transition: clip-path 1s var(--ease-io), visibility 0s; }
 .menu-list { display: grid; }
-.menu-list a { display: flex; align-items: baseline; gap: 20px; padding: 10px 0; border-top: 1px solid var(--line); transition: opacity .4s; }
-.menu-list li:last-child a { border-bottom: 1px solid var(--line); }
+.menu-list a { display: flex; align-items: baseline; padding: 4px 0; transition: opacity .4s; }
 .menu-list b { font-weight: 400; font-size: clamp(48px, 11vw, 150px); line-height: .95; letter-spacing: -.04em; text-transform: uppercase; transition: transform .7s var(--ease); }
-.menu-list span { font-size: 11px; color: var(--dim); width: 28px; }
 .menu-list:hover a { opacity: .3; } .menu-list a:hover { opacity: 1; } .menu-list a:hover b { transform: translateX(14px); }
 .menu-list li { opacity: 0; transform: translateY(30px); transition: opacity .5s, transform .8s var(--ease); }
 body.menu-open .menu-list li { opacity: 1; transform: none; transition-delay: calc(.35s + var(--i, 0) * .07s); }
