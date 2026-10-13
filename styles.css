@@ -153,6 +153,10 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 .disc { position: absolute; left: 50%; top: 50%; width: var(--D, 200vmax); height: var(--D, 200vmax); margin: calc(var(--D, 200vmax) / -2) 0 0 calc(var(--D, 200vmax) / -2); clip-path: circle(50%); transform: scale(.3); will-change: transform; }
 .disc img { position: absolute; left: 50%; top: 50%; width: var(--vw, 100vw); height: var(--vh, 100vh); margin: calc(var(--vh, 100vh) / -2) 0 0 calc(var(--vw, 100vw) / -2); object-fit: cover; object-position: 50% 30%; filter: grayscale(1) contrast(1.05); will-change: transform; }
 .disc-dim { position: absolute; inset: 0; background: #000; opacity: 0; will-change: opacity; }
+.hero.sda { view-timeline: --hero block; }
+.hero.sda :is(.disc, .disc img, .disc-dim, .ring-text, .hero-copy, .about) { animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --hero; animation-range: contain 0% contain 100%; }
+.hero.sda .disc { animation-name: h-disc; } .hero.sda .disc img { animation-name: h-img; } .hero.sda .disc-dim { animation-name: h-dim; }
+.hero.sda .ring-text { animation-name: h-ring; } .hero.sda .hero-copy { animation-name: h-copy; } .hero.sda .about { animation-name: h-about; }
 .ring-text { position: absolute; left: 50%; top: 50%; width: calc(var(--rd0, 60vmin) + 60px); height: calc(var(--rd0, 60vmin) + 60px); margin: calc((var(--rd0, 60vmin) + 60px) / -2) 0 0 calc((var(--rd0, 60vmin) + 60px) / -2); pointer-events: none; will-change: transform, opacity; }
 .ring-text text { font: 500 7.4px var(--sans); letter-spacing: .14em; fill: #fff; }
 .hero-copy { position: absolute; left: var(--pad); bottom: var(--pad); right: var(--pad); display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; will-change: opacity, transform; }

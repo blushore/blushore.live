@@ -461,6 +461,30 @@ function measure() {
   ringText.style.margin = `${-W / 2}px 0 0 ${-W / 2}px`;
   disc.style.setProperty('--D', rMax * 2 + 'px');
   heroP = -1;
+  if (sda) heroKeyframes();
+}
+/* Where supported, the hero runs as a CSS scroll-driven animation: the browser ties it to the scroll position itself,
+   so it stays locked to the finger on iPhone instead of trailing a frame behind. Keyframes are sampled from heroAt(). */
+const sda = !reduce && window.CSS && CSS.supports('animation-timeline: view()');
+function heroAt(p) {
+  const g = ease(clamp(p / .6)), r = lerp(r0, rMax, g), dk = r / rMax;
+  const s = lerp(1.3, 1, g) * lerp(1, 1.12, clamp((p - .6) / .4)), k = (r + 14) / (r0 + 14);
+  const hc = clamp(1 - p / .16), ab = clamp((p - .56) / .16) * clamp((1 - p) / .1);
+  return {
+    disc: `transform: scale(${dk.toFixed(4)})`,
+    img: `transform: scale(${(s / dk).toFixed(4)})`,
+    dim: `opacity: ${(g * .6).toFixed(3)}`,
+    ring: `transform: rotate(${(p * 260).toFixed(2)}deg) scale(${k.toFixed(4)}); opacity: ${clamp(1 - g * 2.4).toFixed(3)}`,
+    copy: `opacity: ${hc.toFixed(3)}; transform: translateY(${((1 - hc) * -30).toFixed(2)}px)`,
+    about: `opacity: ${ab.toFixed(3)}; transform: translateY(${((1 - ab) * 24).toFixed(2)}px)`,
+  };
+}
+function heroKeyframes() {
+  const N = 60, kf = { disc: '', img: '', dim: '', ring: '', copy: '', about: '' };
+  for (let i = 0; i <= N; i++) { const v = heroAt(i / N), at = (i / N * 100).toFixed(2) + '%'; for (const n in kf) kf[n] += `${at}{${v[n]}}`; }
+  let el = $('#heroKf'); if (!el) { el = document.createElement('style'); el.id = 'heroKf'; document.head.append(el); }
+  el.textContent = Object.entries(kf).map(([n, b]) => `@keyframes h-${n}{${b}}`).join('');
+  hero.classList.add('sda');
 }
 // On phones the address bar collapsing fires resize mid-scroll; only re-measure when the width really changes.
 addEventListener('resize', () => { if (fine || innerWidth !== vw) measure(); });
@@ -487,19 +511,11 @@ function frame(t) {
     const p = clamp(-hr.top / (hr.height - vh));
     if (p !== heroP && hr.bottom > 0) {
       heroP = p;
-      const g = ease(clamp(p / .6));
-      const r = lerp(r0, rMax, g), dk = r / rMax;
-      const s = lerp(1.3, 1, g) * lerp(1, 1.12, clamp((p - .6) / .4));
-      disc.style.transform = `scale(${dk.toFixed(4)})`;
-      discImg.style.transform = `scale(${(s / dk).toFixed(4)})`;
-      discDim.style.opacity = (g * .6).toFixed(3);
-      const k = (r + 14) / (r0 + 14);
-      ringText.style.transform = `rotate(${(p * 260).toFixed(2)}deg) scale(${k.toFixed(4)})`;
-      ringText.style.opacity = clamp(1 - g * 2.4);
-      const hc = clamp(1 - p / .16);
-      heroCopy.style.opacity = hc; heroCopy.style.transform = `translateY(${(1 - hc) * -30}px)`;
-      const ab = clamp((p - .56) / .16) * clamp((1 - p) / .1);
-      about.style.opacity = ab; about.style.transform = `translateY(${(1 - ab) * 24}px)`;
+      if (!sda) {
+        const v = heroAt(p);
+        [[disc, v.disc], [discImg, v.img], [discDim, v.dim], [ringText, v.ring], [heroCopy, v.copy], [about, v.about]].forEach(([el, css]) =>
+          css.split('; ').forEach(d => { const [k, val] = d.split(': '); el.style[k] = val; }));
+      }
       about.style.setProperty('--q', clamp((p - .56) / .3).toFixed(3));
     }
 
