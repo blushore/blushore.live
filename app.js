@@ -32,6 +32,7 @@ const LABEL = { home: 'Blu Shore', music: 'Music', apps: 'Apps', live: 'Live' };
 const fmtDate = d => new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 const mmss = ms => { const s = Math.round(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
 const pad2 = n => String(n).padStart(2, '0');
+const pageUrl = name => (name === 'home' ? location.pathname + location.search : '#' + name); /* home keeps a clean address, no #home */
 
 /* ───────── smooth scroll ───────── */
 const lenis = window.Lenis ? new Lenis({ lerp: .085, wheelMultiplier: .9, smoothWheel: !reduce }) : null;
@@ -235,7 +236,7 @@ async function go(name, x = innerWidth / 2, y = 36, fromPop) {
   if (name === cur) { setMenu(false); if (name === 'home' && lenis) lenis.scrollTo(0, { duration: 1.4 }); return; }
   if (sheet.classList.contains('open')) { sheetBusy = false; sheet.classList.remove('open'); sheet.hidden = true; sheet.style.clipPath = ''; document.body.classList.remove('sheet-open'); sheetRel = null; }
   busy = true;
-  if (!fromPop) history.pushState({ p: name }, '', '#' + name);
+  if (!fromPop) history.pushState({ p: name }, '', pageUrl(name));
   if (reduce || !wipe.animate) { show(name); setMenu(false); busy = false; return; }
   $('#wipeLabel').textContent = LABEL[name];
   $('#wipeLabel').style.opacity = 0;
@@ -260,7 +261,7 @@ $('.logo').addEventListener('click', e => {
   try { sessionStorage.removeItem('bs_intro'); } catch (err) {}
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   scrollTo(0, 0);
-  history.replaceState({ p: 'home' }, '', '#home');
+  history.replaceState({ p: 'home' }, '', pageUrl('home'));
   location.reload();
 });
 document.addEventListener('click', e => {
@@ -531,7 +532,7 @@ function frame(t) {
   let seen = false; try { seen = !!sessionStorage.getItem('bs_intro'); } catch (e) {}
   const start = PAGES.includes(hash) ? hash : 'home';
   if (start !== 'home') show(start); else arm($('#p-home'));
-  history.replaceState({ p: start }, '', '#' + start);
+  history.replaceState({ p: start }, '', pageUrl(start));
   if (start !== 'home' || seen) {
     document.body.classList.remove('is-intro'); intro.remove(); lenis && lenis.start();
     $('.h-lede').classList.add('in');
