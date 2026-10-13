@@ -149,8 +149,10 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 /* ───────── home: hero ───────── */
 .hero { height: 360vh; position: relative; }
 .stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-.disc { position: absolute; inset: 0; clip-path: circle(var(--r, 30vmin) at 50% 50%); will-change: clip-path; }
-.disc img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: grayscale(1) contrast(1.05) brightness(var(--b, 1)); transform: scale(var(--s, 1.25)); will-change: transform; }
+/* The circle is a fixed-size disc scaled with transform (the photo inside is counter-scaled), so scrolling never repaints it. Sizes come from measure(). */
+.disc { position: absolute; left: 50%; top: 50%; width: var(--D, 200vmax); height: var(--D, 200vmax); margin: calc(var(--D, 200vmax) / -2) 0 0 calc(var(--D, 200vmax) / -2); clip-path: circle(50%); transform: scale(.3); will-change: transform; }
+.disc img { position: absolute; left: 50%; top: 50%; width: var(--vw, 100vw); height: var(--vh, 100vh); margin: calc(var(--vh, 100vh) / -2) 0 0 calc(var(--vw, 100vw) / -2); object-fit: cover; object-position: 50% 30%; filter: grayscale(1) contrast(1.05); will-change: transform; }
+.disc-dim { position: absolute; inset: 0; background: #000; opacity: 0; will-change: opacity; }
 .ring-text { position: absolute; left: 50%; top: 50%; width: calc(var(--rd0, 60vmin) + 60px); height: calc(var(--rd0, 60vmin) + 60px); margin: calc((var(--rd0, 60vmin) + 60px) / -2) 0 0 calc((var(--rd0, 60vmin) + 60px) / -2); pointer-events: none; will-change: transform, opacity; }
 .ring-text text { font: 500 7.4px var(--sans); letter-spacing: .14em; fill: #fff; }
 .hero-copy { position: absolute; left: var(--pad); bottom: var(--pad); right: var(--pad); display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; will-change: opacity, transform; }

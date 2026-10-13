@@ -46,7 +46,7 @@ To find code cheaply, run `grep -n "───" app.js styles.css` and Read just 
 - **Inter Tight** for everything: big headings uppercase, weight 400 (light 200 for METRO), tight tracking (class `.up`). **Barlow Condensed** bold only for the brand mark: intro, logo, footer, wipe label.
 - Small labels: 11px uppercase, `.lab` / `.meta` / `.note`. Numbers use `.n`.
 - Layouts are edge-anchored (bottom-left headline, small label top-left). Avoid centred hero text, icons and decorative blobs. Lists are hairline rows, but the user prefers flowing sentences over table-like rows for personal text.
-- Motion: long calm easing (`--ease`, `--ease-io`). Animate only transform and opacity. Large repeated layers need `contain: paint` and no per-tile shadows (that combination caused flicker before).
+- Motion: long calm easing (`--ease`, `--ease-io`). Animate only transform and opacity. Large repeated layers need `contain: paint` and no per-tile shadows (that combination caused flicker before). Never animate clip-path or filter per frame (janky on iPhone); the hero circle is a scaled disc with a counter-scaled photo.
 - Respect `prefers-reduced-motion`, and keep the layout working at 375px wide.
 
 ## Common tasks

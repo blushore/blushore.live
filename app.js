@@ -446,20 +446,24 @@ $('#player').addEventListener('click', () => {
 });
 
 /* ───────── per-frame scroll choreography ───────── */
-const hero = $('#hero'), disc = $('#disc'), discImg = $('img', disc), ringText = $('#ringText'), heroCopy = $('#heroCopy'), about = $('#about');
+const hero = $('#hero'), disc = $('#disc'), discImg = $('img', disc), discDim = $('#discDim'), ringText = $('#ringText'), heroCopy = $('#heroCopy'), about = $('#about');
 const kRings = $$('.kring'), kal = $('.kal'), browse = $('#browse'), latestEl = $('#latest'), vwrap = $('#vwrap'), vinyl = $('#lvVinyl'), sleeve = $('#lvArt'), lcopy = $('.latest-copy');
 const dots = $$('#dots li'), dotTargets = [hero, browse, latestEl, $('#rooms')];
 const shot = $('#mxShot');
-let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight;
+let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1;
 function measure() {
   vw = innerWidth; vh = innerHeight;
+  disc.style.setProperty('--vw', vw + 'px'); disc.style.setProperty('--vh', vh + 'px');
   r0 = Math.min(vw, vh) * (vw < 700 ? .34 : .3);
   rMax = Math.hypot(vw, vh) / 2 * 1.04;
   const W = (r0 + 14) / .44;
   ringText.style.width = ringText.style.height = W + 'px';
   ringText.style.margin = `${-W / 2}px 0 0 ${-W / 2}px`;
+  disc.style.setProperty('--D', rMax * 2 + 'px');
+  heroP = -1;
 }
-addEventListener('resize', measure);
+// On phones the address bar collapsing fires resize mid-scroll; only re-measure when the width really changes.
+addEventListener('resize', () => { if (fine || innerWidth !== vw) measure(); });
 dots.forEach((d, i) => d.addEventListener('click', () => {
   const t = dotTargets[i], y = t.getBoundingClientRect().top + scrollTop() + (i === 0 ? 0 : i === 1 ? 0 : 0);
   lenis ? lenis.scrollTo(y, { duration: 1.6 }) : window.scrollTo({ top: y, behavior: 'smooth' });
@@ -475,25 +479,31 @@ function frame(t) {
   }
 
   if (cur === 'home' && !document.body.classList.contains('is-intro')) {
-    /* hero: the photo circle grows until it is the page */
-    const hr = hero.getBoundingClientRect(), span = hero.offsetHeight - vh;
-    const p = clamp(-hr.top / span);
-    const g = ease(clamp(p / .6));
-    const r = lerp(r0, rMax, g);
-    disc.style.setProperty('--r', r + 'px');
-    discImg.style.setProperty('--b', lerp(1, .4, g));
-    const k = (r + 14) / (r0 + 14);
-    ringText.style.transform = `rotate(${p * 260}deg) scale(${k})`;
-    ringText.style.opacity = clamp(1 - g * 2.4);
-    const hc = clamp(1 - p / .16);
-    heroCopy.style.opacity = hc; heroCopy.style.transform = `translateY(${(1 - hc) * -30}px)`;
-    const ab = clamp((p - .56) / .16) * clamp((1 - p) / .1);
-    about.style.opacity = ab; about.style.transform = `translateY(${(1 - ab) * 24}px)`;
-    about.style.setProperty('--q', clamp((p - .56) / .3).toFixed(3));
-    discImg.style.setProperty('--s', lerp(1.3, 1, g) * lerp(1, 1.12, clamp((p - .6) / .4)));
+    /* read every rect first, then write, so the browser lays out once per frame */
+    const hr = hero.getBoundingClientRect(), br = browse.getBoundingClientRect(), lr = latestEl.getBoundingClientRect();
+    const dTops = dotTargets.map(el => el.getBoundingClientRect().top);
+
+    /* hero: the photo circle grows until it is the page (skipped when nothing moved) */
+    const p = clamp(-hr.top / (hr.height - vh));
+    if (p !== heroP && hr.bottom > 0) {
+      heroP = p;
+      const g = ease(clamp(p / .6));
+      const r = lerp(r0, rMax, g), dk = r / rMax;
+      const s = lerp(1.3, 1, g) * lerp(1, 1.12, clamp((p - .6) / .4));
+      disc.style.transform = `scale(${dk.toFixed(4)})`;
+      discImg.style.transform = `scale(${(s / dk).toFixed(4)})`;
+      discDim.style.opacity = (g * .6).toFixed(3);
+      const k = (r + 14) / (r0 + 14);
+      ringText.style.transform = `rotate(${(p * 260).toFixed(2)}deg) scale(${k.toFixed(4)})`;
+      ringText.style.opacity = clamp(1 - g * 2.4);
+      const hc = clamp(1 - p / .16);
+      heroCopy.style.opacity = hc; heroCopy.style.transform = `translateY(${(1 - hc) * -30}px)`;
+      const ab = clamp((p - .56) / .16) * clamp((1 - p) / .1);
+      about.style.opacity = ab; about.style.transform = `translateY(${(1 - ab) * 24}px)`;
+      about.style.setProperty('--q', clamp((p - .56) / .3).toFixed(3));
+    }
 
     /* browse: two rings of covers orbit the title in release order, then gather into a pile, oldest first, newest on top */
-    const br = browse.getBoundingClientRect();
     if (br.bottom > 0 && br.top < vh) {
       const p = clamp(-br.top / (br.height - vh)), W = floaters.clientWidth, H = floaters.clientHeight, n = FL.length, pile = Math.min(W, H) * .26;
       if (!reduce && !flHold) orbit += .0006;
@@ -513,7 +523,7 @@ function frame(t) {
     }
 
     /* latest: the record slides out of the sleeve */
-    const lr = latestEl.getBoundingClientRect(), ls = latestEl.offsetHeight - vh;
+    const ls = lr.height - vh;
     if (lr.bottom > 0 && lr.top < vh * 1.5) { /* start half a screen early so the rings are positioned and painted before they show */
       const lp = clamp(-lr.top / ls), lpp = clamp((lr.top * -1 + vh) / vh);
       const grow = ease(clamp((vh - lr.top) / (vh * 1.1)));
@@ -531,7 +541,7 @@ function frame(t) {
 
     /* dots */
     let act = 0;
-    dotTargets.forEach((el, i) => { const b = el.getBoundingClientRect(); if (b.top < vh * .5) act = i; });
+    dTops.forEach((top, i) => { if (top < vh * .5) act = i; });
     dots.forEach((d, i) => d.classList.toggle('on', i === act));
   } else if (cur === 'apps') {
     const sr = shot.getBoundingClientRect();
