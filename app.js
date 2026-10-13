@@ -90,6 +90,9 @@ function arm(root) {
 const audio = $('#audio');
 const mini = $('#mini');
 let curRel = null, curIdx = 0, fadeId = 0;
+// The track that plays when someone turns sound on (intro "Enter" or the sound button). Not in the Music index.
+// TODO: swap `art` for the Patterns cover when it exists.
+const DEFAULT = { id: 'patterns', title: 'Patterns', kind: 'Unreleased', art: 'assets/img/blu.jpg', tracks: [{ t: 'Patterns', p: 'assets/audio/patterns.m4a' }] };
 const playable = r => r.tracks.map((t, i) => (t.p ? i : -1)).filter(i => i >= 0);
 
 function play(rel, i, quiet) {
@@ -111,11 +114,12 @@ function step(dir) {
   if (!curRel) return;
   const list = playable(curRel), pos = list.indexOf(curIdx) + dir;
   if (pos >= 0 && pos < list.length) return play(curRel, list[pos]);
+  if (curRel === DEFAULT) { const r = REL[0], pl = playable(r); return dir > 0 ? pl.length && play(r, pl[0]) : play(DEFAULT, 0); }
   const ri = (REL.indexOf(curRel) + dir + REL.length) % REL.length, r = REL[ri], pl = playable(r);
   if (pl.length) play(r, dir > 0 ? pl[0] : pl[pl.length - 1]);
 }
 function toggleAudio() {
-  if (!curRel) { play(REL[0], playable(REL[0])[0] || 0, true); return; }
+  if (!curRel) { play(DEFAULT, 0, true); return; }
   if (audio.paused) audio.play().catch(() => {}); else audio.pause();
 }
 audio.addEventListener('ended', () => step(1));
@@ -328,7 +332,7 @@ function leaveIntro(sound) {
   lenis && lenis.start();
   setTimeout(() => $('.h-lede').classList.add('in'), 500);
   setTimeout(() => intro.remove(), 1500);
-  if (sound && REL[0]) play(REL[0], playable(REL[0])[0] || 0, true);
+  if (sound) play(DEFAULT, 0, true);
   try { sessionStorage.setItem('bs_intro', '1'); } catch (e) {}
 }
 $('#enter').addEventListener('click', () => leaveIntro(true));

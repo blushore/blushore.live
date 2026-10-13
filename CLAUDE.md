@@ -19,6 +19,7 @@ Personal site of Blu Shore (musician, gamer, developer). Static HTML/CSS/JS with
 | `assets/colors.js` | `window.COLORS`: an accent colour per release id (hand-picked). Add one for each new release. |
 | `assets/gallery.js` | `window.ARTWORKS`: per-track cover art tied to a release id (hand-made). Used by the home "Browse" floaters. |
 | `assets/art/` | Release covers (600px jpg). `more/` holds per-track art. |
+| `assets/audio/` | `patterns.m4a`: the default track (256 kbps AAC, made with `afconvert` from the WAV). It plays on "Enter" with sound and from the sound button. Set as `DEFAULT` in app.js (audio section); its cover is still a placeholder. |
 | `assets/img/` | `blu.jpg` (hero photo), METRO screenshot and icon. |
 | `CNAME`, `.nojekyll` | Required by GitHub Pages. Keep both. |
 | `artworks/` | Source PNGs. Git-ignored, not used by the site, stays only on this Mac. |
