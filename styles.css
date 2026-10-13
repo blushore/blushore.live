@@ -343,10 +343,13 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 .tr .no { font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
 .tr .nm { font-size: clamp(17px, 1.6vw, 22px); letter-spacing: -.02em; text-transform: uppercase; transition: transform .6s var(--ease); }
 .tr .du { font-size: 11px; color: var(--mut); font-variant-numeric: tabular-nums; }
-.tr:hover .nm { transform: translateX(8px); }
+@media (hover: hover) { .tr:hover .nm { transform: translateX(8px); } }
 .tr.playing .no { color: #fff; }
-.tr.playing .no::before { content: "▶"; font-size: 9px; }
+.tr .no .bars { display: none; }
 .tr.playing .no span { display: none; }
+.tr.playing .no .bars { display: block; }
+.tr .no .bars path { transform-origin: 50% 100%; transform-box: fill-box; animation: eq 1s ease-in-out infinite alternate; }
+.tr .no .bars path:nth-child(2) { animation-delay: -.3s; } .tr .no .bars path:nth-child(3) { animation-delay: -.6s; } .tr .no .bars path:nth-child(4) { animation-delay: -.15s; }
 .tr .bar { position: absolute; left: 0; bottom: 0; height: 1px; width: 100%; background: #fff; transform: scaleX(0); transform-origin: 0 50%; }
 .sheet-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
 @media (max-width: 860px) { .sheet-in { grid-template-columns: 1fr; padding-top: 80px; } .sheet-art { width: min(86vw, 52vh); } }

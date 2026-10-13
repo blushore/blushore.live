@@ -193,7 +193,7 @@ function openSheet(rel, x = innerWidth / 2, y = innerHeight / 2) {
   $('#shTitle').textContent = rel.title;
   $('#shMeta').textContent = fmtDate(rel.date) + ' · ' + rel.tracks.length + (rel.tracks.length === 1 ? ' track' : ' tracks') + ' · ' + rel.genre;
   $('#shApple').href = rel.apple;
-  $('#shTracks').innerHTML = rel.tracks.map((t, i) => `<li><button class="tr" data-i="${i}" ${t.p ? '' : 'disabled'}><span class="no"><span>${pad2(i + 1)}</span></span><span class="nm">${t.t}</span><span class="du">${mmss(t.ms)}</span><span class="bar"></span></button></li>`).join('');
+  $('#shTracks').innerHTML = rel.tracks.map((t, i) => `<li><button class="tr" data-i="${i}" ${t.p ? '' : 'disabled'}><span class="no"><span>${pad2(i + 1)}</span><svg class="bars" viewBox="0 0 16 12" aria-hidden="true"><path d="M2 4v4M6 1v10M10 3v6M14 5v2"/></svg></span><span class="nm">${t.t}</span><span class="du">${mmss(t.ms)}</span><span class="bar"></span></button></li>`).join('');
   sheet.scrollTop = 0;
   sheet.hidden = false; sheet.classList.add('open');
   document.body.classList.add('sheet-open'); lenis && lenis.stop();
