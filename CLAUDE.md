@@ -58,3 +58,6 @@ To find code cheaply, run `grep -n "───" app.js styles.css` and Read just 
 - GitHub repo `blushore/blushore.live` (public). Pages serves `main` from the repo root, with HTTPS enforced.
 - The domain is registered at GoDaddy. DNS has `A @` pointing to 185.199.108.153, .109, .110 and .111, and `CNAME www` pointing to blushore.github.io. The GoDaddy Website Builder site is no longer used.
 - The user declined domain auto-renew. Don't bring it up.
+
+## Keeping these notes current
+When a design decision, workflow or setup changes, update this file in the same commit. Keep it short, because it loads into every conversation.
