@@ -5,7 +5,7 @@ Personal site of Blu Shore (musician, gamer, developer). Static HTML/CSS/JS with
 ## Ship a change
 1. Edit the files.
 2. Preview: `python3 -m http.server 4173` (or `preview_start` with name `site`), then open http://127.0.0.1:4173/. Click "Enter without sound" to get past the intro.
-3. Commit and push to `main`. GitHub Pages deploys in about a minute. The user expects changes to go live, so push when they're done.
+3. Bump the `?v=N` on the css/js links in index.html (phones cache them for 10 min otherwise). Commit and push to `main`. GitHub Pages deploys in about a minute. The user expects changes to go live, so push when they're done.
    - Author: `Blu Shore <blushore@users.noreply.github.com>`, already set in the repo config. Never use the user's Gmail.
    - On this Mac, `gh` is at `~/.local/bin/gh` (not on PATH) and is logged in as `blushore`.
 
