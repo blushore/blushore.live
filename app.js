@@ -99,7 +99,7 @@ function play(rel, i, quiet) {
   audio.src = t.p;
   if (quiet) { audio.volume = 0; fadeIn(); } else audio.volume = 1;
   audio.play().catch(() => {});
-  syncUI(); setMedia();
+  syncUI(); setMedia(); peekMini();
 }
 function fadeIn() {
   cancelAnimationFrame(fadeId);
@@ -132,7 +132,7 @@ function syncUI() {
   $('#snd').classList.toggle('on', on);
   $('#snd').setAttribute('aria-pressed', on);
   if (curRel) {
-    mini.hidden = false;
+    if (mini.hidden) { mini.hidden = false; document.body.classList.add('has-mini'); }
     mini.classList.toggle('play', on);
     $('#miniArt').src = curRel.art;
     $('#miniTitle').textContent = curRel.tracks[curIdx].t;
@@ -159,6 +159,23 @@ $('#snd').addEventListener('click', toggleAudio);
 $('#miniToggle').addEventListener('click', toggleAudio);
 $('#miniNext').addEventListener('click', () => step(1));
 $('#miniPrev').addEventListener('click', () => step(-1));
+
+// Dynamic pill: opens on hover/focus/tap, and peeks open for a moment when the track changes.
+let miniPeek = 0, miniHold = false, miniHover = false;
+function setMini(open) {
+  mini.classList.toggle('open', open);
+  $('#miniOpen').setAttribute('aria-expanded', open);
+}
+function peekMini() {
+  clearTimeout(miniPeek); setMini(true);
+  miniPeek = setTimeout(() => { if (!miniHold) setMini(false); }, 3200);
+}
+mini.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { miniHover = miniHold = true; clearTimeout(miniPeek); setMini(true); } });
+mini.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { miniHover = miniHold = false; setMini(false); } });
+mini.addEventListener('focusin', e => { if (e.target.matches(':focus-visible')) { miniHold = true; setMini(true); } });
+mini.addEventListener('focusout', e => { if (!miniHover && !mini.contains(e.relatedTarget)) { miniHold = false; setMini(false); } });
+$('#miniOpen').addEventListener('click', () => { if (miniHover) return; clearTimeout(miniPeek); miniHold = !mini.classList.contains('open'); setMini(miniHold); });
+document.addEventListener('pointerdown', e => { if (!mini.contains(e.target) && mini.classList.contains('open')) { miniHold = false; setMini(false); } });
 
 /* ───────── release sheet ───────── */
 const sheet = $('#sheet');

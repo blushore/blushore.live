@@ -214,11 +214,14 @@
 
 <!-- mini player -->
 <div class="mini" id="mini" hidden>
-  <img id="miniArt" alt="">
-  <div class="mini-t"><b id="miniTitle"></b><small id="miniSub"></small></div>
-  <button id="miniPrev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M7 6v12M18 6v12l-9-6z"/></svg></button>
-  <button id="miniToggle" type="button" aria-label="Play or pause"><svg viewBox="0 0 24 24"><path class="pp" d="M8 5.5v13l11-6.5z"/></svg></button>
-  <button id="miniNext" type="button" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M17 6v12M6 6v12l9-6z"/></svg></button>
+  <button class="mini-art" id="miniOpen" type="button" aria-label="Show player" aria-expanded="false"><img id="miniArt" alt=""></button>
+  <div class="mini-x"><div class="mini-in">
+    <div class="mini-t"><b id="miniTitle"></b><small id="miniSub"></small></div>
+    <button id="miniPrev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M7 6v12M18 6v12l-9-6z"/></svg></button>
+    <button id="miniToggle" type="button" aria-label="Play or pause"><svg viewBox="0 0 24 24"><path class="pp" d="M8 5.5v13l11-6.5z"/></svg></button>
+    <button id="miniNext" type="button" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M17 6v12M6 6v12l9-6z"/></svg></button>
+  </div></div>
+  <svg class="bars mini-eq" viewBox="0 0 16 12" aria-hidden="true"><path d="M2 4v4M6 1v10M10 3v6M14 5v2"/></svg>
   <span class="mini-prog" id="miniProg"></span>
 </div>
 

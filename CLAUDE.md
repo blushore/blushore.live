@@ -37,7 +37,7 @@ To find code cheaply, run `grep -n "───" app.js styles.css` and Read just 
   3. **Browse:** cover floaters orbit, then gather into a pile.
   4. **Latest release:** a cover kaleidoscope (`.kal` / `.kring`) around a vinyl that slides out of its sleeve.
   5. **Rooms:** links to the other pages.
-- **Music:** release index rows (hover tints use `COLORS`). Clicking opens the release sheet with 30s Apple previews and a mini player.
+- **Music:** release index rows (hover tints use `COLORS`). Clicking opens the release sheet with 30s Apple previews. The mini player is a "dynamic" pill in the top-right (it replaces the sound button once a track plays): compact cover + eq, opens on hover/tap/focus and peeks open for ~3s on each track change.
 - **Apps:** METRO music player. `LINKS.metro` is empty, so its button says "Coming soon".
 - **Live:** Twitch `blushorelive`. Live status comes from decapi.me. The embedded player only works on the real domain (Twitch checks `parent`).
 
