@@ -330,7 +330,7 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 .sheet-in { min-height: 100%; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 90px); align-items: center; padding: 90px var(--pad) 60px; }
 .sheet-art { position: relative; width: min(100%, 62vh); aspect-ratio: 1; justify-self: center; }
 .sheet-art img { position: absolute; left: 0; top: 0; width: 82%; height: 82%; object-fit: cover; z-index: 2; box-shadow: 0 30px 80px rgba(0, 0, 0, .6); }
-.sheet-art .vinyl { left: auto; right: 0; top: 9%; width: 82%; height: 82%; z-index: 1; transform: none; }
+.sheet-art .vinyl { left: auto; right: 0; top: 9%; width: 82%; height: 82%; z-index: 1; transform: none; box-shadow: 0 0 0 1px rgba(255, 255, 255, .16); background: radial-gradient(circle, #000 0 22%, #1b1b1b 23% 100%); }
 .sheet-art .vinyl.spin { animation: spin 5s linear infinite; }
 .sheet-body { display: grid; gap: 14px; align-content: center; }
 .sheet-body h2 { font-size: clamp(44px, 6.6vw, 110px); }
@@ -375,4 +375,3 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
   [data-r], .up .w > i, .h-lede .w > i { opacity: 1; transform: none; }
 }
 
-.sheet-art .vinyl { box-shadow: 0 0 0 1px rgba(255, 255, 255, .16); background: radial-gradient(circle, #000 0 22%, #1b1b1b 23% 100%); }
