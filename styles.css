@@ -91,14 +91,11 @@ h1, h2, h3, p { margin: 0; font-weight: 400; }
 .top { position: fixed; z-index: 90; left: 0; right: 0; top: 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 14px var(--pad); pointer-events: none; color: #fff; text-shadow: 0 0 18px rgba(0,0,0,.35); }
 .top > * { pointer-events: auto; }
 .logo { font: 700 17px/1 var(--cond); letter-spacing: .02em; text-transform: uppercase; justify-self: start; }
-.dot { justify-self: center; height: 36px; display: inline-flex; align-items: center; gap: 10px; padding: 0 6px; pointer-events: auto; }
+.dot { justify-self: center; height: 36px; display: inline-flex; align-items: center; padding: 0 6px; pointer-events: auto; }
 .dot:focus:not(:focus-visible) { outline: none; }
 .dot-t { font-size: 10.8px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
 .dot-t::after { content: "Menu"; }
 body.menu-open .dot-t::after { content: "Close"; }
-.dot i { width: 10px; height: 10px; border-radius: 50%; background: #fff; transition: transform .6s var(--ease); }
-.dot:hover i { transform: scale(1.5); }
-body.menu-open .dot i { transform: scale(.5); }
 .snd { justify-self: end; width: 36px; height: 36px; display: grid; place-items: center; }
 .snd .bars { width: 16px; height: 12px; }
 .snd .bars path { transform-origin: 50% 100%; transform-box: fill-box; }
