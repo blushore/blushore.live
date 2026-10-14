@@ -387,7 +387,13 @@ body.has-mini .snd { opacity: 0; pointer-events: none; }
   .hero-copy { flex-direction: column; align-items: flex-start; }
   .foot-grid { grid-template-columns: 1fr 1fr; }
   .mx-title { font-size: clamp(60px, 22vw, 200px); }
-  .mini-t { width: 120px; }
+  /* phones: the open pill must end before the logo, so it shrinks with the screen and drops the eq bars while open */
+  .mini { padding: 3px; }
+  .mini .mini-art, .mini img { width: 32px; height: 32px; }
+  .mini button { width: 30px; height: 30px; }
+  .mini-t { width: clamp(84px, calc(100vw - 2 * var(--pad) - 250px), 160px); padding: 0 6px 0 8px; }
+  .mini-eq { transition: width .5s var(--ease), margin .5s var(--ease), opacity .3s; }
+  .mini.open .mini-eq { width: 0; margin: 0 4px 0 0; opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
