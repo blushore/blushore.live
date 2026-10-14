@@ -196,9 +196,9 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 .browse-cta { position: relative; z-index: 200; text-shadow: 0 2px 30px rgba(0, 0, 0, .7); display: grid; justify-items: center; text-align: center; text-transform: uppercase; line-height: 1; padding: 30px; }
 .browse-cta small { font-size: clamp(16px, 1.5vw, 22px); letter-spacing: -.01em; font-weight: 300; }
 .browse-cta b { font-weight: 400; font-size: clamp(40px, 5vw, 76px); letter-spacing: -.04em; margin: 2px 0 14px; }
-.browse-cta span { display: inline-flex; gap: 10px; align-items: center; font-size: 10.8px; font-weight: 500; letter-spacing: .02em; color: var(--mut); transition: gap .5s var(--ease), color .3s; }
-.browse-cta span svg { width: 14px; height: 10px; fill: none; stroke: currentColor; stroke-width: 1.2; }
-.browse-cta:hover span { gap: 18px; color: #fff; }
+.browse-cta span { display: inline-flex; color: var(--mut); transition: transform .5s var(--ease), color .3s; }
+.browse-cta span svg { width: 20px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.2; }
+.browse-cta:hover span { transform: translateX(8px); color: #fff; }
 
 /* latest */
 .latest { height: 280vh; position: relative; }
