@@ -458,8 +458,9 @@ const kRings = $$('.kring'), kal = $('.kal'), browse = $('#browse'), latestEl = 
 const dots = $$('#dots li'), dotTargets = [hero, browse, latestEl, $('#rooms')];
 const shot = $('#mxShot');
 let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1;
-// Hero photo: its size and where the face is (fractions). The circle starts centred on the face, then eases to the full frame.
-const PHOTO = { w: 1500, h: 2000, fx: .47, fy: .34 };
+// Hero photo (fractions of its size): px/py = crop anchor when it fills the screen (object-position), fx/fy = what the
+// circle starts centred on (Blu), span = how much of the photo's width the circle shows at the start.
+const PHOTO = { w: 2000, h: 1126, px: .82, py: .4, fx: .75, fy: .45, span: .5 };
 let s0 = 1, faceDx = 0, faceDy = 0, photoBox = [0, 0, 0, 0]; // photo edges at scale 1, relative to the screen centre: left, right, top, bottom
 function measure() {
   vw = innerWidth; vh = innerHeight;
@@ -471,11 +472,11 @@ function measure() {
   ringText.style.margin = `${-W / 2}px 0 0 ${-W / 2}px`;
   disc.style.setProperty('--D', rMax * 2 + 'px');
   const c = Math.max(vw / PHOTO.w, vh / PHOTO.h), dw = PHOTO.w * c, dh = PHOTO.h * c;
-  faceDx = (vw - dw) * PHOTO.fx + PHOTO.fx * dw - vw / 2;
-  faceDy = (vh - dh) * PHOTO.fy + PHOTO.fy * dh - vh / 2;
-  const l = (vw - dw) * PHOTO.fx - vw / 2, t = (vh - dh) * PHOTO.fy - vh / 2;
+  const l = (vw - dw) * PHOTO.px - vw / 2, t = (vh - dh) * PHOTO.py - vh / 2;
+  faceDx = l + PHOTO.fx * dw; faceDy = t + PHOTO.fy * dh;
+  discImg.style.objectPosition = `${PHOTO.px * 100}% ${PHOTO.py * 100}%`;
   photoBox = [Math.max(l, -vw / 2), Math.min(l + dw, vw / 2), Math.max(t, -vh / 2), Math.min(t + dh, vh / 2)]; // the img box is the screen, cropped
-  s0 = clamp(2 * r0 / (.55 * dw), 2.1 * r0 / Math.min(vw, vh), 1.3); // start zoom: the circle spans ~55% of the photo's width (head and shoulders)
+  s0 = clamp(2 * r0 / (PHOTO.span * dw), 2.1 * r0 / Math.min(vw, vh), 1.3); // start zoom
   heroP = -1;
   if (sda) heroKeyframes();
 }
