@@ -96,21 +96,35 @@ let curRel = null, curIdx = 0, fadeId = 0;
 const DEFAULT = { id: 'patterns', title: 'Patterns', kind: 'Unreleased', art: 'assets/img/blu.jpg', tracks: [{ t: 'Patterns', p: 'assets/audio/patterns.m4a' }] };
 const playable = r => r.tracks.map((t, i) => (t.p ? i : -1)).filter(i => i >= 0);
 
+/* Fades: every start, pause, track change and clip end ramps the volume. Timer-based (not rAF) so it still finishes in a
+   background tab. iOS Safari ignores audio.volume, so there it falls back to instant start/stop with no waiting. */
+const canVol = (() => { const a = new Audio(); a.volume = .5; return a.volume === .5; })();
+const level = () => (curRel === DEFAULT ? .7 : 1);
+let stopping = false, endFade = false;
+function ramp(to, ms, done) {
+  clearInterval(fadeId);
+  if (!canVol || ms <= 0) { if (canVol) audio.volume = to; done && done(); return; }
+  const from = audio.volume, t0 = performance.now();
+  fadeId = setInterval(() => {
+    const k = clamp((performance.now() - t0) / ms); audio.volume = clamp(from + (to - from) * ease(k));
+    if (k >= 1) { clearInterval(fadeId); done && done(); }
+  }, 16);
+}
 function play(rel, i, quiet) {
   const t = rel.tracks[i];
   if (!t || !t.p) return;
-  curRel = rel; curIdx = i;
-  audio.src = t.p;
-  if (quiet) { audio.volume = 0; fadeIn(); } else audio.volume = 1;
-  audio.play().catch(() => {});
-  syncUI(); setMedia(); peekMini();
+  const go = () => {
+    curRel = rel; curIdx = i; stopping = endFade = false;
+    audio.src = t.p;
+    if (canVol) audio.volume = 0;
+    audio.play().catch(() => {});
+    ramp(level(), quiet ? 1800 : 700);
+    syncUI(); setMedia(); peekMini();
+  };
+  if (curRel && !audio.paused && !stopping) ramp(0, 350, go); else go(); // fade the old track out first
 }
-function fadeIn() {
-  cancelAnimationFrame(fadeId);
-  const t0 = performance.now();
-  const step = now => { const k = clamp((now - t0) / 1800); audio.volume = ease(k) * .7; if (k < 1) fadeId = requestAnimationFrame(step); };
-  fadeId = requestAnimationFrame(step);
-}
+function resume() { stopping = endFade = false; if (canVol) audio.volume = 0; audio.play().catch(() => {}); ramp(level(), 600); }
+function pause() { stopping = true; ramp(0, 400, () => { if (stopping) audio.pause(); stopping = false; }); }
 function step(dir) {
   if (!curRel) return;
   const list = playable(curRel), pos = list.indexOf(curIdx) + dir;
@@ -121,12 +135,18 @@ function step(dir) {
 }
 function toggleAudio() {
   if (!curRel) { play(DEFAULT, 0, true); return; }
-  if (audio.paused) audio.play().catch(() => {}); else audio.pause();
+  if (audio.paused || stopping) resume(); else pause();
 }
-// no autoplay: a track that ends just stops (rewound, ready to play again); next/prev only move when pressed
-audio.addEventListener('ended', () => { audio.currentTime = 0; syncUI(); });
+// a release plays through on its own, but never runs on into the next release (or from Patterns into one)
+audio.addEventListener('ended', () => {
+  const list = playable(curRel), pos = list.indexOf(curIdx) + 1;
+  if (curRel !== DEFAULT && pos < list.length) play(curRel, list[pos]);
+  else { audio.currentTime = 0; syncUI(); }
+});
 ['play', 'pause'].forEach(ev => audio.addEventListener(ev, syncUI));
 audio.addEventListener('timeupdate', () => {
+  const left = audio.duration - audio.currentTime;
+  if (left < 1.6 && !endFade && !stopping) { endFade = true; ramp(0, left * 1000); } // previews stop dead at 30s; ease them out
   if (audio.duration) {
     const p = audio.currentTime / audio.duration;
     $('#miniProg').style.setProperty('--p', p);
@@ -156,8 +176,8 @@ function syncUI() {
 function setMedia() {
   if (!('mediaSession' in navigator) || !curRel) return;
   navigator.mediaSession.metadata = new MediaMetadata({ title: curRel.tracks[curIdx].t, artist: 'Blu Shore', album: curRel.title, artwork: [{ src: curRel.art, sizes: '600x600', type: 'image/jpeg' }] });
-  navigator.mediaSession.setActionHandler('play', () => audio.play());
-  navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+  navigator.mediaSession.setActionHandler('play', resume);
+  navigator.mediaSession.setActionHandler('pause', pause);
   navigator.mediaSession.setActionHandler('nexttrack', () => step(1));
   navigator.mediaSession.setActionHandler('previoustrack', () => step(-1));
 }
