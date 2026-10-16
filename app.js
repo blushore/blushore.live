@@ -460,7 +460,7 @@ const shot = $('#mxShot');
 let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1;
 // Hero photo: its size and where the face is (fractions). The circle starts centred on the face, then eases to the full frame.
 const PHOTO = { w: 1500, h: 2000, fx: .47, fy: .34 };
-let faceDx = 0, faceDy = 0, photoBox = [0, 0, 0, 0]; // photo edges at scale 1, relative to the screen centre: left, right, top, bottom
+let s0 = 1, faceDx = 0, faceDy = 0, photoBox = [0, 0, 0, 0]; // photo edges at scale 1, relative to the screen centre: left, right, top, bottom
 function measure() {
   vw = innerWidth; vh = innerHeight;
   disc.style.setProperty('--vw', vw + 'px'); disc.style.setProperty('--vh', vh + 'px');
@@ -474,7 +474,8 @@ function measure() {
   faceDx = (vw - dw) * PHOTO.fx + PHOTO.fx * dw - vw / 2;
   faceDy = (vh - dh) * PHOTO.fy + PHOTO.fy * dh - vh / 2;
   const l = (vw - dw) * PHOTO.fx - vw / 2, t = (vh - dh) * PHOTO.fy - vh / 2;
-  photoBox = [l, l + dw, t, t + dh];
+  photoBox = [Math.max(l, -vw / 2), Math.min(l + dw, vw / 2), Math.max(t, -vh / 2), Math.min(t + dh, vh / 2)]; // the img box is the screen, cropped
+  s0 = clamp(2 * r0 / (.55 * dw), 2.1 * r0 / Math.min(vw, vh), 1.3); // start zoom: the circle spans ~55% of the photo's width (head and shoulders)
   heroP = -1;
   if (sda) heroKeyframes();
 }
@@ -483,7 +484,7 @@ function measure() {
 const sda = !reduce && window.CSS && CSS.supports('animation-timeline: view()');
 function heroAt(p) {
   const g = ease(clamp(p / .6)), r = lerp(r0, rMax, g), dk = r / rMax;
-  const s = lerp(1.3, 1, g) * lerp(1, 1.12, clamp((p - .6) / .4)), k = (r + 14) / (r0 + 14);
+  const s = lerp(s0, 1, g) * lerp(1, 1.12, clamp((p - .6) / .4)), k = (r + 14) / (r0 + 14);
   const hc = clamp(1 - p / .16), ab = clamp((p - .56) / .16) * clamp((1 - p) / .1);
   // shift toward the face, but never so far that a photo edge shows inside the visible part of the circle
   const [pl, pr, pt, pb] = photoBox, mx = Math.min(r, vw / 2), my = Math.min(r, vh / 2);
