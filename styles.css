@@ -203,21 +203,17 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 /* latest */
 .latest { height: 280vh; position: relative; }
 .latest .lab.tl { position: absolute; left: var(--pad); top: 68px; }
-.vwrap { position: absolute; left: 50%; top: 50%; width: min(70vmin, 620px); aspect-ratio: 1; margin: calc(min(70vmin, 620px) / -2) 0 0 calc(min(70vmin, 620px) / -2); transform: scale(var(--sc, .6)); cursor: pointer; will-change: transform; }
-.vdisc { position: absolute; inset: -5%; border-radius: 50%; background: #0d0d0d; box-shadow: 0 0 0 1px rgba(225, 238, 255, .5), 0 0 26px 10px rgba(200, 222, 255, .4), 0 0 120px 30px rgba(0, 0, 0, .55); }
-.vdisc::after { content: ""; position: absolute; inset: -10px; border-radius: 50%; border: 12px solid rgba(205, 225, 255, .45); filter: blur(8px); }
-/* inset -50% + paint containment: the clip box covers the viewport at the smallest scale (.5), so the huge outer rings are never rasterised off-screen */
-.kal { position: absolute; inset: -50%; --h: min(36.75vmin, 325px); contain: paint; will-change: transform; transform: scale(.5); }
-.kring { position: absolute; left: 50%; top: 50%; width: 0; height: 0; will-change: transform; }
-.kring i { position: absolute; left: 0; top: 0; width: var(--t); height: var(--t); margin: calc(var(--t) / -2) 0 0 calc(var(--t) / -2); background-size: cover; background-position: center; transform: rotate(var(--a)) translateY(calc(var(--R) * -1)); backface-visibility: hidden; }
-/* the rings are backdrop: dimmed overall and darker toward the edges so the record leads, and the copy and label sit on calm ground */
-.kfade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(10, 10, 10, .95), rgba(10, 10, 10, 0) 45%), linear-gradient(to bottom, rgba(10, 10, 10, .85), rgba(10, 10, 10, 0) 26%), radial-gradient(circle at 50% 50%, rgba(10, 10, 10, .3) 25%, rgba(10, 10, 10, .72) 75%); }
-.sleeve { position: absolute; left: 22%; top: 22%; width: 56%; height: 56%; object-fit: cover; box-shadow: 0 24px 60px rgba(0, 0, 0, .35); z-index: 3; transform: translateX(var(--sx, 0%)); }
-.vinyl { position: absolute; left: 22%; top: 22%; width: 56%; height: 56%; border-radius: 50%; z-index: 2; background: radial-gradient(circle, #000 0 22%, #111 23% 100%), conic-gradient(#222, #000, #222); transform: translateX(var(--vx, 0%)) rotate(var(--vr, 0deg)); box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 10px 30px rgba(0, 0, 0, .4); }
+/* giant title running behind the record (frame() moves it across the screen) */
+.lv-big { position: absolute; left: 0; top: 50%; z-index: 1; margin: 0; white-space: nowrap; font-weight: 400; font-size: clamp(110px, 22vw, 400px); line-height: .8; letter-spacing: -.05em; text-transform: uppercase; will-change: transform; transform: translate3d(90vw, -50%, 0); }
+.vwrap { --cs: min(50vmin, 460px); position: absolute; left: 50%; top: 50%; z-index: 2; width: var(--cs); aspect-ratio: 1; margin: calc(var(--cs) / -2) 0 0 calc(var(--cs) / -2); cursor: pointer; }
+/* the cover: strips over a whole copy that only shows once they have locked, so no seams remain */
+.sleeve { position: absolute; inset: 0; z-index: 3; background: var(--art) center / cover; background-size: 0 0; transform: translateX(var(--sx, 0%)); }
+.sleeve.whole { background-size: cover; box-shadow: 0 30px 80px rgba(0, 0, 0, .6); }
+.sleeve i { position: absolute; top: 0; height: 100%; background-image: var(--art); will-change: transform; }
+.vinyl { position: absolute; inset: 3%; border-radius: 50%; z-index: 2; background: radial-gradient(circle, #000 0 22%, #111 23% 100%), conic-gradient(#222, #000, #222); transform: translateX(var(--vx, 0%)) rotate(var(--vr, 0deg)); box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 10px 30px rgba(0, 0, 0, .4); }
 .vinyl i { position: absolute; inset: 31%; border-radius: 50%; background-size: cover; background-position: center; box-shadow: 0 0 0 2px #000; }
 .vinyl::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: repeating-radial-gradient(circle, transparent 0 2px, rgba(255, 255, 255, .035) 2px 3px); }
-.latest-copy { position: absolute; left: var(--pad); bottom: var(--pad); display: grid; gap: 10px; max-width: min(520px, 70vw); opacity: var(--co, 0); transform: translateY(calc((1 - var(--co, 0)) * 24px)); }
-.latest-copy h2 { font-size: clamp(34px, 4.4vw, 72px); line-height: .95; }
+.latest-copy { position: absolute; z-index: 4; left: var(--pad); bottom: var(--pad); display: grid; gap: 10px; max-width: min(520px, 70vw); opacity: var(--co, 0); transform: translateY(calc((1 - var(--co, 0)) * 24px)); }
 
 /* rooms */
 .rooms { padding: 18vh var(--pad) 14vh; }

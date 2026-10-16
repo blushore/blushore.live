@@ -373,22 +373,16 @@ floaters.addEventListener('click', e => { const b = e.target.closest('button'); 
 
 const latest = REL[0];
 if (latest) {
-  $('#lvArt').src = latest.art; $('#lvArt').alt = latest.title + ' cover';
+  const art = $('#lvArt'); art.setAttribute('aria-label', latest.title + ' cover');
+  art.style.setProperty('--art', `url(${latest.art})`);
   $('#lvVinyl i').style.backgroundImage = `url(${latest.art})`;
-  /* kaleidoscope: rings of the cover around a black hole that holds the record */
-  const stage = $('#latest .stage'), kal = document.createElement('div'), fade = document.createElement('div');
-  kal.className = 'kal'; kal.setAttribute('aria-hidden', 'true'); fade.className = 'kfade';
-  [[1.1, .55, 20], [1.7, .8, 24], [2.6, 1.2, 26], [3.8, 1.6, 28], [5.4, 2.2, 30]].forEach(([R, t, N]) => {
-    const ring = document.createElement('div'); ring.className = 'kring';
-    ring.style.cssText = `--R:calc(var(--h) * ${R});--t:calc(var(--h) * ${t})`;
-    for (let i = 0; i < N; i++) {
-      const tile = document.createElement('i');
-      tile.style.cssText = `--a:${(360 / N) * i}deg;background-image:url(${latest.art})`;
-      ring.append(tile);
-    }
-    kal.append(ring);
-  });
-  stage.prepend(kal, fade);
+  /* the cover arrives cut into vertical strips that slide in from above and below and lock together (frame() moves them) */
+  const N = innerWidth < 700 ? 9 : 13;
+  for (let i = 0; i < N; i++) {
+    const s = document.createElement('i');
+    s.style.cssText = `left:${(i * 100 / N).toFixed(3)}%;width:${(100 / N).toFixed(3)}%;background-size:${N * 100}% 100%;background-position:${(i / (N - 1) * 100).toFixed(3)}% 0`;
+    art.append(s);
+  }
   $('#lvTitle').textContent = latest.title;
   $('#lvMeta').textContent = latest.kind + ' · ' + fmtDate(latest.date);
   $('#lvOpen').addEventListener('click', e => openSheet(latest, e.clientX, e.clientY));
@@ -452,16 +446,16 @@ $('#player').addEventListener('click', () => {
 
 /* ───────── per-frame scroll choreography ───────── */
 const hero = $('#hero'), disc = $('#disc'), discImg = $('img', disc), discDim = $('#discDim'), ringText = $('#ringText'), heroCopy = $('#heroCopy'), about = $('#about');
-const kRings = $$('.kring'), kal = $('.kal'), browse = $('#browse'), latestEl = $('#latest'), vwrap = $('#vwrap'), vinyl = $('#lvVinyl'), sleeve = $('#lvArt'), lcopy = $('.latest-copy');
+const strips = $$('#lvArt i'), bigT = $('#lvTitle'), browse = $('#browse'), latestEl = $('#latest'), vwrap = $('#vwrap'), vinyl = $('#lvVinyl'), sleeve = $('#lvArt'), lcopy = $('.latest-copy');
 const dots = $$('#dots li'), dotTargets = [hero, browse, latestEl, $('#rooms')];
 const shot = $('#mxShot');
-let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1;
+let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1, bigW = 0;
 // Hero photo (fractions of its size): px/py = crop anchor when it fills the screen (object-position), fx/fy = what the
 // circle starts centred on (Blu), span = how much of the photo's width the circle shows at the start.
 const PHOTO = { w: 1500, h: 2000, px: .47, py: .3, fx: .48, fy: .37, span: .4 };
 let s0 = 1, fA = 1, fP = .6, faceDx = 0, faceDy = 0, photoBox = [0, 0, 0, 0]; // photo edges at scale 1, relative to the screen centre: left, right, top, bottom
 function measure() {
-  vw = innerWidth; vh = innerHeight;
+  vw = innerWidth; vh = innerHeight; bigW = bigT.offsetWidth;
   disc.style.setProperty('--vw', vw + 'px'); disc.style.setProperty('--vh', vh + 'px');
   r0 = Math.min(vw, vh) * (vw < 700 ? .34 : .3);
   rMax = Math.hypot(vw, vh) / 2 * 1.04;
@@ -567,21 +561,23 @@ function frame(t) {
       });
     }
 
-    /* latest: the record slides out of the sleeve */
+    /* latest: the cover strips lock together, the record slides out of the sleeve, the title runs behind */
     const ls = lr.height - vh;
-    if (lr.bottom > 0 && lr.top < vh * 1.5) { /* start half a screen early so the rings are positioned and painted before they show */
-      const lp = clamp(-lr.top / ls), lpp = clamp((lr.top * -1 + vh) / vh);
-      const grow = ease(clamp((vh - lr.top) / (vh * 1.1)));
-      vwrap.style.setProperty('--sc', lerp(.5, 1, grow));
-      if (kal) {
-        kal.style.transform = `scale(${lerp(.5, 1, grow).toFixed(4)})`;
-        kRings.forEach((r, i) => r.style.transform = `rotate(${((i % 2 ? -1 : 1) * (lp * 70 + (reduce ? 0 : t * (.002 + i * .0006)))).toFixed(2)}deg)`);
-      }
-      const slide = ease(clamp((lp - .08) / .6));
-      vinyl.style.setProperty('--vx', slide * 29 + '%');
+    if (lr.bottom > 0 && lr.top < vh * 1.5) { /* start half a screen early so everything is positioned and painted before it shows */
+      const lp = clamp(-lr.top / ls), a = clamp((vh - lr.top) / (vh * 1.7));
+      let whole = 1;
+      strips.forEach((s, i) => {
+        const g = reduce ? 1 : ease(clamp((a - i / (strips.length - 1) * .3) / .6)); whole = Math.min(whole, g);
+        s.style.transform = `translate3d(0,${((i % 2 ? 1 : -1) * (1 - g) * vh * 1.1).toFixed(1)}px,0)`;
+      });
+      sleeve.classList.toggle('whole', whole > .999);
+      const slide = ease(clamp((lp - .42) / .38));
+      vinyl.style.setProperty('--vx', slide * 36 + '%');
       vinyl.style.setProperty('--vr', slide * 540 + 'deg');
-      sleeve.style.setProperty('--sx', slide * -28.6 + '%');
-      lcopy.style.setProperty('--co', clamp((lp - .38) / .25));
+      sleeve.style.setProperty('--sx', slide * -36 + '%');
+      const tp = clamp((vh - lr.top) / (vh + lr.height));
+      bigT.style.transform = `translate3d(${lerp(vw * .9, vw * .95 - bigW, tp).toFixed(1)}px,-50%,0)`;
+      lcopy.style.setProperty('--co', clamp((lp - .6) / .2));
     }
 
     /* dots */
