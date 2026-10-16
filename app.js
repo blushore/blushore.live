@@ -123,7 +123,8 @@ function toggleAudio() {
   if (!curRel) { play(DEFAULT, 0, true); return; }
   if (audio.paused) audio.play().catch(() => {}); else audio.pause();
 }
-audio.addEventListener('ended', () => step(1));
+// no autoplay: a track that ends just stops (rewound, ready to play again); next/prev only move when pressed
+audio.addEventListener('ended', () => { audio.currentTime = 0; syncUI(); });
 ['play', 'pause'].forEach(ev => audio.addEventListener(ev, syncUI));
 audio.addEventListener('timeupdate', () => {
   if (audio.duration) {
