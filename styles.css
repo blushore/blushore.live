@@ -238,14 +238,26 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 .row:last-child { border-bottom: 1px solid var(--line); }
 .row { --c: #fff; background: linear-gradient(90deg, color-mix(in srgb, var(--c) 26%, transparent), transparent 80%) no-repeat 0 0 / 0% 100%; transition: opacity .4s, transform .8s var(--ease), max-height .6s var(--ease), background-size .9s var(--ease); }
 .row .t { font-size: clamp(26px, 4.4vw, 68px); line-height: 1; letter-spacing: -.035em; text-transform: uppercase; color: color-mix(in srgb, var(--c) 78%, #fff); transition: transform .8s var(--ease), color .4s, text-shadow .4s; }
-.index .row:hover { background-size: 100% 100%; }
-.index .row:hover .t { color: var(--c); text-shadow: 0 0 60px color-mix(in srgb, var(--c) 55%, transparent); }
-.index .row:hover .y, .index .row:hover .k, .index .row:hover .c { color: var(--c); }
+.index .row:is(:hover, .lit) { background-size: 100% 100%; }
+.index .row:is(:hover, .lit) .t { color: var(--c); text-shadow: 0 2px 24px rgba(0, 0, 0, .7), 0 0 60px color-mix(in srgb, var(--c) 55%, transparent); }
+.index .row:is(:hover, .lit) :is(.y, .k, .c) { color: var(--c); }
 .row .y, .row .k, .row .c { font-size: 11px; font-weight: 500; letter-spacing: .02em; text-transform: uppercase; color: var(--mut); }
 .row .c { text-align: right; }
 .row .th { display: none; }
-.index:hover .row { opacity: .3; } .index .row:hover { opacity: 1; } .index .row:hover .t { transform: translateX(14px); }
+.index:hover .row { opacity: .3; } .index .row:hover { opacity: 1; } .index .row:is(:hover, .lit) .t { transform: translateX(14px); }
 .row.hide { display: none; }
+/* the cover that trails the cursor over the index (desktop only); rows sit above it so the titles read over the art */
+.index { position: relative; z-index: 2; }
+.peek { --pk: clamp(220px, 21vw, 360px); position: fixed; left: 0; top: 0; z-index: 1; width: var(--pk); height: var(--pk); margin: calc(var(--pk) / -2) 0 0 calc(var(--pk) / -2); pointer-events: none; will-change: transform; }
+.pk-in { position: absolute; inset: 0; opacity: 0; transform: scale(.6); transition: opacity .45s var(--ease), transform .8s var(--ease); }
+.peek.on .pk-in { opacity: 1; transform: none; }
+.pk-art { position: absolute; inset: 0; z-index: 2; background: #222 center / cover; box-shadow: 0 30px 80px rgba(0, 0, 0, .6); }
+.peek.swap .pk-art { animation: pkSwap .6s var(--ease); }
+@keyframes pkSwap { from { transform: scale(.9); opacity: .4; } }
+.pk-v { position: absolute; inset: 0; transform: translateX(0); transition: transform 1s var(--ease) .1s; }
+.peek.on .pk-v { transform: translateX(38%); }
+.pk-v .vinyl { inset: 4%; transform: none; animation: spin 4s linear infinite; }
+@media (hover: none) { .peek { display: none; } }
 .row.playing .t::after { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--c); margin-left: 14px; animation: pulse 1.2s ease-in-out infinite; vertical-align: middle; }
 @keyframes pulse { 50% { transform: scale(.4); opacity: .4; } }
 .ext { padding: 14vh var(--pad) 12vh; }
