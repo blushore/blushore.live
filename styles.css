@@ -209,26 +209,25 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 /* inset -50% + paint containment: the clip box covers the viewport at the smallest scale (.5), so the huge outer rings are never rasterised off-screen */
 .kal { position: absolute; inset: -50%; --h: min(36.75vmin, 325px); contain: paint; will-change: transform; transform: scale(.5); }
 .kring { position: absolute; left: 50%; top: 50%; width: 0; height: 0; will-change: transform; }
-.kring i { position: absolute; left: 0; top: 0; width: var(--t); height: var(--t); margin: calc(var(--t) / -2) 0 0 calc(var(--t) / -2); background-size: cover; background-position: center; transform: rotate(var(--a)) translateY(calc(var(--R) * -1)) scaleX(var(--fx)); backface-visibility: hidden; }
-.kfade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(10, 10, 10, .92), rgba(10, 10, 10, 0) 40%), linear-gradient(to bottom, rgba(10, 10, 10, .8), rgba(10, 10, 10, 0) 24%); }
+.kring i { position: absolute; left: 0; top: 0; width: var(--t); height: var(--t); margin: calc(var(--t) / -2) 0 0 calc(var(--t) / -2); background-size: cover; background-position: center; transform: rotate(var(--a)) translateY(calc(var(--R) * -1)); backface-visibility: hidden; }
+/* the rings are backdrop: dimmed overall and darker toward the edges so the record leads, and the copy and label sit on calm ground */
+.kfade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(10, 10, 10, .95), rgba(10, 10, 10, 0) 45%), linear-gradient(to bottom, rgba(10, 10, 10, .85), rgba(10, 10, 10, 0) 26%), radial-gradient(circle at 50% 50%, rgba(10, 10, 10, .3) 25%, rgba(10, 10, 10, .72) 75%); }
 .sleeve { position: absolute; left: 22%; top: 22%; width: 56%; height: 56%; object-fit: cover; box-shadow: 0 24px 60px rgba(0, 0, 0, .35); z-index: 3; transform: translateX(var(--sx, 0%)); }
 .vinyl { position: absolute; left: 22%; top: 22%; width: 56%; height: 56%; border-radius: 50%; z-index: 2; background: radial-gradient(circle, #000 0 22%, #111 23% 100%), conic-gradient(#222, #000, #222); transform: translateX(var(--vx, 0%)) rotate(var(--vr, 0deg)); box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 10px 30px rgba(0, 0, 0, .4); }
 .vinyl i { position: absolute; inset: 31%; border-radius: 50%; background-size: cover; background-position: center; box-shadow: 0 0 0 2px #000; }
 .vinyl::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: repeating-radial-gradient(circle, transparent 0 2px, rgba(255, 255, 255, .035) 2px 3px); }
 .latest-copy { position: absolute; left: var(--pad); bottom: var(--pad); display: grid; gap: 10px; max-width: min(520px, 70vw); opacity: var(--co, 0); transform: translateY(calc((1 - var(--co, 0)) * 24px)); }
-.latest-copy h2 { font-size: clamp(26px, 3vw, 42px); }
+.latest-copy h2 { font-size: clamp(34px, 4.4vw, 72px); line-height: .95; }
 
 /* rooms */
 .rooms { padding: 18vh var(--pad) 14vh; }
 .rooms .lab { margin-bottom: 18px; }
-.rooms-list a { display: grid; grid-template-columns: 56px 1fr auto 40px; align-items: center; gap: 12px; padding: clamp(18px, 2.4vw, 32px) 0; border-top: 1px solid var(--line); transition: opacity .4s; }
-.rooms-list li:last-child a { border-bottom: 1px solid var(--line); }
+.rooms-list a { display: grid; grid-template-columns: 1fr 40px; align-items: center; gap: 12px; padding: clamp(10px, 1.4vw, 20px) 0; transition: opacity .4s; }
 .rooms-list b { font-weight: 400; font-size: clamp(42px, 8.4vw, 130px); line-height: .9; letter-spacing: -.045em; text-transform: uppercase; transition: transform .8s var(--ease); }
-.rooms-list em { font-style: normal; font-size: 11px; font-weight: 500; letter-spacing: .02em; text-transform: uppercase; color: var(--mut); }
 .rooms-list svg { width: 22px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.2; justify-self: end; transition: transform .7s var(--ease); }
 .rooms-list:hover a { opacity: .32; } .rooms-list a:hover { opacity: 1; }
 .rooms-list a:hover b { transform: translateX(16px); } .rooms-list a:hover svg { transform: translateX(8px); }
-@media (max-width: 700px) { .rooms-list a { grid-template-columns: 30px 1fr 24px; } .rooms-list em { display: none; } }
+@media (max-width: 700px) { .rooms-list a { grid-template-columns: 1fr 24px; } }
 
 /* ───────── music ───────── */
 .phead { padding: 120px var(--pad) 40px; }

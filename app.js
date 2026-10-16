@@ -383,7 +383,7 @@ if (latest) {
     ring.style.cssText = `--R:calc(var(--h) * ${R});--t:calc(var(--h) * ${t})`;
     for (let i = 0; i < N; i++) {
       const tile = document.createElement('i');
-      tile.style.cssText = `--a:${(360 / N) * i}deg;--fx:${i % 2 ? -1 : 1};background-image:url(${latest.art})`;
+      tile.style.cssText = `--a:${(360 / N) * i}deg;background-image:url(${latest.art})`;
       ring.append(tile);
     }
     kal.append(ring);
@@ -394,7 +394,6 @@ if (latest) {
   $('#lvOpen').addEventListener('click', e => openSheet(latest, e.clientX, e.clientY));
   $('#vwrap').addEventListener('click', e => openSheet(latest, e.clientX, e.clientY));
 }
-$('#rmMusic').textContent = REL.length + ' releases';
 
 /* ───────── music index ───────── */
 const index = $('#index');
@@ -436,7 +435,6 @@ async function checkLive() {
     const t = (await r.text()).trim();
     if (/^\d+\s+(second|minute|hour|day)/i.test(t)) {
       $('#lStatus').classList.add('live'); $('#lStatus span').textContent = 'Live now';
-      $('#rmLive').textContent = 'Live now';
     } else $('#lStatus span').textContent = 'Offline · streaming soon';
   } catch (e) { $('#lStatus span').textContent = 'Offline · streaming soon'; }
 }
