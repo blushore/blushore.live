@@ -402,22 +402,6 @@ $('#filters').addEventListener('click', e => {
   const apply = () => $$('.row', index).forEach(r => r.classList.toggle('hide', f !== 'all' && r.dataset.k !== f));
   document.startViewTransition && !reduce ? document.startViewTransition(apply) : apply();
 });
-/* desktop: the hovered release's cover (record peeking out, spinning) trails the cursor behind the titles; frame() moves it */
-const peek = document.createElement('div'), pk = { x: 0, y: 0, row: null };
-peek.className = 'peek'; peek.setAttribute('aria-hidden', 'true');
-peek.innerHTML = '<div class="pk-in"><div class="pk-v"><div class="vinyl"><i></i></div></div><div class="pk-art"></div></div>';
-$('#p-music').prepend(peek);
-if (fine) {
-  index.addEventListener('pointerover', e => {
-    const r = e.target.closest('.row'); if (!r || r === pk.row) return;
-    const rel = byId(r.dataset.id), u = `url(${rel.art})`;
-    if (!pk.row) { pk.x = mouse.x; pk.y = mouse.y; REL.forEach(x => { new Image().src = x.art; }); }
-    pk.row = r;
-    $('.pk-art', peek).style.backgroundImage = u; $('.vinyl i', peek).style.backgroundImage = u;
-    peek.classList.add('on'); peek.classList.remove('swap'); void peek.offsetWidth; peek.classList.add('swap');
-  });
-  index.addEventListener('pointerleave', () => { pk.row = null; peek.classList.remove('on'); });
-}
 /* touch: no hover, so the row crossing the middle of the screen lights up as you scroll (frame() picks it) */
 let litY = -1;
 
@@ -611,10 +595,6 @@ function frame(t) {
     dTops.forEach((top, i) => { if (top < vh * .5) act = i; });
     dots.forEach((d, i) => d.classList.toggle('on', i === act));
   } else if (cur === 'music') {
-    if (pk.row) {
-      const dx = mouse.x - pk.x; pk.x += dx * .14; pk.y += (mouse.y - pk.y) * .14;
-      peek.style.transform = `translate3d(${pk.x.toFixed(1)}px,${pk.y.toFixed(1)}px,0) rotate(${clamp(dx * .06, -12, 12).toFixed(2)}deg)`;
-    }
     if (!fine && scrollTop() !== litY) {
       litY = scrollTop();
       const rows = $$('.row', index), tops = rows.map(r => r.getBoundingClientRect());
