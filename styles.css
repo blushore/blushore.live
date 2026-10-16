@@ -201,11 +201,11 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 .browse-cta:hover span { transform: translateX(8px); color: #fff; }
 
 /* latest */
-.latest { height: 280vh; position: relative; }
+.latest { height: 320vh; position: relative; }
 .latest .lab.tl { position: absolute; left: var(--pad); top: 68px; }
 /* giant title running behind the record (frame() moves it across the screen) */
-.lv-big { position: absolute; left: 0; top: 50%; z-index: 1; margin: 0; white-space: nowrap; font-weight: 400; font-size: clamp(110px, 22vw, 400px); line-height: .8; letter-spacing: -.05em; text-transform: uppercase; will-change: transform; transform: translate3d(90vw, -50%, 0); }
-.vwrap { --cs: min(50vmin, 460px); position: absolute; left: 50%; top: 50%; z-index: 2; width: var(--cs); aspect-ratio: 1; margin: calc(var(--cs) / -2) 0 0 calc(var(--cs) / -2); cursor: pointer; }
+.lv-big { position: absolute; left: 0; top: 50%; z-index: 1; margin: 0; white-space: nowrap; font-weight: 400; font-size: clamp(110px, 22vw, 400px); line-height: .8; letter-spacing: -.05em; text-transform: uppercase; transform-origin: 0 50%; will-change: transform; transform: translate3d(90vw, -50%, 0); }
+.vwrap { --cs: min(50vmin, 460px); will-change: transform; position: absolute; left: 50%; top: 50%; z-index: 2; width: var(--cs); aspect-ratio: 1; margin: calc(var(--cs) / -2) 0 0 calc(var(--cs) / -2); cursor: pointer; }
 /* the cover: strips over a whole copy that only shows once they have locked, so no seams remain */
 .sleeve { position: absolute; inset: 0; z-index: 3; background: var(--art) center / cover; background-size: 0 0; transform: translateX(var(--sx, 0%)); }
 .sleeve.whole { background-size: cover; box-shadow: 0 30px 80px rgba(0, 0, 0, .6); }

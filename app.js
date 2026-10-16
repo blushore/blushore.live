@@ -449,13 +449,17 @@ const hero = $('#hero'), disc = $('#disc'), discImg = $('img', disc), discDim = 
 const strips = $$('#lvArt i'), bigT = $('#lvTitle'), browse = $('#browse'), latestEl = $('#latest'), vwrap = $('#vwrap'), vinyl = $('#lvVinyl'), sleeve = $('#lvArt'), lcopy = $('.latest-copy');
 const dots = $$('#dots li'), dotTargets = [hero, browse, latestEl, $('#rooms')];
 const shot = $('#mxShot');
-let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1, bigW = 0;
+let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1, bigW = 0, pad = 16, bigLand = [1, 0];
 // Hero photo (fractions of its size): px/py = crop anchor when it fills the screen (object-position), fx/fy = what the
 // circle starts centred on (Blu), span = how much of the photo's width the circle shows at the start.
 const PHOTO = { w: 1500, h: 2000, px: .47, py: .3, fx: .48, fy: .37, span: .4 };
 let s0 = 1, fA = 1, fP = .6, faceDx = 0, faceDy = 0, photoBox = [0, 0, 0, 0]; // photo edges at scale 1, relative to the screen centre: left, right, top, bottom
 function measure() {
   vw = innerWidth; vh = innerHeight; bigW = bigT.offsetWidth;
+  // where the latest title lands: scaled to fit the width (and not too tall), sitting just above the meta line, bottom-left
+  pad = parseFloat(getComputedStyle(lcopy).left) || 16;
+  const bh = bigT.offsetHeight, fit = Math.min((vw - 2 * pad) / bigW, vh * .13 / bh);
+  if (bigW) bigLand = [fit, vh / 2 - pad - lcopy.offsetHeight - 18 - bh * fit / 2]; // 0 while home is hidden
   disc.style.setProperty('--vw', vw + 'px'); disc.style.setProperty('--vh', vh + 'px');
   r0 = Math.min(vw, vh) * (vw < 700 ? .34 : .3);
   rMax = Math.hypot(vw, vh) / 2 * 1.04;
@@ -571,13 +575,16 @@ function frame(t) {
         s.style.transform = `translate3d(0,${((i % 2 ? 1 : -1) * (1 - g) * vh * 1.1).toFixed(1)}px,0)`;
       });
       sleeve.classList.toggle('whole', whole > .999);
-      const slide = ease(clamp((lp - .42) / .38));
+      const slide = ease(clamp((lp - .3) / .32));
       vinyl.style.setProperty('--vx', slide * 36 + '%');
       vinyl.style.setProperty('--vr', slide * 540 + 'deg');
       sleeve.style.setProperty('--sx', slide * -36 + '%');
-      const tp = clamp((vh - lr.top) / (vh + lr.height));
-      bigT.style.transform = `translate3d(${lerp(vw * .9, vw * .95 - bigW, tp).toFixed(1)}px,-50%,0)`;
-      lcopy.style.setProperty('--co', clamp((lp - .6) / .2));
+      /* the title runs across behind the record, then shrinks and lands bottom-left, whole and readable, before the section leaves */
+      const run = clamp((vh - lr.top) / (vh + ls * .58)), m = ease(clamp((lp - .58) / .26));
+      const [fit, dy] = bigLand;
+      bigT.style.transform = `translate3d(${lerp(lerp(vw * .9, vw * .95 - bigW, run), pad, m).toFixed(1)}px,calc(-50% + ${(dy * m).toFixed(1)}px),0) scale(${lerp(1, fit, m).toFixed(4)})`;
+      vwrap.style.transform = `translate3d(0,${(-m * vh * .06).toFixed(1)}px,0)`;
+      lcopy.style.setProperty('--co', clamp((lp - .78) / .14));
     }
 
     /* dots */
