@@ -461,7 +461,7 @@ let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1;
 // Hero photo (fractions of its size): px/py = crop anchor when it fills the screen (object-position), fx/fy = what the
 // circle starts centred on (Blu), span = how much of the photo's width the circle shows at the start.
 const PHOTO = { w: 1500, h: 2000, px: .47, py: .3, fx: .47, fy: .32, span: .4 };
-let s0 = 1, faceDx = 0, faceDy = 0, photoBox = [0, 0, 0, 0]; // photo edges at scale 1, relative to the screen centre: left, right, top, bottom
+let s0 = 1, fA = 1, fP = .6, faceDx = 0, faceDy = 0, photoBox = [0, 0, 0, 0]; // photo edges at scale 1, relative to the screen centre: left, right, top, bottom
 function measure() {
   vw = innerWidth; vh = innerHeight;
   disc.style.setProperty('--vw', vw + 'px'); disc.style.setProperty('--vh', vh + 'px');
@@ -477,19 +477,30 @@ function measure() {
   discImg.style.objectPosition = `${PHOTO.px * 100}% ${PHOTO.py * 100}%`;
   photoBox = [Math.max(l, -vw / 2), Math.min(l + dw, vw / 2), Math.max(t, -vh / 2), Math.min(t + dh, vh / 2)]; // the img box is the screen, cropped
   s0 = clamp(2 * r0 / (PHOTO.span * dw), 2.1 * r0 / Math.min(vw, vh), 1.3); // start zoom
+  // The photo slides from the face to the centre on one eased curve (fA = how much of the shift it starts with, fP = when it
+  // lands), the slowest one that never lets a photo edge show inside the circle. A hard clamp here made the photo lurch.
+  const N = 200, env = []; for (let i = 0, m = 1; i <= N; i++) env.push(m = Math.min(m, shiftRoom(i / N)));
+  const fits = P => env.every((e, i) => env[0] * (1 - ease(clamp(i / N / P))) <= e + .004);
+  fA = env[0]; let lo = .05, hi = .6;
+  if (fits(hi)) lo = hi; else for (let k = 0; k < 24; k++) { const P = (lo + hi) / 2; fits(P) ? lo = P : hi = P; }
+  fP = lo;
   heroP = -1;
   if (sda) heroKeyframes();
 }
 /* Where supported, the hero runs as a CSS scroll-driven animation: the browser ties it to the scroll position itself,
    so it stays locked to the finger on iPhone instead of trailing a frame behind. Keyframes are sampled from heroAt(). */
 const sda = !reduce && window.CSS && CSS.supports('animation-timeline: view()');
+const heroBase = p => { const g = ease(clamp(p / .6)), r = lerp(r0, rMax, g); return { g, r, s: lerp(s0, 1, g) * lerp(1, 1.12, clamp((p - .6) / .4)) }; };
+// how much of the face shift (0..1) fits at p without a photo edge showing inside the visible part of the circle
+function shiftRoom(p) {
+  const { r, s } = heroBase(p), [pl, pr, pt, pb] = photoBox, mx = Math.min(r, vw / 2), my = Math.min(r, vh / 2);
+  const room = (d, a, b) => Math.abs(d) < 1e-6 ? 1 : clamp(clamp(-s * d, Math.min(a, b), Math.max(a, b)) / (-s * d));
+  return Math.min(room(faceDx, mx - s * pr, -mx - s * pl), room(faceDy, my - s * pb, -my - s * pt));
+}
 function heroAt(p) {
-  const g = ease(clamp(p / .6)), r = lerp(r0, rMax, g), dk = r / rMax;
-  const s = lerp(s0, 1, g) * lerp(1, 1.12, clamp((p - .6) / .4)), k = (r + 14) / (r0 + 14);
+  const { g, r, s } = heroBase(p), dk = r / rMax, k = (r + 14) / (r0 + 14);
   const hc = clamp(1 - p / .16), ab = clamp((p - .56) / .16) * clamp((1 - p) / .1);
-  // shift toward the face, but never so far that a photo edge shows inside the visible part of the circle
-  const [pl, pr, pt, pb] = photoBox, mx = Math.min(r, vw / 2), my = Math.min(r, vh / 2);
-  const ox = clamp(-s * faceDx * (1 - g), mx - s * pr, -mx - s * pl), oy = clamp(-s * faceDy * (1 - g), my - s * pb, -my - s * pt);
+  const f = fA * (1 - ease(clamp(p / fP))), ox = -s * faceDx * f, oy = -s * faceDy * f;
   return {
     disc: `transform: scale(${dk.toFixed(4)})`,
     img: `transform: translate(${(ox / dk).toFixed(1)}px, ${(oy / dk).toFixed(1)}px) scale(${(s / dk).toFixed(4)})`,
