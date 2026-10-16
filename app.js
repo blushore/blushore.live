@@ -459,7 +459,7 @@ const dots = $$('#dots li'), dotTargets = [hero, browse, latestEl, $('#rooms')];
 const shot = $('#mxShot');
 let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1;
 // Hero photo: its size and where the face is (fractions). The circle starts centred on the face, then eases to the full frame.
-const PHOTO = { w: 768, h: 1024, fx: .47, fy: .34 };
+const PHOTO = { w: 1500, h: 2000, fx: .47, fy: .34 };
 let faceDx = 0, faceDy = 0, photoBox = [0, 0, 0, 0]; // photo edges at scale 1, relative to the screen centre: left, right, top, bottom
 function measure() {
   vw = innerWidth; vh = innerHeight;
