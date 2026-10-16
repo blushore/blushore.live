@@ -460,7 +460,7 @@ const shot = $('#mxShot');
 let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1;
 // Hero photo (fractions of its size): px/py = crop anchor when it fills the screen (object-position), fx/fy = what the
 // circle starts centred on (Blu), span = how much of the photo's width the circle shows at the start.
-const PHOTO = { w: 1500, h: 2000, px: .47, py: .3, fx: .47, fy: .32, span: .4 };
+const PHOTO = { w: 1500, h: 2000, px: .47, py: .3, fx: .48, fy: .37, span: .4 };
 let s0 = 1, fA = 1, fP = .6, faceDx = 0, faceDy = 0, photoBox = [0, 0, 0, 0]; // photo edges at scale 1, relative to the screen centre: left, right, top, bottom
 function measure() {
   vw = innerWidth; vh = innerHeight;
