@@ -426,17 +426,31 @@ $('#filters').addEventListener('click', e => {
 let litY = -1;
 
 /* ───────── apps ───────── */
+// Groups of [title, what it does, why it matters, tag]
 const FEATURES = [
-  ['Spotify desktop', 'Controls the Spotify app you already have. No developer account, no web login, no 30-second snippets.', 'Free'],
-  ['Apple Music', 'Plays Apple Music right inside the app. Sign in with your Apple ID.', 'Free'],
-  ['Liked library', 'Your liked albums and songs, synced into one wall.', 'Free'],
-  ['Artist pages', 'Tap any name: photo, bio, popular songs and every release.', 'Free'],
-  ['Snap control', 'Snap your fingers to play or pause. Snap twice to skip.', 'Licence'],
-  ['Play on', 'Send playback to any Spotify Connect device.', 'Free'],
-  ['Lyrics + visualizer', 'Time-synced lyrics full screen, and a visualizer that moves with the music.', 'Licence'],
-  ['macOS + Windows', 'Native on Mac, for Apple Silicon and Intel. Windows version coming soon.', 'Mac now'],
+  ['Three looks', [
+    ['Noir', 'The default look: dark, quiet and led by type, with a true black mode for OLED screens.', 'Nothing on screen competes with the covers.', 'Free'],
+    ['METRO 8', 'A second interface built on the Zune and Windows Phone look: thin type, tiles that flip, turnstile motion.', 'It\'s how I think a music library should feel, alive and fast, with every cover a tile you want to touch.', 'Licence'],
+    ['HALO', 'A third interface made of glass: a sidebar, a floating player, covers in a carousel that open into their album, and a ring to scrub through a song.', 'Albums feel like objects again, something you pick up, turn over and put on.', 'Coming soon'],
+  ]],
+  ['Finding albums', [
+    ['Album wall', 'Your liked albums laid out as one slowly drifting wall of covers.', 'You browse by cover, the way you flip through records, so albums come first and loose songs second.', 'Free'],
+    ['Pinned, recent, new', 'Pin the albums you live in, or sort by what you played lately, what you just liked, year or A to Z.', 'Different ways back into the same records, so a great album doesn\'t slip away after a week.', 'Free'],
+    ['Artist pages', 'Tap any name for the photo, bio, popular songs and every release, EPs included, plus a wall of all your artists.', 'One album leads to the next, so you go deeper into an artist instead of drifting sideways.', 'Free'],
+    ['Explore', 'Spotify\'s official genre, mood and chart playlists, sorted into areas.', 'For when you want something new: find an artist there, then go and live in their albums.', 'Free'],
+  ]],
+  ['Listening', [
+    ['Synced lyrics', 'Full-screen lyrics that move in time with the song.', 'Reading along is how a record gets under your skin.', 'Free'],
+    ['Visualizer', 'A full-screen visualizer that moves with whatever is playing.', 'Put a record on, lean back, and just watch and listen.', 'Licence'],
+    ['Snap Control', 'Snap your fingers to play or pause. Snap twice to skip.', 'Your hands stay free and the album keeps going while you\'re away from the keyboard.', 'Licence'],
+    ['Play on', 'Send playback to any Spotify Connect speaker or device.', 'Start an album at your desk and finish it on the big speakers.', 'Free'],
+  ]],
+  ['Your music', [
+    ['Your library, synced', 'Your liked albums and songs come over on their own and stay up to date, through the Spotify desktop app you already have or Apple Music right inside METRO. Full songs, no web login, no 30-second clips.', 'No rebuilding a collection, whichever service you pay for: the albums you already love are there the first time you open it.', 'Free'],
+  ]],
 ];
-$('#feat').innerHTML = FEATURES.map((f, i) => `<li data-r><span class="n">${pad2(i + 1)}</span><b>${f[0]}</b><p>${f[1]}</p><small>${f[2]}</small></li>`).join('');
+let fn = 0;
+$('#feat').innerHTML = FEATURES.map(([g, list]) => `<li class="feat-g" data-r><span class="lab">${g}</span></li>` + list.map(f => `<li data-r><span class="n">${pad2(++fn)}</span><b>${f[0]}</b><div><p>${f[1]}</p><p class="why">${f[2]}</p></div><small>${f[3]}</small></li>`).join('')).join('');
 // Download buttons: the Mac matching this visitor goes first (orange); an empty link hides its button.
 const macs = [['metroMac', 'Download for Mac', 'Apple Silicon'], ['metroMacIntel', 'Download for Intel Mac', 'Intel']];
 const intel = /Mac/.test(navigator.platform) && (() => { try { const r = document.createElement('canvas').getContext('webgl').getParameter(37446); return /Intel/i.test(r); } catch (e) { return false; } })();
