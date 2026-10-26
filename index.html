@@ -12,7 +12,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter+Tight:wght@200;300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=30">
+<!-- Yohaku page only (fonts load only when that page renders): Outfit (poster type), Zen Maru Gothic (rounded wordmark + 余白), Reenie Beanie (its default hand) -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;700;800&family=Zen+Maru+Gothic:wght@500;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=31">
 </head>
 <body data-page="home" class="is-intro">
 <a class="skip" href="#main">Skip to content</a>
@@ -43,6 +45,7 @@
     <li><a href="#home" data-go="home"><b>Home</b></a></li>
     <li><a href="#music" data-go="music"><b>Music</b></a></li>
     <li><a href="#apps" data-go="apps"><b>Apps</b></a></li>
+    <li><a href="#yohaku" data-go="yohaku"><b>Yohaku</b></a></li>
     <li><a href="#live" data-go="live"><b>Live</b></a></li>
   </ul>
   <div class="menu-foot" id="menuLinks"></div>
@@ -112,6 +115,7 @@
     <ul class="rooms-list">
       <li><a href="#music" data-go="music"><b>Music</b><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg></a></li>
       <li><a href="#apps" data-go="apps"><b>Apps</b><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg></a></li>
+      <li><a href="#yohaku" data-go="yohaku"><b>Yohaku</b><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg></a></li>
       <li><a href="#live" data-go="live"><b>Live</b><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg></a></li>
     </ul>
   </section>
@@ -171,6 +175,58 @@
     <p class="mx-lede" data-r>Not many people got to use them, and a lot of younger people never saw them at all. METRO, and its METRO 8 interface most of all, is my way of letting them experience that design, so they don't miss out on it.</p>
     </div>
   </section>
+  <a class="mx-also" href="#yohaku" data-go="yohaku" data-r><span class="lab">Also by me</span><b>Yohaku</b><span class="note">A month planner and a whiteboard on one sheet</span><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg></a>
+</section>
+
+<!-- ═════════ YOHAKU ═════════ -->
+<section class="page" id="p-yohaku" data-title="Yohaku · Blu Shore" hidden>
+  <header class="yk-hero">
+    <p class="lab" data-r>Apps · Mac</p>
+    <h1 class="yk-mark" aria-label="Yohaku"><span class="yk-word" aria-hidden="true" data-r><b style="--l:0">Y</b><b style="--l:1">o</b><b style="--l:2">h</b><b style="--l:3">a</b><b style="--l:4">k</b><b style="--l:5">u</b></span><i class="yk-stamp" lang="ja" aria-hidden="true" data-r>余白</i></h1>
+    <p class="yk-sub" data-r><b>Month</b> <span>&amp; Board</span></p>
+    <div class="yk-row">
+      <p class="yk-lede" data-r>A month planner and a whiteboard on one continuous sheet. You plan by drawing and writing, and the calendar understands your ink.</p>
+      <div class="yk-act" data-r>
+        <p class="yk-soon"><img src="assets/img/yohaku/icon.png" alt="" width="44" height="44">Coming to the Mac App Store</p>
+        <p class="note">For Mac first · iPhone and iPad after that</p>
+      </div>
+    </div>
+  </header>
+  <figure class="yk-shot" data-r>
+    <div class="yk-media"><video data-src="assets/img/yohaku/hero.mp4" autoplay muted loop playsinline preload="none" aria-label="Yohaku: the board on the left, the month on the right"></video></div>
+    <figcaption class="yk-hand" aria-hidden="true"><span>the board</span><span>the month</span></figcaption>
+  </figure>
+  <section class="yk-story">
+    <p class="lab" data-r>What it is</p>
+    <div class="yk-ruled">
+      <p class="yk-say" data-r>The left half is a board for thinking: sketches, notes, lists. The right half is the month. They're one surface, so you can drag a scribble onto a Friday and it belongs to that <span class="yk-circ">Friday<svg viewBox="0 0 200 80" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M118 9C76 2 22 10 9 33c-11 21 30 39 92 38 58-1 95-17 92-37C190 14 142 5 92 8"/></svg></span>.</p>
+      <p class="yk-lede" data-r>Circle a date and it's important. Tick it and it's done. Draw a line across a few days and it becomes a plan you can name. Everything else you draw just stays as ink on that day.</p>
+    </div>
+  </section>
+  <section class="yk-story yk-why">
+    <p class="lab" data-r>Why I made it</p>
+    <p class="yk-say" data-r>My ideas lived on whiteboards and in notes, and my plans lived in a calendar app full of little boxes. The two never met, and typing a plan into a form never felt like planning.</p>
+    <p class="yk-lede" data-r>I wanted the feel of a paper diary next to a desk you can scribble on: one ink surface where the board and the month share the same space, so an idea can turn into a date just by dragging it over. Yohaku is that sheet.</p>
+  </section>
+  <section class="yk-feat">
+    <div class="yk-feat-head">
+      <p class="lab" data-r>What it does</p>
+      <p class="note" data-r>Everything here is in the Mac app today, unless it says otherwise.</p>
+    </div>
+    <ol class="yk-list" id="ykFeat"></ol>
+  </section>
+  <section class="yk-name">
+    <p class="yk-kanji yk-stamp" lang="ja" aria-hidden="true" data-r>余白</p>
+    <div>
+      <p class="lab" data-r>Why Yohaku</p>
+      <p class="yk-say" data-r><i lang="ja">Yohaku</i> is Japanese for blank space: the margin left around the words on a page.</p>
+      <p class="yk-lede" data-r>That empty space is where you scribble, think and breathe, and it's what this app is made of. The little red 余白 next to the name is the word itself, stamped like a seal.</p>
+    </div>
+  </section>
+  <section class="yk-end">
+    <p class="yk-say" data-r>Yohaku is coming to the Mac App Store. iPhone and iPad come after that.</p>
+    <a class="lnk" href="#apps" data-go="apps" data-r>Also by me: METRO <svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h13M9 1l4 4-4 4"/></svg></a>
+  </section>
 </section>
 
 <!-- ═════════ LIVE ═════════ -->
@@ -199,7 +255,7 @@
 
 <footer class="foot" id="foot">
   <div class="foot-grid">
-    <div><p class="lab">Pages</p><a href="#home" data-go="home">Home</a><a href="#music" data-go="music">Music</a><a href="#apps" data-go="apps">Apps</a><a href="#live" data-go="live">Live</a></div>
+    <div><p class="lab">Pages</p><a href="#home" data-go="home">Home</a><a href="#music" data-go="music">Music</a><a href="#apps" data-go="apps">Apps</a><a href="#yohaku" data-go="yohaku">Yohaku</a><a href="#live" data-go="live">Live</a></div>
     <div><p class="lab">Listen</p><a data-link="spotify" target="_blank" rel="noopener">Spotify</a><a data-link="apple" target="_blank" rel="noopener">Apple Music</a><a data-link="ytmusic" target="_blank" rel="noopener">YouTube Music</a><a data-link="amazon" target="_blank" rel="noopener">Amazon Music</a><a data-link="tidal" target="_blank" rel="noopener">Tidal</a><a data-link="jiosaavn" target="_blank" rel="noopener">JioSaavn</a></div>
     <div><p class="lab">Follow</p><a data-link="youtube" target="_blank" rel="noopener">YouTube</a><a data-link="instagram" target="_blank" rel="noopener">Instagram</a><a data-link="twitch" target="_blank" rel="noopener">Twitch</a><a data-link="email">Email</a></div>
   </div>
@@ -243,9 +299,9 @@
 <audio id="audio" preload="none"></audio>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="assets/data.js?v=30"></script>
-<script src="assets/gallery.js?v=30"></script>
-<script src="assets/colors.js?v=30"></script>
-<script src="app.js?v=30"></script>
+<script src="assets/data.js?v=31"></script>
+<script src="assets/gallery.js?v=31"></script>
+<script src="assets/colors.js?v=31"></script>
+<script src="app.js?v=31"></script>
 </body>
 </html>

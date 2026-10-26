@@ -12,7 +12,7 @@ Personal site of Blu Shore (musician, gamer, developer). Static HTML/CSS/JS with
 ## Files (read only the section you need)
 | File | What it holds |
 |---|---|
-| `index.html` | All 4 pages as `<section class="page" id="p-home|p-music|p-apps|p-live">`, plus header, menu, footer, release sheet and mini player. |
+| `index.html` | All 5 pages as `<section class="page" id="p-home|p-music|p-apps|p-yohaku|p-live">`, plus header, menu, footer, release sheet and mini player. |
 | `styles.css` | All styles. Sections are marked `/* ───────── name ───────── */`. |
 | `app.js` | All behaviour. Sections are marked the same way. `LINKS` (every external URL) sits at the top. |
 | `assets/data.js` | `window.RELEASES`, **generated** by `tools/update-releases.py` from Apple Music. Don't hand-edit. |
@@ -20,18 +20,19 @@ Personal site of Blu Shore (musician, gamer, developer). Static HTML/CSS/JS with
 | `assets/gallery.js` | `window.ARTWORKS`: per-track cover art tied to a release id (hand-made). Used by the home "Browse" floaters. |
 | `assets/art/` | Release covers (600px jpg). `more/` holds per-track art. |
 | `assets/audio/` | `patterns.m4a`: the default track (256 kbps AAC, made with `afconvert` from the WAV). It plays on "Enter" with sound and from the sound button. Set as `DEFAULT` in app.js (audio section); its cover is still a placeholder. |
+| `assets/img/yohaku/` | Yohaku page media: `icon.png` (app icon, copied from the Yohaku project) and one clip per feature row, `<slug>.mp4` (slugs in `YOHAKU` in app.js; `hero.mp4` for the top). Slugs in `YK_NOCLIP` (app.js) get a hand-written note (their "why" line on a ruled frame) instead of a clip; a missing clip otherwise hides its slot. |
 | `assets/img/` | `blu.jpg` (hero photo, 1500×2000; source copy in `artworks/` as "Blu hero photo (upscaled)"; also the Live poster), METRO screenshot and icon. If the photo changes, update `PHOTO` in app.js (size, crop anchor, what the circle starts on (head and shoulders), start zoom) and the matching `object-position` on `.player img` (Live poster) in styles.css. |
 | `CNAME`, `.nojekyll` | Required by GitHub Pages. Keep both. |
 | `artworks/` | Source PNGs. Git-ignored, not used by the site, stays only on this Mac. |
 
 To find code cheaply, run `grep -n "───" app.js styles.css` and Read just that line range. Don't read whole files.
 
-**app.js sections:** smooth scroll · links · text + reveals · audio · release sheet · menu · routing · cursor · intro ring · home content · music index · apps · live · per-frame scroll choreography (`frame()`, which drives hero, browse, latest and dots) · boot.
-**styles.css sections:** tokens/type/pills · intro · header · menu · cursor · pages + reveals · dots · home (hero, about, browse, latest, rooms) · music · apps · live · footer · page wipe · release sheet · mini player · small screens.
+**app.js sections:** smooth scroll · links · text + reveals · audio · release sheet · menu · routing · cursor · intro ring · home content · music index · apps · yohaku · live · per-frame scroll choreography (`frame()`, which drives hero, browse, latest and dots) · boot.
+**styles.css sections:** tokens/type/pills · intro · header · menu · cursor · pages + reveals · dots · home (hero, about, browse, latest, rooms) · music · apps (+ `.mx-also` link to Yohaku) · yohaku · live · footer · page wipe · release sheet · mini player · small screens.
 
 ## How the site works
 - **Intro:** an "Enter" screen with a ring of covers. Passing it sets `sessionStorage.bs_intro`. Clicking the logo clears it and reloads.
-- **Routing:** hash-based (`#music`, `#apps`, `#live`). Home uses the clean path with **no `#home`** (`pageUrl()` in app.js). `go(name)` plays a black circle "wipe" between pages. Any element with `data-go="page"` navigates.
+- **Routing:** hash-based (`#music`, `#apps`, `#yohaku`, `#live`); a new page goes in `PAGES` and `LABEL` in app.js. Home uses the clean path with **no `#home`** (`pageUrl()` in app.js). `go(name)` plays a black circle "wipe" between pages. Any element with `data-go="page"` navigates.
 - **Home scroll story:** all driven in `frame()` by CSS variables.
   1. **Hero:** the photo circle grows to fill the screen, and the ring text fades.
   2. **About:** fades in over the photo, edge-anchored. "Hey, I'm Blu." sits bottom-left; a short sentence ("Most days I'm making songs, playing games or building apps.") plus a caption sits bottom-right. Lines reveal via `--q`/`--s`.
@@ -40,10 +41,11 @@ To find code cheaply, run `grep -n "───" app.js styles.css` and Read just 
   5. **Rooms:** links to the other pages.
 - **Music:** release index rows (hover tints use `COLORS`). On touch the row at mid-screen gets `.lit` (same look as hover). Note `.on` is taken by the reveal system. Clicking opens the release sheet with 30s Apple previews. Playback fades in/out (start, pause, track change, clip end; `ramp()` in app.js, volume-based so iOS gets no fade) and plays through the rest of that release, never into the next one; Patterns just stops. Lenis is stopped while the sheet is open, so the sheet needs `data-lenis-prevent` to scroll (same for any future scrollable overlay). The mini player is a "dynamic" pill in the top-right (it replaces the sound button once a track plays): compact cover + eq, opens on hover/tap/focus and peeks open for ~3s on each track change.
 - **Apps:** METRO music player, out now for Mac (Windows coming soon). Download buttons use `LINKS.metroMac` / `LINKS.metroMacIntel`, which point at GitHub Releases in the **separate** public repo `blushore/metro` (`releases/latest/download/METRO-Apple-Silicon.dmg` / `METRO-Intel.dmg`). Keep METRO files out of the site repo. For a new version: `gh release create vX.Y <dmgs> --repo blushore/metro` with the same file names, and the site links keep working. Source DMGs live in `/Volumes/SSD/Claude/METRO Dist/`.
+- **Yohaku** (`#yohaku`): Blu's second app, a Mac month planner + whiteboard on one ink sheet (source project `/Volumes/SSD/Claude/Yohaku`, read-only from here). Not public yet: the page says "Coming to the Mac App Store" with no download links. Hero (rounded wordmark + vermilion 余白, "Month & Board" in Outfit poster type), what it is, why I made it, grouped feature cards from `YOHAKU` in app.js (a 3/2/1-column grid per group; each card has a lazy clip that plays only while visible, or a hand note), the name, and a link back to METRO. Linked from the menu, home rooms, footer and the end of the METRO page. Its signature motion (keep it to these): the wordmark rises letter by letter and the 余白 seal stamps on (`.yk-word`, `.yk-stamp`; the hero waits 0.8s when arriving through the wipe, `ykEnter()`), a lime ink circle draws round "Friday" once (`.yk-circ`, SVG dashoffset), and the red margin rule draws down.
 - **Live:** Twitch `blushorelive`. Live status comes from decapi.me. The embedded player only works on the real domain (Twitch checks `parent`).
 
 ## Design rules (keep new work consistent)
-- Near-black `--bg #0f0f0f`, white text, `--mut #aaa`, `--dim #6a6a6a`, hairlines `--line`. The only colour is METRO orange `--orange`, used only on the Apps page; per-release `COLORS` appear only on hover in Music.
+- Near-black `--bg #0f0f0f`, white text, `--mut #aaa`, `--dim #6a6a6a`, hairlines `--line`. The only colour is METRO orange `--orange`, used only on the Apps page; per-release `COLORS` appear only on hover in Music. Yohaku's own palette (its night paper: `--yk-*` tokens, lime `#c8f53c`, vermilion seal `#ff6a4d`) and fonts (SF Pro / Outfit / Zen Maru Gothic / Reenie Beanie) appear only inside `#p-yohaku`; keep every rule scoped there.
 - **Inter Tight** for everything: big headings uppercase, weight 400 (light 200 for METRO), tight tracking (class `.up`). **Barlow Condensed** bold only for the brand mark: intro, logo, footer, wipe label.
 - Small labels: 11px uppercase, `.lab` / `.meta` / `.note`. Numbers use `.n`.
 - Layouts are edge-anchored (bottom-left headline, small label top-left). Avoid centred hero text, icons and decorative blobs. Lists are hairline rows, but the user prefers flowing sentences over table-like rows for personal text.

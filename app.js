@@ -28,8 +28,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const EASE = 'cubic-bezier(.7,0,.2,1)';
 
 const REL = (window.RELEASES || []).slice().sort((a, b) => b.date.localeCompare(a.date));
-const PAGES = ['home', 'music', 'apps', 'live'];
-const LABEL = { home: 'Blu Shore', music: 'Music', apps: 'Apps', live: 'Live' };
+const PAGES = ['home', 'music', 'apps', 'yohaku', 'live'];
+const LABEL = { home: 'Blu Shore', music: 'Music', apps: 'Apps', yohaku: 'Yohaku', live: 'Live' };
 const fmtDate = d => new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 const mmss = ms => { const s = Math.round(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
 const pad2 = n => String(n).padStart(2, '0');
@@ -271,6 +271,7 @@ function show(name) {
   $$('.menu-list a').forEach(a => a.classList.toggle('cur', a.dataset.go === name));
   arm($('#p-' + name));
   if (name === 'live') checkLive();
+  if (name === 'yohaku') ykEnter();
   measure();
 }
 async function go(name, x = innerWidth / 2, y = 36, fromPop) {
@@ -456,6 +457,83 @@ const macs = [['metroMac', 'Download for Mac', 'Apple Silicon'], ['metroMacIntel
 const intel = /Mac/.test(navigator.platform) && (() => { try { const r = document.createElement('canvas').getContext('webgl').getParameter(37446); return /Intel/i.test(r); } catch (e) { return false; } })();
 if (intel) macs.reverse();
 $('#metroDl').innerHTML = macs.filter(([k]) => LINKS[k]).map(([k, label], i) => `<a class="pill ${i ? 'ghost' : 'orange'}" href="${LINKS[k]}" download>${label}</a>`).join('');
+
+/* ───────── yohaku ───────── */
+// Groups of [file slug, title, what it does, why it matters, tag]. Each row's clip is assets/img/yohaku/<slug>.mp4
+// (shot list in docs/TODO.md); a missing clip leaves the ruled placeholder.
+const YOHAKU = [
+  ['One sheet', [
+    ['one-sheet', 'One sheet', 'The board sits on the left and the month on the right, and they are one surface: no divider, no tabs, no switching.', 'Ideas and dates live in the same place, so nothing gets lost on the way from one app to another.'],
+    ['gestures', 'Draw on the month', 'Circle a date to make it important, tick it when it\'s done, draw a line across days to make a plan and name it, or cross it out.', 'It plans like a paper diary, and it\'s quicker than any form.'],
+    ['threads', 'Ink threads', 'Drag a sketch from the board onto a date. It stays tied to that day: hover the date and the sketch lights up, tap the sketch and the day opens.', 'The messy thinking stays connected to the day it was for.'],
+    ['dive', 'Dive into a day', 'Tap a date and the whole sheet glides into it. Ink drawn there is finer, and the day panel opens beside it.', 'You go from the month to the detail without ever leaving the sheet.'],
+    ['week', 'Month and week', 'Swipe up or down to switch between the month and a week of seven roomy rows, and sideways to move through time.', 'The month shows the shape of things, the week shows what\'s really happening.'],
+    ['half-life', 'Ink half-life', 'Ink on the board fades slowly over days, so the board cleans itself. Pinned and threaded ink stays.', 'A whiteboard you never have to wipe, that never turns into a wall of old scribbles.'],
+  ]],
+  ['Planning', [
+    ['liquid-time', 'Liquid time', 'Drag a list onto a date and it pours: the first line lands there and the rest flow into the quietest days after it. A day that\'s too full ends in a "+N more" chip that suggests better days.', 'Moving plans around feels like tipping water, not editing fields.'],
+    ['quick-add', 'Quick add', 'Press ⌘K and type the way you talk, like "dinner with Sam friday 8pm", and it lands on the right day.', 'For when typing really is quicker than drawing.'],
+    ['sync', 'Calendar and Reminders', 'Your Mac\'s calendars and reminders show up on the month. Tick, move, rename or delete them in Yohaku and the change goes back.', 'It works with everything you already use, and nothing leaves your Mac.'],
+    ['handwriting', 'Handwriting everywhere', 'Whatever you type appears in handwriting, in four hands. Turn on ink to text and your scribbled words become typed handwriting, read right on your Mac.', 'The whole sheet keeps the feel of one notebook.'],
+    ['light', 'Real light', 'On an HDR screen, days glow with how busy they are, today gently pulses, and fresh ink glows and cools like phosphor.', 'You can feel a busy week before you read a word of it.'],
+  ]],
+  ['The board', [
+    ['notebook', 'Notebook', 'Write is ruled paper you type on from the top left, Draw is a blank page, and To do has To do, Doing and Done lists you can drag between.', 'One board for thinking in words, in pictures and in lists.'],
+    ['hourglass', 'Hourglass', 'A big glass hourglass. Pick 5 to 60 minutes and tap it: it turns over, real sand falls, and a soft chime rings at the end.', 'A focus timer you actually want to look at.'],
+    ['fuse', 'Fuse', 'Light a fuse on a plan and a cord burns around its day with a glowing ember, ending in sparks and a tick.', 'Time running out is something you can see from across the room.'],
+    ['stickers', 'Stickers', 'Paste a screenshot or drop in a photo and it sticks to the sheet like a real sticker. Open it to write a note or draw on it, then peel it off when you\'re done.', 'References sit right next to the plans they belong to.'],
+    ['sticker-note', 'Notes on stickers', 'Open a sticker to write a note beside it, or doodle right on the picture.', 'Cover art, references, receipts: each one keeps its context.'],
+  ]],
+  ['Play', [
+    ['crumple', 'Gravity and crumple', 'On the Draw page, drop your ink and fling it around, or crumple a drawing into a paper ball and throw it in the bin.', 'Throwing out a bad idea should feel this good.'],
+    ['fidgets', 'Fidgets', 'A spinner, paintball, Newton\'s cradle, a handpan, a Rubik\'s cube and tic-tac-toe.', 'Something for your hands while your head works.'],
+    ['cradle', 'Newton\'s cradle', 'Pull a ball back and let go: it clicks back and forth until it settles.', 'Physics, but make it a procrastination tool.'],
+    ['cube', 'Cube and handpan', 'Twist a full Rubik\'s cube in 3D, then tap out a tune on the handpan.', 'One for your hands, one for your ears.'],
+    ['photo-booth', 'Photo booth', 'Take a photo with your Mac\'s camera, or your iPhone\'s, and it slides out like an instant print and becomes a sticker.', 'Your desk, your face, your cat: right there on the plan.'],
+  ]],
+  ['Little things', [
+    ['cat', 'The cat', 'A small round cat with a red collar drops by now and then. It naps on today, chases paper balls and purrs when you click it, or you can let it stay.', 'A desk feels better with someone on it.'],
+    ['cat-play', 'Pet the cat', 'Click the cat and it purrs with its eyes shut; click again and it rolls over for a belly rub.', 'Honestly, the most important feature.'],
+    ['cat-chase', 'Paper-ball patrol', 'Crumple a drawing and the cat goes after the ball, bats it around and stands guard by the bin.', 'Your bad ideas finally have a fan.'],
+    ['moments', 'Month moments', 'Each new month opens with a short scene: blossom in April, falling leaves in September, diyas in October, snow in December.', 'Turning the page should feel like an occasion.'],
+    ['swallows', 'Swallows', 'Click the wordmark and a few swallows take off across the sheet.', 'No reason. It just makes me smile.'],
+    ['clock', 'Clock and nudges', 'A quiet clock in the top bar that reminds you to drink water and take a screen break, with small animations instead of pop-ups.', 'Looking after yourself without another notification.'],
+    ['screen-break', 'Screen break', 'Every half hour the clock closes its eyes and counts down twenty seconds while you look away.', 'The 20-20-20 rule, without a pop-up yelling at you.'],
+    ['sound', 'Sound', 'Every tap, tick and pour has a deep, soft sound with a bit of room around it.', 'Satisfying, and never loud.'],
+  ]],
+  ['On your Mac', [
+    ['wallpaper', 'Live wallpaper', 'Yohaku can be your desktop: the sheet sits behind every window on every Space, and you can draw, tick and plan right on it. Classic mode keeps your desktop icons and just reacts to the pointer.', 'Your month is always one glance away, not an app you have to open.'],
+    ['themes', 'Themes', 'Paper, Sand, Ocean and Rose, each in light or dark.', 'It should look like your desk, not mine.'],
+    ['looks', 'Four looks', 'Poster, Ink first, Light table and Classic: the same month in four moods.', 'Loud when you want it, quiet when you don\'t.'],
+    ['iphone', 'iPhone and iPad', 'The same sheet on iPad with Apple Pencil, and on iPhone with the board and the month as two pages you swipe between.', 'Plans don\'t stay at the desk.', 'Coming soon'],
+  ]],
+];
+// Rows with no clip yet (see docs/TODO.md): no media slot, so nothing 404s.
+const YK_NOCLIP = new Set(['threads', 'half-life', 'sync', 'photo-booth', 'wallpaper', 'iphone']);
+let yn = 0;
+// Each group is a grid of cards (3 / 2 / 1 columns). A row without a clip shows its "why" as a hand note
+// on the ruled page instead, so the grid has no holes. Cards in a row arrive one after another.
+$('#ykFeat').innerHTML = YOHAKU.map(([g, list]) => `<li class="yk-g" data-r><span class="lab">${g}</span></li>` + list.map(([slug, t, what, why, tag], i) =>
+  `<li class="yk-c" data-r style="--rd:${(i % 3) * .12}s">` +
+  (YK_NOCLIP.has(slug) ? `<div class="yk-note"><p>${why}</p></div>`
+    : `<div class="yk-media"><video data-src="assets/img/yohaku/${slug}.mp4" autoplay muted loop playsinline preload="none" aria-label="${t}"></video></div>`) +
+  `<div class="yk-txt"><span class="n">${pad2(++yn)}</span><b>${t}</b>${tag ? `<small>${tag}</small>` : ''}<p>${what}</p>${YK_NOCLIP.has(slug) ? '' : `<p class="why">${why}</p>`}</div></li>`).join('')).join('');
+// Arriving through the black wipe, the hero waits for the circle to open before it draws itself in.
+function ykEnter() { $('#p-yohaku').classList.toggle('yk-late', wipe.style.visibility === 'visible'); }
+// Clips load when they come near the screen and play only while visible; a missing file keeps the placeholder.
+const ykIo = 'IntersectionObserver' in window && new IntersectionObserver(es => es.forEach(e => {
+  const v = e.target;
+  if (e.isIntersecting) {
+    // with reduced motion the clip never plays: it loads its first frame and holds it as a still
+    if (!v.src && v.dataset.src) { v.addEventListener('error', () => v.closest('.yk-media').classList.add('empty'), { once: true }); v.src = v.dataset.src + (reduce ? '#t=0.1' : ''); }
+    if (!reduce) v.play().catch(() => {});
+  } else if (v.src) v.pause();
+}), { rootMargin: '200px 0px' });
+$$('#p-yohaku video').forEach(v => {
+  v.addEventListener('loadeddata', () => v.closest('.yk-media').classList.add('ready'), { once: true });
+  if (reduce) { v.removeAttribute('autoplay'); v.preload = 'auto'; }
+  ykIo ? ykIo.observe(v) : (v.src = v.dataset.src);
+});
 
 /* ───────── live ───────── */
 let liveChecked = false;
