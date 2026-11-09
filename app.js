@@ -12,8 +12,11 @@ const LINKS = {
   twitch:    'https://www.twitch.tv/blushorelive',
   instagram: 'https://www.instagram.com/blushore_/',
   email:     '',            // e.g. 'blu@blushore.live'                 (hidden while empty)
-  metroMac:      'https://github.com/blushore/metro/releases/latest/download/METRO-Apple-Silicon.dmg', // METRO for Apple Silicon Macs (repo blushore/metro)
-  metroMacIntel: 'https://github.com/blushore/metro/releases/latest/download/METRO-Intel.dmg',         // METRO for Intel Macs
+  metroMac:      'https://github.com/blushore/metro/releases/latest/download/LP33-Apple-Silicon.dmg', // LP33 for Apple Silicon Macs (repo blushore/metro, release lp33-1.0)
+  metroMacIntel: 'https://github.com/blushore/metro/releases/latest/download/LP33-Intel.dmg',         // LP33 for Intel Macs
+  lp33Windows:   '',  // LP33 for Windows (installer or Microsoft Store link)        (hidden while empty)
+  lp33AppStore:  '',  // LP33 on the App Store, iPhone and iPad                     (hidden while empty)
+  lp33Play:      '',  // LP33 on Google Play                                         (hidden while empty)
 };
 const TWITCH_CHANNEL = 'blushorelive';
 
@@ -427,36 +430,104 @@ $('#filters').addEventListener('click', e => {
 let litY = -1;
 
 /* ───────── apps ───────── */
-// Groups of [title, what it does, why it matters, tag]
-const FEATURES = [
-  ['Three looks', [
-    ['Noir', 'The default look: dark, quiet and led by type, with a true black mode for OLED screens.', 'Nothing on screen competes with the covers.', 'Free'],
-    ['METRO 8', 'A second interface built on the Zune and Windows Phone look: thin type, tiles that flip, turnstile motion.', 'It\'s how I think a music library should feel, alive and fast, with every cover a tile you want to touch.', 'Licence'],
-    ['HALO', 'A third interface made of glass: a sidebar, a floating player, covers in a carousel that open into their album, and a ring to scrub through a song.', 'Albums feel like objects again, something you pick up, turn over and put on.', 'Coming soon'],
-  ]],
-  ['Finding albums', [
-    ['Album wall', 'Your liked albums laid out as one slowly drifting wall of covers.', 'You browse by cover, the way you flip through records, so albums come first and loose songs second.', 'Free'],
-    ['Pinned, recent, new', 'Pin the albums you live in, or sort by what you played lately, what you just liked, year or A to Z.', 'Different ways back into the same records, so a great album doesn\'t slip away after a week.', 'Free'],
-    ['Artist pages', 'Tap any name for the photo, bio, popular songs and every release, EPs included, plus a wall of all your artists.', 'One album leads to the next, so you go deeper into an artist instead of drifting sideways.', 'Free'],
-    ['Explore', 'Spotify\'s official genre, mood and chart playlists, sorted into areas.', 'For when you want something new: find an artist there, then go and live in their albums.', 'Free'],
-  ]],
-  ['Listening', [
-    ['Synced lyrics', 'Full-screen lyrics that move in time with the song.', 'Reading along is how a record gets under your skin.', 'Free'],
-    ['Visualizer', 'A full-screen visualizer that moves with whatever is playing.', 'Put a record on, lean back, and just watch and listen.', 'Licence'],
-    ['Snap Control', 'Snap your fingers to play or pause. Snap twice to skip.', 'Your hands stay free and the album keeps going while you\'re away from the keyboard.', 'Licence'],
-    ['Play on', 'Send playback to any Spotify Connect speaker or device.', 'Start an album at your desk and finish it on the big speakers.', 'Free'],
-  ]],
-  ['Your music', [
-    ['Your library, synced', 'Your liked albums and songs come over on their own and stay up to date, through the Spotify desktop app you already have or Apple Music right inside METRO. Full songs, no web login, no 30-second clips.', 'No rebuilding a collection, whichever service you pay for: the albums you already love are there the first time you open it.', 'Free'],
-  ]],
-];
-let fn = 0;
-$('#feat').innerHTML = FEATURES.map(([g, list]) => `<li class="feat-g" data-r><span class="lab">${g}</span></li>` + list.map(f => `<li data-r><span class="n">${pad2(++fn)}</span><b>${f[0]}</b><div><p>${f[1]}</p><p class="why">${f[2]}</p></div><small>${f[3]}</small></li>`).join('')).join('');
-// Download buttons: the Mac matching this visitor goes first (orange); an empty link hides its button.
-const macs = [['metroMac', 'Download for Mac', 'Apple Silicon'], ['metroMacIntel', 'Download for Intel Mac', 'Intel']];
-const intel = /Mac/.test(navigator.platform) && (() => { try { const r = document.createElement('canvas').getContext('webgl').getParameter(37446); return /Intel/i.test(r); } catch (e) { return false; } })();
-if (intel) macs.reverse();
-$('#metroDl').innerHTML = macs.filter(([k]) => LINKS[k]).map(([k, label], i) => `<a class="pill ${i ? 'ghost' : 'orange'}" href="${LINKS[k]}" download>${label}</a>`).join('');
+// LP33 page. Download buttons (hero, first step, free tier, end): the visitor's own platform goes first (pink; on a Mac
+// the matching chip, with the other chip as a ghost), then a quiet "Also on" line for the rest. Empty links are hidden.
+const ua = navigator.userAgent;
+const plat = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) ? 'ios'
+  : /Android/.test(ua) ? 'android' : /Windows/.test(ua) ? 'win' : 'mac';
+const intel = plat === 'mac' && (() => { try { const r = document.createElement('canvas').getContext('webgl').getParameter(37446); return /Intel/i.test(r); } catch (e) { return false; } })();
+const macKeys = intel ? ['metroMacIntel', 'metroMac'] : ['metroMac', 'metroMacIntel'];
+// [link key, platform, button label, label in the "Also on" line, is a file download]
+const PLATS = [
+  [macKeys[0], 'mac', 'Download for Mac', intel ? 'Intel Mac' : 'Mac', true],
+  [macKeys[1], 'mac', intel ? 'Apple Silicon Mac' : 'Intel Mac', intel ? 'Mac' : 'Intel Mac', true],
+  ['lp33Windows', 'win', 'Download for Windows', 'Windows', /\.(exe|msi|msix|zip)$/i.test(LINKS.lp33Windows)],
+  ['lp33AppStore', 'ios', 'Get it on the App Store', 'iPhone and iPad', false],
+  ['lp33Play', 'android', 'Get it on Google Play', 'Android', false],
+].filter(([k]) => LINKS[k]);
+const mine = PLATS.some(x => x[1] === plat) ? PLATS.filter(x => x[1] === plat) : PLATS.filter(x => x[1] === 'mac');
+const others = PLATS.filter(x => !mine.includes(x));
+const dlA = ([k, , , , file], cls, text) => `<a${cls ? ` class="${cls}"` : ''} href="${LINKS[k]}"${file ? ' download' : ' target="_blank" rel="noopener"'}>${text}</a>`;
+const dlHTML = mine.map((x, i) => dlA(x, `pill ${i ? 'ghost' : 'pink'}`, x[2])).join('')
+  + (others.length ? `<p class="lp-on">Also on ${others.map(x => dlA(x, '', x[3])).join('<span aria-hidden="true"> · </span>')}</p>` : '');
+$$('[data-dl]').forEach(el => { el.innerHTML = dlHTML; });
+const dls = mine.map(x => [x[0]]);
+// Floating download pill: shows once the hero has scrolled away, hides again at the closing call to action.
+const mxFloat = $('#mxFloat'), mxHero = $('#lpHero'), mxEnd = $('#mxEnd');
+if (dls.length) {
+  mxFloat.href = LINKS[dls[0][0]];
+  const vis = new Map();
+  const fio = new IntersectionObserver(es => {
+    es.forEach(e => vis.set(e.target, e.isIntersecting));
+    const show = !vis.get(mxHero) && !vis.get(mxEnd);
+    mxFloat.classList.toggle('on', show);
+    mxFloat.setAttribute('aria-hidden', show ? 'false' : 'true');
+    mxFloat.tabIndex = show ? 0 : -1;
+  });
+  fio.observe(mxHero); fio.observe(mxEnd);
+} else mxFloat.remove();
+
+// The record: turns at 33⅓ rpm (200°/s, one turn every 1.8 s) while on screen. Grab it and spin to scrub the readout;
+// a flick keeps its speed and the "motor" eases back to 33⅓. Arrow keys seek 5 s. Still under reduced motion until dragged.
+const lpDisc = $('#lpDisc'), lpSpinEl = $('#lpSpin'), lpTimeEl = $('#lpTime');
+const lpRM = matchMedia('(prefers-reduced-motion: reduce)');
+let lpAng = 0, lpVel = 0, lpSecs = 0, lpGrab = null, lpOn = false, lpLast = 0, lpRaf = 0;
+function lpTurn(deg) { lpAng += deg; lpSecs = Math.max(0, lpSecs + deg / 360 * 1.8) % 3600; }
+function lpPaint() {
+  lpSpinEl.style.transform = `rotate(${lpAng % 360}deg)`;
+  const t = mmss(Math.floor(lpSecs) * 1000);
+  if (lpTimeEl.textContent !== t) { lpTimeEl.textContent = t; lpDisc.setAttribute('aria-valuenow', Math.floor(lpSecs)); lpDisc.setAttribute('aria-valuetext', t); }
+}
+function lpTick(t) {
+  const dt = lpLast ? Math.min(.05, (t - lpLast) / 1000) : 0; lpLast = t;
+  if (!lpGrab) { lpVel += ((lpRM.matches ? 0 : 200) - lpVel) * Math.min(1, dt * 1.8); lpTurn(lpVel * dt); }
+  lpPaint();
+  lpRaf = lpOn ? requestAnimationFrame(lpTick) : 0;
+}
+function lpRun() { if (lpOn && !lpRaf) { lpLast = 0; lpRaf = requestAnimationFrame(lpTick); } }
+new IntersectionObserver(([e]) => { lpOn = e.isIntersecting; lpRun(); }).observe(lpDisc);
+const lpAngleAt = e => { const r = lpDisc.getBoundingClientRect(); return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI; };
+lpDisc.addEventListener('pointerdown', e => {
+  if (e.button) return;
+  lpDisc.setPointerCapture(e.pointerId);
+  lpGrab = { a: lpAngleAt(e), t: performance.now(), v: 0 };
+});
+lpDisc.addEventListener('pointermove', e => {
+  if (!lpGrab) return;
+  const a = lpAngleAt(e), now = performance.now();
+  let d = a - lpGrab.a; if (d > 180) d -= 360; if (d < -180) d += 360;
+  const dt = Math.max(1, now - lpGrab.t) / 1000;
+  lpGrab.v = lpGrab.v * .6 + (d / dt) * .4; lpGrab.a = a; lpGrab.t = now;
+  lpTurn(d); if (!lpRaf) lpPaint();
+});
+const lpLetGo = () => { if (!lpGrab) return; lpVel = performance.now() - lpGrab.t > 90 ? 0 : Math.max(-2400, Math.min(2400, lpGrab.v)); lpGrab = null; lpRun(); };
+lpDisc.addEventListener('pointerup', lpLetGo);
+lpDisc.addEventListener('pointercancel', lpLetGo);
+lpDisc.addEventListener('keydown', e => {
+  const k = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 }[e.key];
+  if (!k) return;
+  e.preventDefault(); lpTurn(k * 1000); lpPaint();
+});
+
+// Three looks: tabs crossfade the screenshots and tint the section; turns by itself every 5 s while on screen,
+// until someone picks one.
+const looks = $$('.lp-look'), lookImgs = $$('.lp-stage img'), lookSec = $('#mxLooks'), lookLine = $('#lpLookLine');
+const lookBg = ['#06111a', '#0a1622', '#140f22'];
+let lookAt = 0, lookTimer = 0, lookAuto = !lpRM.matches;
+function showLook(i) {
+  lookAt = i;
+  looks.forEach((b, j) => { b.classList.toggle('on', j === i); b.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+  lookImgs.forEach((im, j) => im.classList.toggle('on', j === i));
+  lookSec.style.backgroundColor = lookBg[i];
+  lookLine.textContent = looks[i].dataset.line;
+}
+looks.forEach((b, i) => b.addEventListener('click', () => { lookAuto = false; clearInterval(lookTimer); showLook(i); }));
+new IntersectionObserver(([e]) => {
+  clearInterval(lookTimer);
+  if (e.isIntersecting && lookAuto) lookTimer = setInterval(() => showLook((lookAt + 1) % looks.length), 5000);
+}, { threshold: .4 }).observe(lookSec);
+// FAQ: one answer open at a time.
+$$('.lp-qs details').forEach(d => d.addEventListener('toggle', () => { if (d.open) $$('.lp-qs details').forEach(o => { if (o !== d) o.open = false; }); }));
 
 /* ───────── yohaku ───────── */
 // Groups of [file slug, title, what it does, why it matters, tag]. Each row's clip is assets/img/yohaku/<slug>.mp4
@@ -563,7 +634,7 @@ $('#player').addEventListener('click', () => {
 const hero = $('#hero'), disc = $('#disc'), discImg = $('img', disc), discDim = $('#discDim'), ringText = $('#ringText'), heroCopy = $('#heroCopy'), about = $('#about');
 const strips = $$('#lvArt i'), bigT = $('#lvTitle'), browse = $('#browse'), latestEl = $('#latest'), vwrap = $('#vwrap'), vinyl = $('#lvVinyl'), sleeve = $('#lvArt'), lcopy = $('.latest-copy');
 const dots = $$('#dots li'), dotTargets = [hero, browse, latestEl, $('#rooms')];
-const shot = $('#mxShot');
+
 let r0 = 200, rMax = 900, vw = innerWidth, vh = innerHeight, heroP = -1, bigW = 0, pad = 16, bigLand = [1, 0];
 // Hero photo (fractions of its size): px/py = crop anchor when it fills the screen (object-position), fx/fy = what the
 // circle starts centred on (Blu), span = how much of the photo's width the circle shows at the start.
@@ -712,10 +783,6 @@ function frame(t) {
       const rows = $$('.row', index), tops = rows.map(r => r.getBoundingClientRect());
       rows.forEach((r, i) => r.classList.toggle('lit', tops[i].top <= vh / 2 && tops[i].bottom > vh / 2));
     }
-  } else if (cur === 'apps') {
-    const sr = shot.getBoundingClientRect();
-    shot.style.setProperty('--zs', lerp(1.14, 1, clamp(1 - sr.top / vh)));
-    $('.mx-frame img', shot).style.setProperty('--zs', lerp(1.14, 1, clamp(1 - sr.top / vh)));
   }
   requestAnimationFrame(frame);
 }
