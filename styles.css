@@ -372,10 +372,9 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 #p-apps .lp-def { grid-column: span 6; display: flex; align-items: center; gap: 32px; }
 #p-apps .lp-def span { flex: none; font: 500 clamp(72px, 11vw, 160px)/1 var(--hk); letter-spacing: .04em; }
 #p-apps .lp-def span.pk { color: var(--pink); letter-spacing: -.02em; }
-#p-apps .lp-was { grid-column: 1 / 8; }
 
 /* 6 · get started, privacy, price */
-#p-apps .lp-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 64px; }
+#p-apps .lp-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 64px; }
 #p-apps .lp-steps li { display: flex; flex-direction: column; gap: 14px; min-height: 300px; box-sizing: border-box; padding: 32px 28px; border-radius: 12px; background: var(--s2); }
 #p-apps .lp-steps b { font: 500 clamp(24px, 2.1vw, 30px)/1.05 var(--hk); letter-spacing: -.02em; }
 #p-apps .lp-steps span { font-size: 16px; line-height: 1.5; color: var(--ink2); }
@@ -430,7 +429,7 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 .mx-float.on:hover { transform: scale(1.04); }
 
 @media (max-width: 1000px) {
-  #p-apps .lp-rest, #p-apps .lp-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #p-apps .lp-rest { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 860px) {
   #p-apps .lp-intro, #p-apps .lp-head, #p-apps .lp-close-top { flex-direction: column; align-items: flex-start; }
@@ -455,6 +454,7 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
   #p-apps .lp-qs details p { padding: 0 18px 20px; font-size: 15px; }
 }
 @media (max-width: 700px) {
+  #p-apps .lp-steps { grid-template-columns: 1fr; }
   #p-apps .lp-hero { padding-top: 72px; }
   #p-apps .lp-word { order: -1; margin: 8px 0 0; }
   #p-apps .lp-wide { display: none !important; }
@@ -464,7 +464,6 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
   #p-apps .lp-dl .pill { height: 52px; padding: 0 24px; }
 }
 @media (max-width: 520px) {
-  #p-apps .lp-steps { grid-template-columns: 1fr; }
   #p-apps .lp-steps li { min-height: 0; padding: 22px 20px; }
   #p-apps .lp-rest { gap: 10px; }
   #p-apps .lp-rest li { min-height: 120px; padding: 18px; }
