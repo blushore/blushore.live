@@ -31,12 +31,21 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const EASE = 'cubic-bezier(.7,0,.2,1)';
 
 const REL = (window.RELEASES || []).slice().sort((a, b) => b.date.localeCompare(a.date));
-const PAGES = ['home', 'music', 'apps', 'yohaku', 'live'];
-const LABEL = { home: 'Blu Shore', music: 'Music', apps: 'Apps', yohaku: 'Yohaku', live: 'Live' };
+const PAGES = ['home', 'music', 'apps', 'lp33', 'yohaku', 'live'];
+const LABEL = { home: 'Blu Shore', music: 'Music', apps: 'Apps', lp33: 'LP33', yohaku: 'Yohaku', live: 'Live' };
+const APP_PAGES = ['lp33', 'yohaku']; // pages that sit under Apps (the menu marks Apps while on them)
 const fmtDate = d => new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 const mmss = ms => { const s = Math.round(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
 const pad2 = n => String(n).padStart(2, '0');
-const pageUrl = name => (name === 'home' ? location.pathname + location.search : '#' + name); /* home keeps a clean address, no #home */
+/* Clean addresses: blushore.live/, /music, /apps, /lp33, /yohaku, /live. GitHub Pages only serves files, so each of
+   those folders holds a tiny index.html that sends the visitor to /?p=<page>; boot shows that page and swaps the address
+   back to the clean one. Old #page links still work. */
+const pageUrl = name => (name === 'home' ? '/' : '/' + name);
+const pageFrom = () => {
+  const q = new URLSearchParams(location.search).get('p');
+  const seg = location.pathname.replace(/^\/+|\/+$/g, '').split('/')[0];
+  return [q, seg, location.hash.slice(1)].find(x => PAGES.includes(x)) || 'home';
+};
 
 /* ───────── smooth scroll ───────── */
 const lenis = window.Lenis ? new Lenis({ lerp: .085, wheelMultiplier: .9, smoothWheel: !reduce }) : null;
@@ -271,7 +280,7 @@ function show(name) {
   document.body.dataset.page = name;
   document.title = $('#p-' + name).dataset.title;
   scrollToTop();
-  $$('.menu-list a').forEach(a => a.classList.toggle('cur', a.dataset.go === name));
+  $$('.menu-list a').forEach(a => a.classList.toggle('cur', a.dataset.go === name || (a.dataset.go === 'apps' && APP_PAGES.includes(name))));
   arm($('#p-' + name));
   if (name === 'live') checkLive();
   if (name === 'yohaku') ykEnter();
@@ -316,7 +325,7 @@ document.addEventListener('click', e => {
   e.preventDefault();
   go(a.dataset.go, e.clientX || innerWidth / 2, e.clientY || 36);
 });
-addEventListener('popstate', () => go(location.hash.slice(1) || 'home', innerWidth / 2, innerHeight / 2, true));
+addEventListener('popstate', e => go((e.state && e.state.p) || pageFrom(), innerWidth / 2, innerHeight / 2, true));
 
 /* ───────── cursor ───────── */
 const cursor = $('#cursor');
@@ -528,6 +537,13 @@ new IntersectionObserver(([e]) => {
 }, { threshold: .4 }).observe(lookSec);
 // FAQ: one answer open at a time.
 $$('.lp-qs details').forEach(d => d.addEventListener('toggle', () => { if (d.open) $$('.lp-qs details').forEach(o => { if (o !== d) o.open = false; }); }));
+
+/* ───────── apps wall ───────── */
+// The Yohaku tile's clip plays only while the tile is on screen (and never under reduced motion).
+const awClip = $('.aw-clip');
+if (awClip) new IntersectionObserver(([e]) => {
+  if (e.isIntersecting && !matchMedia('(prefers-reduced-motion: reduce)').matches) awClip.play().catch(() => {}); else awClip.pause();
+}, { threshold: .2 }).observe(awClip);
 
 /* ───────── yohaku ───────── */
 // Groups of [file slug, title, what it does, why it matters, tag]. Each row's clip is assets/img/yohaku/<slug>.mp4
@@ -791,9 +807,8 @@ function frame(t) {
 (function boot() {
   buildRing();
   measure();
-  const hash = location.hash.slice(1);
   let seen = false; try { seen = !!sessionStorage.getItem('bs_intro'); } catch (e) {}
-  const start = PAGES.includes(hash) ? hash : 'home';
+  const start = pageFrom();
   if (start !== 'home') show(start); else arm($('#p-home'));
   history.replaceState({ p: start }, '', pageUrl(start));
   if (start !== 'home' || seen) {
