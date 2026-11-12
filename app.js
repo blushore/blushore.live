@@ -535,6 +535,9 @@ new IntersectionObserver(([e]) => {
   clearInterval(lookTimer);
   if (e.isIntersecting && lookAuto) lookTimer = setInterval(() => showLook((lookAt + 1) % looks.length), 5000);
 }, { threshold: .4 }).observe(lookSec);
+// And the rest: the lights crossfade and the snap rings pulse only while the grid is on screen.
+const lpRest = $('#p-lp33 .lp-rest');
+if (lpRest) new IntersectionObserver(([e]) => lpRest.classList.toggle('lp-go', e.isIntersecting)).observe(lpRest);
 // FAQ: one answer open at a time.
 $$('.lp-qs details').forEach(d => d.addEventListener('toggle', () => { if (d.open) $$('.lp-qs details').forEach(o => { if (o !== d) o.open = false; }); }));
 

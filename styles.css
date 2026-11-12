@@ -352,10 +352,26 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 #p-lp33 .lp-scene:nth-child(even) figcaption { grid-column: 9 / 13; grid-row: 1; }
 #p-lp33 .lp-scene:nth-child(even) img { grid-column: 1 / 9; grid-row: 1; }
 #p-lp33 .lp-rest-h { margin-top: 200px; font-size: clamp(40px, 4.4vw, 64px); }
-#p-lp33 .lp-rest { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 48px; }
-#p-lp33 .lp-rest li { display: flex; flex-direction: column; gap: 12px; min-height: 200px; box-sizing: border-box; padding: 28px; border-radius: 12px; background: var(--s2); }
+/* And the rest: a picture grid. Each tile shows the feature (real screens; lights crossfade; Snap & Whistle drawn as
+   sound rings); tiles with no screen yet are text. The motion runs only while the grid is on screen (.lp-go from app.js). */
+#p-lp33 .lp-rest { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 270px; grid-template-areas: "viz viz light light" "viz viz snap bub" "lyr exp dark bub"; gap: 16px; margin-top: 48px; }
+#p-lp33 .lp-r-viz { grid-area: viz; } #p-lp33 .lp-r-light { grid-area: light; } #p-lp33 .lp-r-snap { grid-area: snap; } #p-lp33 .lp-r-bub { grid-area: bub; }
+#p-lp33 .lp-rest li { position: relative; display: flex; flex-direction: column; justify-content: flex-end; box-sizing: border-box; padding: 26px; border-radius: 12px; background: var(--s2); overflow: hidden; isolation: isolate; contain: paint; }
+#p-lp33 .lp-rest li > img, #p-lp33 .lp-r-fade { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
+#p-lp33 .lp-rest li:has(> img)::before, #p-lp33 .lp-r-light::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 45%, rgba(6,17,26,.85) 100%); }
+#p-lp33 .lp-r-bub > img { object-position: 50% 30%; }
+#p-lp33 .lp-r-light::before { background: linear-gradient(180deg, rgba(6,17,26,.05) 10%, rgba(6,17,26,.94) 68%); }
+#p-lp33 .lp-r-fade img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 0; opacity: 0; animation: lp-fade 9s linear infinite paused; }
+#p-lp33 .lp-r-fade img:nth-child(1) { opacity: 1; animation-delay: 0s; } #p-lp33 .lp-r-fade img:nth-child(2) { animation-delay: 3s; } #p-lp33 .lp-r-fade img:nth-child(3) { animation-delay: 6s; }
+@keyframes lp-fade { 0% { opacity: 0; } 8% { opacity: 1; } 33% { opacity: 1; } 42% { opacity: 0; } 100% { opacity: 0; } }
+#p-lp33 .lp-r-wave { position: absolute; left: 50%; top: 34%; width: 0; height: 0; z-index: -1; }
+#p-lp33 .lp-r-wave i { position: absolute; left: -50px; top: -50px; width: 100px; height: 100px; border-radius: 50%; border: 1.5px solid var(--pink); opacity: 0; animation: lp-ring 2.4s cubic-bezier(.2,.7,.3,1) infinite paused; }
+#p-lp33 .lp-r-wave i:nth-child(2) { animation-delay: .8s; } #p-lp33 .lp-r-wave i:nth-child(3) { animation-delay: 1.6s; }
+@keyframes lp-ring { 0% { transform: scale(.25); opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
+#p-lp33 .lp-rest.lp-go .lp-r-fade img, #p-lp33 .lp-rest.lp-go .lp-r-wave i { animation-play-state: running; }
+#p-lp33 .lp-r-t { display: grid; gap: 8px; }
 #p-lp33 .lp-rest b { font: 500 clamp(20px, 1.8vw, 26px)/1.1 var(--hk); }
-#p-lp33 .lp-rest span { font-size: 16px; line-height: 1.45; color: var(--ink2); }
+#p-lp33 .lp-rest span { font-size: 15px; line-height: 1.45; color: var(--ink2); max-width: 46ch; }
 
 /* 5 · three looks + the name */
 #p-lp33 .lp-looks { padding-bottom: 140px; transition: background-color 1s var(--ease); }
@@ -423,7 +439,7 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 .mx-float.on:hover { transform: scale(1.04); }
 
 @media (max-width: 1000px) {
-  #p-lp33 .lp-rest { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #p-lp33 .lp-rest { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "viz viz" "viz viz" "light light" "snap bub" "lyr bub" "exp dark"; grid-auto-rows: 240px; }
 }
 @media (max-width: 860px) {
   #p-lp33 .lp-intro, #p-lp33 .lp-head, #p-lp33 .lp-close-top { flex-direction: column; align-items: flex-start; }
@@ -458,7 +474,11 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 @media (max-width: 520px) {
   #p-lp33 .lp-steps li { min-height: 0; padding: 22px 20px; }
   #p-lp33 .lp-rest { gap: 10px; }
+  #p-lp33 .lp-rest { grid-template-columns: 1fr; grid-template-areas: "viz" "light" "snap" "bub" "lyr" "exp" "dark"; grid-auto-rows: auto; }
   #p-lp33 .lp-rest li { min-height: 120px; padding: 18px; }
+  #p-lp33 .lp-rest .lp-r-viz, #p-lp33 .lp-rest .lp-r-light { min-height: 300px; }
+  #p-lp33 .lp-rest .lp-r-bub { min-height: 420px; }
+  #p-lp33 .lp-rest .lp-r-snap { min-height: 240px; }
   #p-lp33 .lp-rest span { font-size: 14px; }
   #p-lp33 .lp-look { height: 44px; padding: 0 16px; }
   #p-lp33 .lp-def { gap: 18px; }
@@ -723,6 +743,7 @@ body.has-mini .snd { opacity: 0; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; transition-duration: .001s !important; transition-delay: 0s !important; }
   [data-r], .up .w > i, .h-lede .w > i, #p-lp33 .lp-bar, #p-lp33 .lp-stack-bar, #p-lp33 .lp-stage img { transform: none; }
+  #p-lp33 .lp-r-fade img, #p-lp33 .lp-r-wave i { animation: none; } #p-lp33 .lp-r-wave i:nth-child(1) { opacity: .6; transform: scale(.7); }
   [data-r] { opacity: 1; }
 }
 
