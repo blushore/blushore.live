@@ -15,7 +15,7 @@ const LINKS = {
   metroMac:      'https://github.com/blushore/metro/releases/latest/download/LP33-Apple-Silicon.dmg', // LP33 for Apple Silicon Macs (repo blushore/metro, release lp33-1.0)
   metroMacIntel: 'https://github.com/blushore/metro/releases/latest/download/LP33-Intel.dmg',         // LP33 for Intel Macs
   lp33Windows:   '',  // LP33 for Windows (installer or Microsoft Store link)        (hidden while empty)
-  lp33AppStore:  '',  // LP33 on the App Store, iPhone and iPad                     (hidden while empty)
+  lp33AppStore:  'https://apps.apple.com/app/id6831910246', // LP33 on the App Store, iPhone and iPad (live 2026-11-12)
   lp33Play:      '',  // LP33 on Google Play                                         (hidden while empty)
 };
 const TWITCH_CHANNEL = 'blushorelive';
