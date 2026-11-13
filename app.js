@@ -12,8 +12,8 @@ const LINKS = {
   twitch:    'https://www.twitch.tv/blushorelive',
   instagram: 'https://www.instagram.com/blushore_/',
   email:     '',            // e.g. 'blu@blushore.live'                 (hidden while empty)
-  metroMac:      'https://github.com/blushore/metro/releases/latest/download/LP33-Apple-Silicon.dmg', // LP33 for Apple Silicon Macs (repo blushore/metro, release lp33-1.0)
-  metroMacIntel: 'https://github.com/blushore/metro/releases/latest/download/LP33-Intel.dmg',         // LP33 for Intel Macs
+  metroMac:      'https://github.com/blushore/lp33/releases/latest/download/LP33-Apple-Silicon.dmg', // LP33 for Apple Silicon Macs (repo blushore/lp33, renamed from metro 2026-11-13)
+  metroMacIntel: 'https://github.com/blushore/lp33/releases/latest/download/LP33-Intel.dmg',         // LP33 for Intel Macs
   lp33Windows:   '',  // LP33 for Windows (installer or Microsoft Store link)        (hidden while empty)
   lp33AppStore:  'https://apps.apple.com/app/id6831910246', // LP33 on the App Store, iPhone and iPad (live 2026-11-12)
   lp33Play:      '',  // LP33 on Google Play                                         (hidden while empty)
@@ -458,6 +458,8 @@ const mine = PLATS.some(x => x[1] === plat) ? PLATS.filter(x => x[1] === plat) :
 const others = PLATS.filter(x => !mine.includes(x));
 const dlA = ([k, , , , file], cls, text) => `<a${cls ? ` class="${cls}"` : ''} href="${LINKS[k]}"${file ? ' download' : ' target="_blank" rel="noopener"'}>${text}</a>`;
 const dlHTML = mine.map((x, i) => dlA(x, `pill ${i ? 'ghost' : 'pink'}`, x[2])).join('')
+  // the Windows installer isn't code-signed yet, so SmartScreen warns once; say how to get past it
+  + (mine.some(x => x[1] === 'win') ? '<p class="lp-on">Windows may warn you the first time. Choose More info, then Run anyway.</p>' : '')
   + (others.length ? `<p class="lp-on">Also on ${others.map(x => dlA(x, '', x[3])).join('<span aria-hidden="true"> · </span>')}</p>` : '');
 $$('[data-dl]').forEach(el => { el.innerHTML = dlHTML; });
 const dls = mine.map(x => [x[0]]);
