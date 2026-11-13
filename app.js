@@ -14,7 +14,7 @@ const LINKS = {
   email:     '',            // e.g. 'blu@blushore.live'                 (hidden while empty)
   metroMac:      'https://github.com/blushore/lp33/releases/latest/download/LP33-Apple-Silicon.dmg', // LP33 for Apple Silicon Macs (repo blushore/lp33, renamed from metro 2026-11-13)
   metroMacIntel: 'https://github.com/blushore/lp33/releases/latest/download/LP33-Intel.dmg',         // LP33 for Intel Macs
-  lp33Windows:   '',  // LP33 for Windows (installer or Microsoft Store link)        (hidden while empty)
+  lp33Windows:   'https://github.com/blushore/lp33/releases/latest/download/LP33-Setup.exe', // LP33 for Windows 10 / 11 (installer, from 1.0.1; not code-signed yet)
   lp33AppStore:  'https://apps.apple.com/app/id6831910246', // LP33 on the App Store, iPhone and iPad (live 2026-11-12)
   lp33Play:      '',  // LP33 on Google Play                                         (hidden while empty)
 };
