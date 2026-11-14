@@ -62,7 +62,7 @@
     msg.className = '';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.className = 'err'; msg.textContent = 'That doesn’t look like an email address.'; input.focus(); return; }
     go.disabled = true; go.textContent = 'Sending…';
-    // JSON sent as text/plain: a "simple" request, so the browser skips the CORS preflight (the key service doesn't answer OPTIONS)
+    // JSON sent as text/plain: a "simple" request, so the browser skips the CORS preflight (simpler; the key service answers OPTIONS too since 2026-11-14)
     try {
       const r = await fetch('https://lp33-keys.metro-player.workers.dev/resend', { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: JSON.stringify({ email }) });
       if (!r.ok) throw new Error(r.status);
