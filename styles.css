@@ -500,6 +500,23 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 #p-lp33 .lp-legal a { color: #fff; text-underline-offset: 3px; }
 @media (max-width: 860px) { #p-lp33 .lp-tiers { grid-template-columns: 1fr; grid-template-rows: none; } #p-lp33 .lp-tier { grid-row: auto; grid-template-rows: none; gap: 18px; padding: 28px 22px; } }
 .fine a { color: inherit; text-underline-offset: 3px; }
+/* LP33 Pro key panel: a modal <dialog> (top layer) after checkout; grows in from a little smaller */
+#p-lp33 .lp-key { width: min(560px, calc(100vw - 32px)); box-sizing: border-box; margin: auto; padding: 40px; border: 0; border-radius: 16px; background: var(--s2); color: #fff; box-shadow: inset 0 0 0 2px var(--pink); overflow: visible; }
+#p-lp33 .lp-key[open] { display: grid; gap: 20px; animation: lp-key-in .55s cubic-bezier(.2,.9,.25,1.05); }
+#p-lp33 .lp-key::backdrop { background: rgba(6,17,26,.72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+@keyframes lp-key-in { from { opacity: 0; transform: scale(.94) translateY(12px); } to { opacity: 1; transform: none; } }
+#p-lp33 .lp-key-h { margin: 0; font: 500 clamp(40px, 5vw, 56px)/1 var(--hk); letter-spacing: -.035em; }
+#p-lp33 .lp-key-got { display: grid; gap: 20px; justify-items: start; }
+#p-lp33 .lp-key-got[hidden], #p-lp33 .lp-key [hidden] { display: none; }
+#p-lp33 .lp-key-code { display: block; width: 100%; box-sizing: border-box; padding: 18px 20px; border-radius: 10px; background: var(--n); font: 500 17px/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace; word-break: break-all; user-select: all; -webkit-user-select: all; }
+#p-lp33 .lp-key .lp-p { margin: 0; }
+#p-lp33 .lp-key .lp-p a { color: #fff; text-underline-offset: 3px; }
+#p-lp33 .lp-key-wait { animation: lp-pulse 1.6s ease-in-out infinite; }
+@keyframes lp-pulse { 50% { opacity: .45; } }
+#p-lp33 .lp-key-done { justify-self: start; }
+#p-lp33 .lp-key .pill { height: 44px; padding: 0 22px; font-size: 14px; font-weight: 600; text-transform: none; letter-spacing: 0; }
+@media (max-width: 600px) { #p-lp33 .lp-key { padding: 28px 22px; } }
+@media (prefers-reduced-motion: reduce) { #p-lp33 .lp-key[open], #p-lp33 .lp-key-wait { animation: none; } }
 
 /* ───────── apps wall ───────── */
 /* Two big tiles, each a window into its app's own look (LP33's night and aurora, Yohaku's night paper and seal).

@@ -18,6 +18,14 @@ const LINKS = {
   lp33AppStore:  'https://apps.apple.com/app/id6831910246', // LP33 on the App Store, iPhone and iPad (live 2026-11-12)
   lp33Play:      '',  // LP33 on Google Play                                         (hidden while empty)
 };
+// LP33 Pro on the LP33 page. Public values (Paddle client token and price id are meant for page code).
+// live: false keeps the "Coming soon" pill; set it to true once Paddle approves blushore.live.
+const LP33_PRO = {
+  live: false,
+  token: 'live_6b9ecef5bf1daa0eb3bba2227d9',
+  price: 'pri_01m7862egyxw6jyknh5vw2aez9',
+  keys: 'https://lp33-keys.metro-player.workers.dev', // GET /key?txn= → { key, email }; 404 not-ready for a few seconds
+};
 const TWITCH_CHANNEL = 'blushorelive';
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -540,6 +548,70 @@ new IntersectionObserver(([e]) => {
 // And the rest: the lights crossfade and the snap rings pulse only while the grid is on screen.
 const lpRest = $('#p-lp33 .lp-rest');
 if (lpRest) new IntersectionObserver(([e]) => lpRest.classList.toggle('lp-go', e.isIntersecting)).observe(lpRest);
+// LP33 Pro: Paddle overlay checkout, then the key shown right here. Paddle.js loads only when live, as the buy
+// button nears the screen. After payment the key service needs a few seconds: ask every 2 s for up to 60 s.
+const lpKey = $('#lpKey');
+let keyRun = 0;
+function showKey(txn) {
+  const run = ++keyRun, t0 = Date.now();
+  const set = s => { $('#lpKeyWait').hidden = s !== 'wait'; $('#lpKeyGot').hidden = s !== 'got'; $('#lpKeyLate').hidden = s !== 'late'; };
+  set('wait'); $('#lpKeyCopy').textContent = 'Copy';
+  if (!lpKey.open) { lpKey.showModal(); lenis && lenis.stop(); }
+  const ask = async () => {
+    if (run !== keyRun) return;
+    try {
+      const r = await fetch(`${LP33_PRO.keys}/key?txn=${encodeURIComponent(txn)}`);
+      if (run !== keyRun) return;
+      if (r.ok) {
+        const { key, email } = await r.json();
+        $('#lpKeyCode').textContent = key;
+        $('#lpKeyMail').textContent = email ? `I also emailed it to ${email}.` : '';
+        set('got'); $('#lpKeyCopy').focus({ preventScroll: true }); return;
+      }
+      if (r.status !== 404) return set('late');
+    } catch (e) { /* offline for a moment: keep asking */ }
+    if (Date.now() - t0 > 60000) return set('late');
+    setTimeout(ask, 2000);
+  };
+  ask();
+}
+if (lpKey) {
+  lpKey.addEventListener('close', () => { keyRun++; lenis && lenis.start(); });
+  $('#lpKeyDone').addEventListener('click', () => lpKey.close());
+  $('#lpKeyCopy').addEventListener('click', async e => {
+    const key = $('#lpKeyCode').textContent;
+    try { await navigator.clipboard.writeText(key); }
+    catch (err) { const r = document.createRange(); r.selectNodeContents($('#lpKeyCode')); getSelection().removeAllRanges(); getSelection().addRange(r); document.execCommand('copy'); }
+    e.currentTarget.textContent = 'Copied';
+  });
+}
+let paddleP = null;
+const loadPaddle = () => paddleP || (paddleP = new Promise((ok, no) => {
+  const s = document.createElement('script');
+  s.src = 'https://cdn.paddle.com/paddle/v2/paddle.js';
+  s.onload = () => {
+    Paddle.Initialize({ token: LP33_PRO.token, eventCallback: ev => {
+      if (ev.name === 'checkout.completed' && ev.data && ev.data.transaction_id) { Paddle.Checkout.close(); showKey(ev.data.transaction_id); }
+    } });
+    ok();
+  };
+  s.onerror = () => { paddleP = null; s.remove(); no(); };
+  document.head.append(s);
+}));
+if (LP33_PRO.live && $('#lpBuyRow')) {
+  $('#lpBuyRow').innerHTML = '<button class="pill pink" type="button" id="lpBuy">Buy LP33 Pro</button>';
+  const soon = $('#lpSoonTxt'); soon && soon.remove();
+  const buy = $('#lpBuy');
+  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); loadPaddle().catch(() => {}); } }, { rootMargin: '800px 0px' }).observe(buy);
+  buy.addEventListener('click', async () => {
+    buy.textContent = 'Opening…';
+    try {
+      await loadPaddle();
+      Paddle.Checkout.open({ items: [{ priceId: LP33_PRO.price, quantity: 1 }], settings: { displayMode: 'overlay', theme: 'dark' } });
+      buy.textContent = 'Buy LP33 Pro';
+    } catch (e) { buy.textContent = 'Try again'; }
+  });
+}
 // FAQ: one answer open at a time.
 $$('.lp-qs details').forEach(d => d.addEventListener('toggle', () => { if (d.open) $$('.lp-qs details').forEach(o => { if (o !== d) o.open = false; }); }));
 

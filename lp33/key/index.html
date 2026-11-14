@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Find my key · LP33</title>
+<meta name="description" content="Bought LP33 Pro? Type your email and its key comes to your inbox again.">
+<link rel="canonical" href="https://blushore.live/lp33/key/">
+<meta name="theme-color" content="#0f0f0f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #0f0f0f; --fg: #fff; --mut: #aaa; --dim: #666; --pink: #e0629f; --field: #1a1a1a; }
+  html { background: var(--bg); -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 300 17px/1.6 "Inter Tight", -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width: 640px; margin: 0 auto; padding: 72px 16px 96px; }
+  .lab { font-size: 11px; font-weight: 500; letter-spacing: .02em; text-transform: uppercase; color: var(--mut); margin: 0 0 20px; }
+  .lab a { color: var(--mut); text-decoration: none; }
+  h1 { font-weight: 400; font-size: clamp(40px, 9vw, 64px); line-height: .95; letter-spacing: -.035em; margin: 0 0 24px; }
+  .lead { font-size: 22px; line-height: 1.4; font-weight: 400; margin: 0 0 40px; }
+  p { margin: 0 0 14px; color: #ddd; }
+  a { color: var(--fg); text-underline-offset: 3px; }
+  form { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 20px; }
+  label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  input { flex: 1 1 260px; min-width: 0; height: 52px; box-sizing: border-box; padding: 0 20px; border: 1px solid #333; border-radius: 999px; background: var(--field); color: var(--fg); font: 400 17px "Inter Tight", -apple-system, sans-serif; }
+  input:focus { outline: none; border-color: #fff; }
+  button { flex: none; height: 52px; padding: 0 26px; border: 0; border-radius: 999px; background: var(--pink); color: #06111a; font: 600 16px "Inter Tight", -apple-system, sans-serif; cursor: pointer; transition: transform .4s cubic-bezier(.2,.9,.25,1.05), opacity .3s; }
+  button:hover { transform: scale(1.03); }
+  button:active { transform: scale(.97); }
+  button[disabled] { opacity: .5; pointer-events: none; }
+  .done { font-size: 20px; line-height: 1.4; font-weight: 400; color: var(--fg); }
+  .err { color: #f3a9c9; }
+  .note { color: var(--mut); font-size: 15px; }
+  footer { margin-top: 72px; font-size: 11px; font-weight: 500; letter-spacing: .02em; text-transform: uppercase; color: var(--dim); display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  footer a { color: var(--mut); text-decoration: none; }
+  @media (prefers-reduced-motion: reduce) { button { transition: none; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="lab"><a href="/lp33">LP33</a> · Pro</p>
+  <h1>Find my key</h1>
+  <p class="lead">Type the email you used to buy LP33 Pro and its key comes to your inbox again.</p>
+
+  <form id="f" novalidate>
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+    <button type="submit" id="go">Send my key</button>
+  </form>
+  <p id="msg" role="status" aria-live="polite"></p>
+
+  <p class="note">In LP33, open the Pro screen, choose I have a key and paste it in. One key works on every Mac and Windows PC you own. Still stuck? Write to <a href="mailto:hello@blushore.live">hello@blushore.live</a>.</p>
+
+  <footer><a href="/lp33">LP33</a><a href="/terms">Terms</a><a href="/refunds">Refunds</a><a href="/lp33/privacy/">LP33 Privacy</a><a href="mailto:hello@blushore.live">hello@blushore.live</a></footer>
+</main>
+<script>
+  const f = document.getElementById('f'), input = document.getElementById('email'), go = document.getElementById('go'), msg = document.getElementById('msg');
+  f.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = input.value.trim();
+    msg.className = '';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.className = 'err'; msg.textContent = 'That doesn’t look like an email address.'; input.focus(); return; }
+    go.disabled = true; go.textContent = 'Sending…';
+    // JSON sent as text/plain: a "simple" request, so the browser skips the CORS preflight (the key service doesn't answer OPTIONS)
+    try {
+      const r = await fetch('https://lp33-keys.metro-player.workers.dev/resend', { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: JSON.stringify({ email }) });
+      if (!r.ok) throw new Error(r.status);
+      f.hidden = true;
+      msg.className = 'done';
+      msg.textContent = 'If that address bought LP33 Pro, its key is on its way.';
+    } catch (err) {
+      msg.className = 'err';
+      msg.textContent = 'Couldn’t reach the key service. Try again in a moment, or write to hello@blushore.live.';
+      go.disabled = false; go.textContent = 'Send my key';
+    }
+  });
+</script>
+</body>
+</html>
