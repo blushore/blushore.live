@@ -16,7 +16,8 @@ const LINKS = {
   metroMacIntel: 'https://github.com/blushore/lp33/releases/latest/download/LP33-Intel.dmg',         // LP33 for Intel Macs
   lp33Windows:   'https://github.com/blushore/lp33/releases/latest/download/LP33-Setup.exe', // LP33 for Windows 10 / 11 (installer, from 1.0.1; not code-signed yet)
   lp33AppStore:  'https://apps.apple.com/app/id6831910246', // LP33 on the App Store, iPhone and iPad (live 2026-11-12)
-  lp33Play:      '',  // LP33 on Google Play                                         (hidden while empty)
+  lp33Play:      '',  // LP33 on Google Play: once set, it takes the Android button's place (the APK below is hidden)
+  lp33Android:   'https://github.com/blushore/lp33/releases/download/android-1.0/LP33-Android.apk', // LP33 for Android 13+ (APK, release key; a fixed release, not "latest", so desktop releases can't break it)
 };
 // LP33 Pro on the LP33 page. Public values (Paddle client token and price id are meant for page code).
 // live: false keeps the "Coming soon" pill; set it to true once Paddle approves blushore.live.
@@ -461,13 +462,16 @@ const PLATS = [
   ['lp33Windows', 'win', 'Download for Windows', 'Windows', /\.(exe|msi|msix|zip)$/i.test(LINKS.lp33Windows)],
   ['lp33AppStore', 'ios', 'Get it on the App Store', 'iPhone and iPad', false],
   ['lp33Play', 'android', 'Get it on Google Play', 'Android', false],
-].filter(([k]) => LINKS[k]);
+  ['lp33Android', 'android', 'Download for Android', 'Android', true],
+].filter(([k]) => LINKS[k] && !(k === 'lp33Android' && LINKS.lp33Play));
 const mine = PLATS.some(x => x[1] === plat) ? PLATS.filter(x => x[1] === plat) : PLATS.filter(x => x[1] === 'mac');
 const others = PLATS.filter(x => !mine.includes(x));
 const dlA = ([k, , , , file], cls, text) => `<a${cls ? ` class="${cls}"` : ''} href="${LINKS[k]}"${file ? ' download' : ' target="_blank" rel="noopener"'}>${text}</a>`;
 const dlHTML = mine.map((x, i) => dlA(x, `pill ${i ? 'ghost' : 'pink'}`, x[2])).join('')
   // the Windows installer isn't code-signed yet, so SmartScreen warns once; say how to get past it
   + (mine.some(x => x[1] === 'win') ? '<p class="lp-on">Windows may warn you the first time. Choose More info, then Run anyway.</p>' : '')
+  // the APK (before Google Play) only remote-controls Spotify on a computer, and Android asks before installing it
+  + (mine.some(x => x[0] === 'lp33Android') ? '<p class="lp-on">Plays Spotify on your Mac or PC: keep LP33 open there. Android asks once to allow the install.</p>' : '')
   + (others.length ? `<p class="lp-on">Also on ${others.map(x => dlA(x, '', x[3])).join('<span aria-hidden="true"> · </span>')}</p>` : '');
 $$('[data-dl]').forEach(el => { el.innerHTML = dlHTML; });
 const dls = mine.map(x => [x[0]]);
