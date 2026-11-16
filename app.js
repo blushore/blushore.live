@@ -17,7 +17,7 @@ const LINKS = {
   lp33Windows:   'https://github.com/blushore/lp33/releases/latest/download/LP33-Setup.exe', // LP33 for Windows 10 / 11 (installer, from 1.0.1; not code-signed yet)
   lp33AppStore:  'https://apps.apple.com/app/id6831910246', // LP33 on the App Store, iPhone and iPad (live 2026-11-12)
   lp33Play:      '',  // LP33 on Google Play: once set, it takes the Android button's place (the APK below is hidden)
-  lp33Android:   'https://github.com/blushore/lp33/releases/download/android-1.0/LP33-Android.apk', // LP33 for Android 13+ (APK, release key; a fixed release, not "latest", so desktop releases can't break it)
+  lp33Android:   '', // offline for now (2026-11-16); was 'https://github.com/blushore/lp33/releases/download/android-1.0/LP33-Android.apk' (Android 13+ APK, fixed release android-1.0, now a draft)
 };
 // LP33 Pro on the LP33 page. Public values (Paddle client token and price id are meant for page code).
 // live: false keeps the "Coming soon" pill; set it to true once Paddle approves blushore.live.
