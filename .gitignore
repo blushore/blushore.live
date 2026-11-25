@@ -2,3 +2,4 @@
 # source artwork, not used by the site (92 MB)
 artworks/
 __pycache__/
+.taste-skill/
