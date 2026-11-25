@@ -22,7 +22,7 @@ const LINKS = {
 // LP33 Pro on the LP33 page. Public values (Paddle client token and price id are meant for page code).
 // live: false keeps the "Coming soon" pill; set it to true once Paddle approves blushore.live.
 const LP33_PRO = {
-  live: true,
+  live: false,
   token: 'live_6b9ecef5bf1daa0eb3bba2227d9',
   price: 'pri_01m7862egyxw6jyknh5vw2aez9',
   keys: 'https://lp33-keys.metro-player.workers.dev', // GET /key?txn= → { key, email }; 404 not-ready for a few seconds
