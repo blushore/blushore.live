@@ -149,6 +149,8 @@ button.btn{border:0;cursor:pointer}
 .vs-l .cur{color:var(--ink);font-weight:600}
 .curpick{grid-row:1/3;align-self:end;grid-column:9/13;justify-self:end;display:flex;align-items:center;gap:12px;font-size:15px;color:var(--muted)}
 .curpick select{font:inherit;font-size:15px;font-weight:600;color:var(--ink);height:44px;padding:0 40px 0 18px;border-radius:999px;border:0;background:var(--step) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5l3 3 3-3' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 16px center/12px no-repeat;appearance:none;-webkit-appearance:none;cursor:pointer}
+.curpick.lt{color:rgba(5,5,7,.7);margin-top:20px;justify-content:flex-start}
+.curpick.lt select{color:var(--dark);background-color:rgba(5,5,7,.07);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5l3 3 3-3' fill='none' stroke='%23050507' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
 .curpick select:focus-visible{outline:2px solid var(--red);outline-offset:3px}
 .table{margin-top:64px;display:grid;grid-template-columns:minmax(200px,1.5fr) repeat(6,minmax(0,1fr));position:relative}
 .table .row{display:contents}
@@ -243,13 +245,34 @@ button.btn{border:0;cursor:pointer}
 /* 7 · fields */
 .field{min-height:72svh;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:1fr auto;gap:0 24px;padding:var(--m);position:relative;overflow:hidden}
 .field .pic{grid-column:1/13;grid-row:1;align-self:center;border-radius:14px;overflow:hidden;margin-bottom:48px}
-.field .pic img{transform:translateY(var(--py,0)) scale(1.08);will-change:transform}
+.field .pic img{width:100%;height:auto;transform:translateY(var(--py,0)) scale(1.08);will-change:transform}
 .field h3{grid-row:2;grid-column:1/8;font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.035em;line-height:.92}
 .field p{grid-row:2;grid-column:9/13;align-self:end;font-size:18px;line-height:1.5;padding-bottom:10px}
 .field.paper{background:var(--paper);color:var(--dark)}
 .field.surface{background:var(--surface)}
 .field.short{min-height:auto;padding-block:clamp(72px,8vw,120px);grid-template-rows:auto}
 .field.short h3,.field.short p{grid-row:1}
+/* the sync strip: photos fly up to the Mac, folders come back; transform only, still when off screen */
+.sync{grid-row:2;grid-column:1/-1;margin-top:clamp(48px,6vw,88px);display:grid;grid-template-columns:minmax(150px,220px) 1fr minmax(220px,320px);align-items:center;gap:0 clamp(16px,3vw,40px)}
+.s-k{display:block;font-size:13px;font-weight:600;margin-bottom:10px;color:rgba(5,5,7,.7)}
+.s-ph .s-shots{border-radius:26px;background:var(--dark);padding:26px 12px 22px;display:grid;grid-template-columns:repeat(3,1fr);align-content:start;gap:5px}
+.s-shots i{aspect-ratio:1;border-radius:4px;background:var(--c)}
+.s-lane{position:relative;height:150px;container-type:inline-size}
+.s-lane::before,.s-lane::after{content:"";position:absolute;left:0;right:0;border-top:2px dashed rgba(5,5,7,.22)}
+.s-lane::before{top:46px}.s-lane::after{top:104px}
+.s-up i{position:absolute;left:0;top:30px;width:34px;height:34px;border-radius:6px;background:var(--c);box-shadow:0 0 0 3px var(--paper);animation:s-fly 3s linear infinite;animation-delay:var(--d,0s)}
+@keyframes s-fly{0%{transform:translateX(0) scale(.6);opacity:0}12%{opacity:1;transform:translateX(12cqw) scale(1)}88%{opacity:1}100%{transform:translateX(calc(100cqw - 34px)) scale(.6);opacity:0}}
+.s-dn b{position:absolute;right:0;top:92px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--dark);color:#fff;white-space:nowrap;animation:s-back 3s linear infinite;animation-delay:var(--d,0s)}
+@keyframes s-back{0%{transform:translateX(0);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translateX(calc(-100cqw + 100%));opacity:0}}
+.s-lane em{position:absolute;left:0;top:0;font-style:normal;font-size:13px;color:rgba(5,5,7,.7)}
+.s-lane em.r{top:auto;bottom:0;left:auto;right:0}
+.s-mac ul{list-style:none;border-radius:14px;background:var(--dark);color:#fff;padding:14px;display:grid;gap:4px;font-size:14px}
+.s-mac li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px}
+.s-mac li:first-child{background:rgba(255,255,255,.08)}
+.s-mac li i{width:16px;height:12px;border-radius:2px 2px 3px 3px;background:var(--red);flex:none}
+.s-disk{margin-top:10px;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.s-disk span{color:rgba(5,5,7,.7)}.s-disk b{font-weight:650}
+.sync:not(.live) *{animation-play-state:paused}
 
 /* 8 · from the maker */
 .maker{padding-block:clamp(80px,9vw,140px);display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:center}
@@ -285,8 +308,8 @@ button.btn{border:0;cursor:pointer}
 .tb .btn{align-self:flex-start}
 .st{border-left:2px dashed currentColor;border-color:rgba(255,255,255,.28);padding:28px 22px;display:flex;flex-direction:column;justify-content:space-between;gap:16px}
 .pro .st{border-color:rgba(5,5,7,.3)}
-.pro dt,.pro .no{opacity:1}.pro .st b s{color:var(--dark)}
-.st b{font-family:var(--disp);font-size:clamp(40px,4vw,60px);font-weight:700;letter-spacing:-.03em;line-height:1;display:flex;flex-direction:column}
+.pro dt{opacity:1}.st b.long{font-size:clamp(26px,2.6vw,44px)}.pro .st b s{color:var(--dark)}
+.st b{margin:auto 0;white-space:nowrap;font-family:var(--disp);font-size:clamp(40px,4vw,60px);font-weight:700;letter-spacing:-.03em;line-height:1;display:flex;flex-direction:column}
 .st b s{font-size:max(18px,.4em);font-weight:650;letter-spacing:-.02em;color:rgba(5,5,7,.66);text-decoration-thickness:2px}
 .st .no{opacity:.66;white-space:nowrap}
 .terms{margin-top:32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-top:24px;border-top:1px solid rgba(5,5,7,.14)}
@@ -336,7 +359,7 @@ button.btn{border:0;cursor:pointer}
   .rv,.table .r{opacity:1;transform:none}
   .hero h1 .ln>span{transform:none;animation:none}.hero .row{opacity:1;animation:none}
   .trio{transform:none}.close .giant{transform:none}
-  .scene,.pst::after,.paired,.tv .glow,.tv .play{transition:none!important}.demo *{animation:none!important}.scan{animation:none!important}.trl .where em{animation:none!important}
+  .scene,.pst::after,.paired,.tv .glow,.tv .play{transition:none!important}.demo *{animation:none!important}.sync *{animation:none!important}.scan{animation:none!important}.trl .where em{animation:none!important}
   *{transition-duration:.01s!important}
 }
 
@@ -370,6 +393,7 @@ button.btn{border:0;cursor:pointer}
   .field.short p{grid-row:1}.field.short h3{grid-row:2}
   .maker figure{max-width:200px}
   .mac-s{width:100%}.tv-s{width:56%;top:auto;bottom:0;padding:1.6%}.ph-s{width:25%;left:4%;bottom:-2%}.trio{padding-bottom:30%}.tv-s .bar b{display:none}
+  .sync{grid-row:3;margin-top:40px;grid-template-columns:88px 1fr 150px;gap:0 12px}.s-ph .s-shots{border-radius:16px;padding:10px 7px;gap:3px}.s-mac ul{padding:8px;font-size:12px}.s-mac li{padding:5px 6px;gap:6px}.s-mac li:nth-child(n+3){display:none}.s-lane em,.s-dn,.s-lane::after{display:none}.s-up i{width:24px;height:24px}.s-disk{flex-direction:column;align-items:flex-start;gap:2px;font-size:12px}
   .tix{grid-template-columns:minmax(0,1fr);gap:16px}.tk{--sw:100px;--r:12px;min-height:0;grid-template-columns:minmax(0,1fr) var(--sw)}.tb{padding:22px 18px}.st{padding:22px 14px}.st b{font-size:34px}.tb h3{font-size:30px}.tb dl{grid-template-columns:1fr;gap:8px}.tb dl>div{display:flex;justify-content:space-between;align-items:center;gap:12px}.tb dd{font-size:15px;margin-top:0}.terms ul{flex-direction:column}
 }
 </style>
@@ -455,17 +479,22 @@ button.btn{border:0;cursor:pointer}
   </section>
 
   <section class="field surface" aria-labelledby="f1">
-    <figure class="pic rv"><img src="/ownplay/img/04-retro.jpg" alt="Retro TV in Ownplay" loading="lazy"></figure>
+    <figure class="pic rv"><img src="/ownplay/img/04-retro.jpg" width="1800" height="1125" alt="Retro TV in Ownplay" decoding="async"></figure>
     <h3 id="f1" class="rv">Nothing on? Everything is.</h3>
     <p class="rv">Retro TV turns your library into live channels. Flip, and something is already playing.</p>
   </section>
   <section class="field paper short" aria-labelledby="f2">
     <h3 id="f2" class="rv">Your Mac is the cloud</h3>
     <p class="rv">Phone photos back up to your Mac at full quality, and your Mac's folders open on your phone. Your own disk is the only limit.</p>
+    <div class="sync rv" id="sync" aria-hidden="true">
+      <div class="s-ph"><span class="s-k">Your iPhone</span><div class="s-shots"><i style="--c:#c96a4a"></i><i style="--c:#3d5a80"></i><i style="--c:#e0b04a"></i><i style="--c:#6b8f71"></i><i style="--c:#8e5ea2"></i><i style="--c:#d4775c"></i><i style="--c:#2f6f8f"></i><i style="--c:#b8a07a"></i><i style="--c:#5c4b8a"></i><i style="--c:#a85d3f"></i><i style="--c:#4f7a5a"></i><i style="--c:#c9a24a"></i></div></div>
+      <div class="s-lane"><span class="s-up"><i style="--c:#c96a4a"></i><i style="--c:#3d5a80;--d:-.75s"></i><i style="--c:#e0b04a;--d:-1.5s"></i><i style="--c:#6b8f71;--d:-2.25s"></i></span><span class="s-dn"><b>Films</b><b style="--d:-1.5s">Documents</b></span><em>Photos, full quality</em><em class="r">Your folders</em></div>
+      <div class="s-mac"><span class="s-k">Your Mac</span><ul><li><i></i>Photos from iPhone</li><li><i></i>Films</li><li><i></i>Shows</li><li><i></i>Documents</li></ul><div class="s-disk"><span>Space left</span><b>Your whole disk</b></div></div>
+    </div>
   </section>
 
   <section class="maker wrap" aria-labelledby="mk">
-    <figure class="rv"><img src="/ownplay/img/blu.jpg" alt="Blu, who made Ownplay" loading="lazy"></figure>
+    <figure class="rv"><img src="/ownplay/img/blu.jpg" width="450" height="600" alt="Blu, who made Ownplay" decoding="async"></figure>
     <div>
       <h2 id="mk" class="rv">Own what you love</h2>
       <blockquote class="rv">
@@ -480,7 +509,10 @@ button.btn{border:0;cursor:pointer}
   <section class="price" id="price" aria-labelledby="p">
     <div class="ph">
       <h2 id="p" class="rv">Pay once<i class="hbar" aria-hidden="true"></i>keep it</h2>
-      <p class="rv">Two tickets. Neither one expires. The apps for iPhone, iPad, Apple TV and Android are free.</p>
+      <div class="ph-r">
+        <p class="rv">Two tickets. Neither one expires. The apps for iPhone, iPad, Apple TV and Android are free.</p>
+        <label class="curpick lt rv">Prices in <select id="curSel2" aria-label="Currency"><option value="USD">US dollar · $</option><option value="EUR">Euro · €</option><option value="GBP">British pound · £</option><option value="CAD">Canadian dollar · CA$</option><option value="AUD">Australian dollar · A$</option><option value="INR">Indian rupee · ₹</option><option value="JPY">Japanese yen · ¥</option><option value="BRL">Brazilian real · R$</option></select></label>
+      </div>
     </div>
     <div class="tix">
       <article class="tk free rv" aria-label="Ownplay Free">
@@ -490,7 +522,7 @@ button.btn{border:0;cursor:pointer}
           <dl><div><dt>Screens</dt><dd>2 devices</dd></div><div><dt>Away</dt><dd>1 device</dd></div><div><dt>Valid</dt><dd>For good</dd></div></dl>
           <a class="btn paper mag" data-dl href="#price">Download</a>
         </div>
-        <div class="st"><span class="k">Price</span><b>Free</b><span class="k no">No. 000002</span></div>
+        <div class="st"><span class="k">Price</span><b>Free</b></div>
       </article>
       <article class="tk pro rv" aria-label="Ownplay Pro">
         <div class="tb">
@@ -499,7 +531,7 @@ button.btn{border:0;cursor:pointer}
           <dl><div><dt>Screens</dt><dd>All you own</dd></div><div><dt>Extra</dt><dd>Auto HDR</dd></div><div><dt>Valid</dt><dd>Lifetime</dd></div></dl>
           <button class="btn ink mag" id="buyPro" type="button">Buy Pro</button>
         </div>
-        <div class="st"><span class="k">Until 1 Jan</span><b><s><span class="cur" data-usd="69">$69</span></s><span class="cur" data-usd="49">$49</span></b><span class="k no">Pay once</span></div>
+        <div class="st"><span class="k">Until 1 Jan</span><b><s><span class="cur" data-usd="69">$69</span></s><span class="cur" data-usd="49">$49</span></b></div>
       </article>
     </div>
     <div class="terms rv">
@@ -566,14 +598,16 @@ function money(usd){const v=usd*rates[cur],whole=cur==='USD'?Number.isInteger(us
   return new Intl.NumberFormat('en-US',{style:'currency',currency:cur,minimumFractionDigits:d,maximumFractionDigits:d}).format(whole?Math.round(v):v)}
 const fmt=money;
 function paint(){document.querySelectorAll('.cur').forEach(el=>el.textContent=money(+el.dataset.usd));
-  curSel.value=cur;
+  curSel.value=cur;curSel2.value=cur;
+  document.querySelectorAll('.st b').forEach(b=>{const n=b.lastElementChild||b;b.classList.toggle('long',n.textContent.length>4)});
   const day=new Date(rateDay+'T12:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
   curNote.textContent=cur==='USD'?'Prices in US dollars, checked November 2026.':`Converted from US dollars at the rate on ${day}; prices in your store may differ.`}
-const curSel=document.getElementById('curSel'),curNote=document.getElementById('curNote');
-curSel.addEventListener('change',()=>{cur=curSel.value;localStorage.setItem('op_cur',cur);paint()});
+const curSel=document.getElementById('curSel'),curSel2=document.getElementById('curSel2'),curNote=document.getElementById('curNote');
+[curSel,curSel2].forEach(sel=>sel.addEventListener('change',()=>{cur=sel.value;localStorage.setItem('op_cur',cur);paint()}));
 fetch('https://api.frankfurter.dev/v1/latest?base=USD&symbols=EUR,GBP,CAD,AUD,INR,JPY,BRL').then(r=>r.ok?r.json():null).then(j=>{if(j&&j.rates){rates={USD:1,...j.rates};rateDay=j.date;paint()}}).catch(()=>{});
 paint();
 
+{const sy=document.getElementById('sync');new IntersectionObserver(([e])=>sy.classList.toggle('live',e.isIntersecting)).observe(sy);}
 /* the same film, the same second, on every screen; still when off screen */
 {const tri=document.getElementById('showFig'),bars=tri.querySelectorAll('.pg i'),tcs=tri.querySelectorAll('.tc'),LEN=5760;let t=3734,iv=0;
  const draw=()=>{const h=Math.floor(t/3600),m=Math.floor(t%3600/60),sec=t%60,txt=h+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
