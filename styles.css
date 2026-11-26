@@ -592,6 +592,7 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 .yk-lede { max-width: 540px; font-size: clamp(16px, 1.5vw, 21px); line-height: 1.3; letter-spacing: -.01em; color: var(--yk-text2); }
 .yk-act { display: grid; gap: 10px; justify-items: start; }
 .yk-soon { display: inline-flex; align-items: center; gap: 14px; padding: 6px 22px 6px 6px; border-radius: 999px; background: var(--yk-panel); border: 1px solid var(--yk-line); font-size: 14px; font-weight: 500; letter-spacing: -.005em; }
+a.yk-soon { color: inherit; text-decoration: none; }
 .yk-soon img { width: 44px; height: 44px; border-radius: 11px; }
 
 /* media slots: rounded "window" frames with a faint ruled page until the clip arrives */
