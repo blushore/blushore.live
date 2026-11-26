@@ -548,12 +548,18 @@ body[data-page="home"]:not(.is-intro):not(.menu-open):not(.sheet-open) .dots { o
 .aw-ykword { display: flex; align-items: flex-start; gap: .1em; margin: 0; font: 700 clamp(64px, 9.6vw, 168px)/.9 ui-rounded, "SF Pro Rounded", "Zen Maru Gothic", sans-serif; letter-spacing: -.035em; color: #f5f2ea; }
 .aw-ykword i { font: 700 .2em/1 "Zen Maru Gothic", ui-rounded, sans-serif; font-style: normal; letter-spacing: .02em; color: #ff6a4d; margin-top: .35em; }
 .aw-yk:hover .aw-go, .aw-yk:focus-visible .aw-go { background: #f5f2ea; border-color: #f5f2ea; color: #040405; }
+/* Ownplay: its night and one red, the library on the Mac, the real wordmark with its red bar; a wide tile under the two */
+.aw-op { grid-column: 1 / -1; min-height: min(64vh, 620px); background: #050507; }
+.aw-op .aw-shot { position: absolute; top: -12%; right: -6%; width: 170%; max-width: none; height: auto; opacity: .5; }
+.aw-opwm { display: block; width: min(560px, 70%); height: auto; }
+.aw-op:hover .aw-go, .aw-op:focus-visible .aw-go { background: #FF0033; border-color: #FF0033; color: #050507; }
 @media (max-width: 860px) {
   .aw-grid { grid-template-columns: 1fr; padding-bottom: 96px; }
   .aw-tile { min-height: min(72vh, 620px); }
 }
 @media (max-width: 520px) {
   .aw-tile { min-height: 520px; }
+  .aw-op .aw-shot { width: auto; height: 112%; top: -6%; right: -60%; }
   .aw-icon { width: 48px; height: 48px; border-radius: 11px; }
 }
 @media (prefers-reduced-motion: reduce) { .aw-lp .aw-shot { animation: none; } .aw-art { transition: none; } }

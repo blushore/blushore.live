@@ -1,0 +1,95 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-11-25T10:58:32.916Z",
+        "reason": "Ownplay brand sheet (Ownplay docs/brand/BRAND.md) sets Inter for all reading text"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "docs/ownplay-concepts/a.html"
+        ],
+        "createdAt": "2026-11-25T10:58:33.005Z",
+        "reason": "full-bleed fields/panels with 16-48px padding; static check misreads them, screenshots show the inset"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "docs/ownplay-concepts/b.html"
+        ],
+        "createdAt": "2026-11-25T10:58:33.050Z",
+        "reason": "full-bleed fields/panels with 16-48px padding; static check misreads them, screenshots show the inset"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "docs/ownplay-concepts/c.html"
+        ],
+        "createdAt": "2026-11-25T10:58:33.098Z",
+        "reason": "full-bleed fields/panels with 16-48px padding; static check misreads them, screenshots show the inset"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "docs/ownplay-concepts/index.html"
+        ],
+        "createdAt": "2026-11-25T10:58:33.153Z",
+        "reason": "full-bleed fields/panels with 16-48px padding; static check misreads them, screenshots show the inset"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "docs/ownplay-concepts/b.html"
+        ],
+        "createdAt": "2026-11-25T10:58:40.225Z",
+        "reason": "Ownplay brand paper colour #F4F2EE from docs/brand/BRAND.md"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "docs/ownplay-concepts/a.html"
+        ],
+        "createdAt": "2026-11-25T11:10:08.136Z",
+        "reason": "red line under the three setup steps is an animated progress line that runs through them in order, not a card accent"
+      },
+      {
+        "rule": "nested-cards",
+        "value": "*",
+        "files": [
+          "docs/ownplay-concepts/a.html"
+        ],
+        "createdAt": "2026-11-26T11:38:01.434Z",
+        "reason": "Inner boxes are a screenshot frame in each tile and drawn device mockups (Mac, phone, TV) inside the setup screen, not cards"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "ownplay/index.html"
+        ],
+        "createdAt": "2026-11-26T13:16:45.040Z",
+        "reason": "Same page as the Opening Night concept: full-bleed fields with 16-48px padding, screenshots show the inset"
+      },
+      {
+        "rule": "nested-cards",
+        "value": "*",
+        "files": [
+          "ownplay/index.html"
+        ],
+        "createdAt": "2026-11-26T13:16:45.064Z",
+        "reason": "Device mockups and screenshot frames, not nested cards"
+      }
+    ]
+  }
+}

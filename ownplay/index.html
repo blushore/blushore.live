@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ownplay · Your movies, everywhere</title>
+<meta name="description" content="Ownplay turns your Mac into a private cinema for every screen you own: iPhone, iPad, Apple TV and Android. No cloud, no account. Coming to Mac.">
+<link rel="canonical" href="https://blushore.live/ownplay/">
+<meta name="theme-color" content="#050507">
+<link rel="icon" href="/ownplay/img/ownplay-icon-dark.svg" type="image/svg+xml">
+<meta property="og:title" content="Ownplay · Your movies, everywhere">
+<meta property="og:description" content="Your Mac becomes a private cinema for every screen you own.">
+<meta property="og:image" content="https://blushore.live/ownplay/img/01-home.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..900&family=League+Spartan:wght@600..800&display=swap" rel="stylesheet">
+<style>
+/* Opening Night: night ground, one red, Inter at poster scale; every block is one idea */
+:root{
+  --bg:#050507; --surface:#0E0E12; --step:#17171d; --paper:#F4F2EE;
+  --ink:#fff; --muted:rgba(255,255,255,.66); --red:#FF0033; --dark:#050507;
+  --m:clamp(20px,3.2vw,48px);
+  --spring:cubic-bezier(.32,1.28,.5,1); --ease:cubic-bezier(.2,.7,.1,1);
+  --h2:clamp(48px,7vw,116px);
+  --disp:"League Spartan",Inter,system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+html body{overflow-x:hidden;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+:root{color-scheme:dark}
+button{color:inherit;font:inherit}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{padding-inline:var(--m)}
+h2{font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.035em;line-height:.9;text-wrap:balance}
+.lede{font-size:clamp(18px,1.5vw,22px);line-height:1.45;color:var(--muted);max-width:34ch}
+.lede b{color:var(--ink);font-weight:600}
+
+/* buttons: spring on press, a little pull toward the pointer */
+.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;background:var(--red);color:var(--dark);font-weight:650;font-size:16px;transition:transform .45s var(--spring);will-change:transform}
+.btn:active{transform:scale(.94)!important}
+.btn.ink{background:var(--dark);color:#fff}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto;display:flex;align-items:center;justify-content:space-between;height:76px;padding-inline:var(--m);z-index:20;transition:transform .5s var(--ease),background .3s}
+.nav.solid{background:rgba(5,5,7,.94)}
+.nav.hide{transform:translateY(-100%)}
+.nav .wm{height:22px}
+.nav ul{display:flex;gap:30px;list-style:none;align-items:center;font-size:15px;font-weight:500}
+.nav ul a:not(.btn){color:var(--muted);transition:color .2s}
+.nav ul a:not(.btn):hover{color:var(--ink)}
+.nav .btn{height:42px;font-size:15px;padding:0 20px}
+
+/* 1 · hero: the sentence holds the film */
+.hero{min-height:min(100svh,940px);display:flex;flex-direction:column;justify-content:center;padding-top:76px}
+.hero h1{font-family:var(--disp);font-size:clamp(56px,10.4vw,176px);font-weight:700;letter-spacing:-.035em;line-height:.92}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .ln>span{display:flex;align-items:center;gap:.18em;transform:translateY(105%);animation:rise 1.1s var(--ease) forwards}
+.hero h1 .ln:nth-child(2)>span{animation-delay:.12s}
+@keyframes rise{to{transform:none}}
+.hero .row{margin-top:44px;display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap;opacity:0;animation:fade .9s .5s var(--ease) forwards}
+@keyframes fade{to{opacity:1}}
+.hero .act{display:flex;flex-direction:column;gap:22px;align-items:flex-start}
+.btn:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+/* 2 · the library grows into the screen as you scroll */
+.show{padding-top:clamp(40px,6vw,96px)}
+.trio{position:relative;padding-bottom:7%;transform:scale(var(--s,.84));transform-origin:50% 0;will-change:transform}
+.dv{margin:0;background:#000}
+.mac-s{width:80%;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.09)}
+.mac-s img{width:100%}
+.frm{display:block;position:relative;overflow:hidden;background:#111 url(/ownplay/img/01-home.jpg) 66% 16%/230% auto no-repeat}
+.tv-s{position:absolute;right:0;top:30%;width:42%;padding:1.1%;border-radius:12px;box-shadow:0 0 0 1px rgba(255,255,255,.12),0 30px 60px -24px #000}
+.tv-s .frm{aspect-ratio:16/9;border-radius:5px}
+.tv-s .bar{position:absolute;inset:auto 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:10% 4.5% 4%;background:linear-gradient(transparent,rgba(0,0,0,.82))}
+.tv-s .bar b{flex-basis:100%;font-size:clamp(9px,.95vw,14px);font-weight:600;white-space:nowrap}
+.pg{position:relative;flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.25);overflow:hidden;display:block}
+.pg i{position:absolute;inset:0;background:var(--red);transform-origin:0 50%;transform:scaleX(.646)}
+.tc{font-size:clamp(9px,.85vw,13px);color:rgba(255,255,255,.8);font-variant-numeric:tabular-nums}
+.ph-s{position:absolute;left:5%;bottom:0;width:15.5%;aspect-ratio:9/19.5;padding:.55%;border-radius:clamp(14px,2vw,30px);box-shadow:0 0 0 1px rgba(255,255,255,.14),0 30px 60px -24px #000}
+.ph-s .scr2{display:flex;flex-direction:column;justify-content:center;gap:8px;height:100%;border-radius:clamp(10px,1.6vw,25px);background:#0b0b0f;padding:0 0 0;overflow:hidden}
+.ph-s .frm{aspect-ratio:16/9;width:100%}
+.ph-s b{font-size:clamp(8px,.85vw,13px);font-weight:600;padding:0 9%;line-height:1.2}
+.ph-s .pg{flex:none;margin:0 9%}
+.ph-s .tc{padding:0 9%}
+.trio-cap{margin-top:28px;font-size:18px;color:var(--muted);line-height:1.45}
+
+
+/* 4 · formats run past, faster when you scroll faster */
+.reel{position:relative;overflow:hidden;padding-block:40px;margin-top:clamp(48px,6vw,96px);display:grid;gap:16px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.reel::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(40% 90% at 50% 50%,rgba(255,255,255,.07),transparent 70%)}
+.reel .track{display:flex;gap:16px;width:max-content;will-change:transform}
+.fmt{flex:none;width:340px;display:flex;flex-direction:column;gap:10px;padding:12px 12px 22px;border-radius:24px;
+  background:linear-gradient(180deg,#15151b,#0c0c10);box-shadow:inset 0 1px 0 rgba(255,255,255,.09),inset 0 0 0 1px rgba(255,255,255,.06)}
+.fmt .demo{position:relative;aspect-ratio:16/9;border-radius:14px;margin-bottom:8px;overflow:hidden;background:radial-gradient(120% 100% at 50% 0%,#1d1d25,#0b0b0f);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);font-size:13px;font-weight:600;color:#fff}
+.reel:not(.live) .demo *{animation-play-state:paused!important}
+.demo .tg{position:absolute;top:8%;font-style:normal;font-weight:600;font-size:11px;padding:4px 7px;border-radius:6px;background:rgba(5,5,7,.6);color:#fff}
+.demo .tg.l{left:5%}.demo .tg.r{right:5%}
+.d-cmp{cursor:ew-resize;touch-action:pan-y}
+.d-cmp .aft{position:absolute;inset:0;overflow:hidden;transform:translateX(calc(var(--x,.5)*100%))}
+.d-cmp .in{position:absolute;inset:0;transform:translateX(calc(var(--x,.5)*-100%))}
+.d-cmp .div{position:absolute;top:0;bottom:0;left:0;width:2px;margin-left:-1px;background:#fff;transform:translateX(calc(var(--x,.5)*var(--w,316px)))}
+.d-cmp .div::after{content:"";position:absolute;top:50%;left:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:#fff}
+.d-anime canvas{position:absolute;inset:0;width:100%;height:100%}
+.d-anime .bef{image-rendering:pixelated}
+.scn{position:absolute;inset:0;background:linear-gradient(180deg,#ff7a45 0%,#ff2e63 45%,#3a1d5c 100%);overflow:hidden}
+.scn .sun{position:absolute;left:58%;top:30%;width:22%;aspect-ratio:1;border-radius:50%;background:#fff3c4}
+.scn .hill{position:absolute;left:-10%;right:-10%;bottom:-38%;height:70%;border-radius:50%;background:#14121c}
+.scn.dim{filter:saturate(.35) brightness(.72) contrast(.85)}
+.d-direct .cloud{position:absolute;left:50%;top:14%;width:46px;height:22px;margin-left:-23px;border-radius:12px;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
+.d-direct .cloud::after{content:"";position:absolute;left:-6px;right:-6px;top:50%;height:2px;background:var(--red);transform:rotate(-20deg)}
+.d-direct .dev{position:absolute;top:58%;translate:0 -50%;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.d-direct .dph{left:6%}.d-direct .dmac{right:6%}
+.d-direct .link{position:absolute;left:30%;right:33%;top:58%;height:0;border-top:2px dashed rgba(255,255,255,.35)}
+.d-direct .link i{position:absolute;top:-4px;left:0;width:10px;height:10px;border-radius:50%;background:var(--red);animation:hop 2.4s infinite var(--ease)}
+@keyframes hop{0%{transform:translateX(0)}50%{transform:translateX(var(--lw,90px))}100%{transform:translateX(0)}}
+.d-code .code{position:absolute;left:50%;top:50%;translate:-50% -50%;font-family:var(--disp);font-variant-numeric:tabular-nums;font-weight:500;font-size:26px;letter-spacing:.06em}
+.d-code .strike{position:absolute;left:24%;right:24%;top:50%;height:2px;background:var(--red);transform:scaleX(0);transform-origin:0 50%;animation:strike 5s infinite var(--ease)}
+.d-code .used{position:absolute;left:50%;bottom:14%;translate:-50% 0;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;background:var(--red);color:var(--dark);opacity:0;animation:usedIn 5s infinite var(--spring)}
+@keyframes strike{0%,35%{transform:scaleX(0)}48%,90%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@keyframes usedIn{0%,45%{opacity:0;transform:translateY(6px)}55%,90%{opacity:1;transform:none}100%{opacity:0}}
+.d-two .src{position:absolute;left:6%;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);font-size:12px}
+.d-two .a{top:18%}.d-two .b{bottom:18%}
+.d-two .lst{position:absolute;right:6%;top:18%;bottom:18%;width:38%;display:flex;flex-direction:column;justify-content:space-between}
+.d-two .lst i{height:24%;border-radius:6px;background:rgba(255,255,255,.1);opacity:0;transform:translateX(-14px);animation:rowIn 4.5s infinite var(--spring)}
+.d-two .lst i:nth-child(2){animation-delay:.25s;background:rgba(255,0,51,.35)}.d-two .lst i:nth-child(3){animation-delay:.5s}
+@keyframes rowIn{0%,8%{opacity:0;transform:translateX(-14px)}22%,88%{opacity:1;transform:none}100%{opacity:0}}
+.fmt>i,.fmt>b{padding-inline:10px}
+.fmt>i{font-style:normal;font-size:14px;font-weight:600;color:rgba(255,255,255,.72)}
+.fmt>b{font-family:var(--disp);font-size:clamp(22px,1.8vw,27px);font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.reel-cap{padding:8px var(--m) 0;display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;font-size:18px;color:var(--muted)}
+.reel-cap b{color:var(--ink);font-weight:600}
+.reel-cap small{font-size:13px;color:rgba(255,255,255,.5)}
+.on-list{font-size:16px;color:var(--muted);align-self:flex-end;line-height:1.4;padding-block:12.8px}
+.on-list b{color:var(--ink);font-weight:600}
+
+/* 5 · versus */
+.vs{padding-block:clamp(80px,9vw,140px)}
+.vs .head{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end}
+.vs h2{grid-column:1/9}
+.vs .lede{grid-column:9/13}
+.vs-l{grid-column:1/9;grid-row:2;margin-top:24px;font-size:clamp(18px,1.5vw,22px);line-height:1.45;color:var(--muted);max-width:40ch}
+.vs-l .cur{color:var(--ink);font-weight:600}
+.curpick{grid-row:1/3;align-self:end;grid-column:9/13;justify-self:end;display:flex;align-items:center;gap:12px;font-size:15px;color:var(--muted)}
+.curpick select{font:inherit;font-size:15px;font-weight:600;color:var(--ink);height:44px;padding:0 40px 0 18px;border-radius:999px;border:0;background:var(--step) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5l3 3 3-3' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 16px center/12px no-repeat;appearance:none;-webkit-appearance:none;cursor:pointer}
+.curpick select:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.table{margin-top:64px;display:grid;grid-template-columns:minmax(200px,1.5fr) repeat(6,minmax(0,1fr));position:relative}
+.table .row{display:contents}
+.table .row>div{padding:18px 16px;font-size:15px;line-height:1.3;display:flex;align-items:center;gap:10px;min-height:76px;border-top:1px solid rgba(255,255,255,.08)}
+.table .hd>div{border-top:0;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;padding-block:28px 22px}
+.table .th b{font-size:20px;font-weight:750;letter-spacing:-.02em}
+.table .th small{font-size:13px;color:var(--muted)}
+.table .th small s{color:rgba(255,255,255,.62);margin-right:4px}
+.table .th.own img{height:22px;display:block}
+.table .th.own small{color:var(--ink);font-weight:600}
+.table .q{font-size:16px!important;font-weight:600;padding-left:0!important}
+.table .own{background:var(--step);font-weight:650}
+.table .hd .own{border-radius:20px 20px 0 0;box-shadow:inset 0 3px 0 var(--red)}
+.table .row:last-child .own{border-radius:0 0 20px 20px}
+.table .dim{color:var(--muted)}
+.table .own:not(.th){color:var(--ink)}
+.hbar{display:inline-block;width:.085em;height:.8em;margin:0 .16em 0 .2em;border-radius:.04em;background:var(--red);vertical-align:-.04em}
+.table .big{font-family:var(--disp);font-size:30px;font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.table .row:last-child span:not(.big){font-size:17px;font-weight:650}
+.ok{flex:none;width:22px;height:22px;border-radius:50%;background:var(--red) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23050507' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat}
+.table div:not(.own)>.ok{background-color:rgba(255,255,255,.88)}
+.x{flex:none;width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.3);position:relative}
+.x::before{content:"";position:absolute;left:6px;right:6px;top:10.25px;height:1.5px;background:rgba(255,255,255,.45)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.table .r{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .7s var(--spring)}
+.table.on .r{opacity:1;transform:none}
+.pickc{display:none}
+.pickc+.table{margin-top:64px}
+.vs-note{margin-top:24px;font-size:13px;line-height:1.5;color:rgba(255,255,255,.5);max-width:90ch}
+.no::before{background:transparent;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+
+
+/* 6 · three steps: a red line runs through them in order */
+.how{padding-bottom:clamp(80px,9vw,140px)}
+.pp{flex:none;width:38px;height:38px;border-radius:50%;border:0;background:var(--step);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:transform .4s var(--spring),background .3s}
+.pp:hover{background:#26262e}.pp:active{transform:scale(.92)}.pp:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.pp svg{width:16px;height:16px;fill:currentColor}.pp .i-play{display:none}.pp[data-state="pause"] .i-play{display:block}.pp[data-state="pause"] .i-pause{display:none}
+.trl{margin-top:56px;display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:stretch}
+.scr{grid-column:5/13;grid-row:1;position:relative;display:flex;flex-direction:column;border-radius:24px;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,#1a1a22,#0b0b0f);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+.stage{position:relative;aspect-ratio:16/10}
+.ctl{display:flex;align-items:center;gap:14px;padding:12px 16px;border-top:1px solid rgba(255,255,255,.07)}
+.segs{flex:1;display:flex;gap:6px}
+.segs i{position:relative;flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.16);overflow:hidden}
+.segs i::after{content:"";position:absolute;inset:0;background:var(--red);transform:scaleX(var(--f,0));transform-origin:0 50%}
+.stp{font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;color:rgba(255,255,255,.72);min-width:3.5em;text-align:right}
+.cap{display:none}
+.scene{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transform:scale(.94);transition:opacity .45s var(--ease),transform .8s var(--spring)}
+.trl[data-step="1"] .sc1,.trl[data-step="2"] .sc2,.trl[data-step="3"] .sc3{opacity:1;transform:none}
+.mac{width:78%;aspect-ratio:16/10;border-radius:14px;background:#141419;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 30px 60px -30px #000;padding:3.5% 4%;display:flex;flex-direction:column;gap:5%}
+.mac .dots{display:flex;gap:6px}.mac .dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18)}
+.mac .grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:5% 4%;align-content:start}
+.pst{font-style:normal;position:relative;aspect-ratio:2/3;border-radius:6px;background:rgba(255,255,255,.06);overflow:hidden}
+.pst>span{position:absolute;inset:auto 0 0 0;z-index:1;padding:8% 9%;display:flex;flex-direction:column;gap:2px;opacity:0;transform:translateY(6px);transition:opacity .5s var(--ease),transform .7s var(--spring)}
+.pst b{font-size:11px;font-weight:800;letter-spacing:-.01em;line-height:1.1}
+.pst small{font-size:11px;color:rgba(255,255,255,.7)}
+.trl[data-step="1"] .pst>span{opacity:1;transform:none;transition-delay:calc(var(--d) + 650ms)}
+.pst::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,var(--c),#0b0b0f 140%);opacity:0;transform:scale(1.15);transition:opacity .5s var(--ease),transform .9s var(--spring)}
+.trl[data-step="1"] .pst::after{opacity:1;transform:none;transition-delay:calc(var(--d) + 350ms)}
+.phone{position:relative;width:27%;aspect-ratio:9/18.5;border-radius:30px;background:#050507;box-shadow:inset 0 0 0 2px rgba(255,255,255,.16),0 30px 60px -30px #000;display:grid;place-items:center}
+.view{position:relative;width:74%;aspect-ratio:1;display:grid;place-items:center}
+.qr{width:78%;height:78%;fill:#fff}
+.cnr{position:absolute;inset:0;border-radius:10px;background:linear-gradient(#fff,#fff) 0 0/18px 2px,linear-gradient(#fff,#fff) 0 0/2px 18px,linear-gradient(#fff,#fff) 100% 0/18px 2px,linear-gradient(#fff,#fff) 100% 0/2px 18px,linear-gradient(#fff,#fff) 0 100%/18px 2px,linear-gradient(#fff,#fff) 0 100%/2px 18px,linear-gradient(#fff,#fff) 100% 100%/18px 2px,linear-gradient(#fff,#fff) 100% 100%/2px 18px;background-repeat:no-repeat;opacity:.7}
+.scan{position:absolute;left:4%;right:4%;top:6%;height:2px;background:var(--red);opacity:0}
+.trl[data-step="2"] .scan{animation:scan 1.3s ease-in-out 2 alternate .3s}
+@keyframes scan{0%{opacity:1;transform:translateY(0)}100%{opacity:1;transform:translateY(calc(var(--vh,1)*0px + 540%))}}
+.paired{position:absolute;bottom:14%;font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;background:var(--red);color:var(--dark);opacity:0;transform:translateY(8px) scale(.9);transition:opacity .4s var(--ease),transform .6s var(--spring)}
+.trl[data-step="2"] .paired{opacity:1;transform:none;transition-delay:2.7s}
+.tv{position:relative;width:84%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1),0 30px 60px -30px #000}
+.tv{background:#0b0b0f}.tv .glow{position:absolute;inset:0;background:linear-gradient(135deg,#5a1622,#1f3b4d 70%,#0b0b0f);transform:scale(1.15);transition:transform 4s var(--ease)}
+.trl[data-step="3"] .tv .glow{transform:none}
+.tv .play{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:rgba(244,242,238,.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6.5v11l9-5.5z' fill='%23050507'/%3E%3C/svg%3E") center/28px no-repeat;transform:scale(.8);opacity:0;transition:transform .7s var(--spring),opacity .4s}
+.trl[data-step="3"] .tv .play{transform:none;opacity:1;transition-delay:.3s}
+.where{position:absolute;left:4%;top:6%;height:30px;min-width:96px;border-radius:999px;background:rgba(5,5,7,.72);font-size:13px;font-weight:650}
+.where em{position:absolute;inset:0;display:grid;place-items:center;padding:0 12px;font-style:normal;white-space:nowrap}
+.where em+em{opacity:0}
+.trl[data-step="3"] .where em{animation:swapA 3.4s steps(1) forwards}
+.trl[data-step="3"] .where em+em{animation-name:swapB}
+@keyframes swapA{0%{opacity:1}50%{opacity:0}}@keyframes swapB{0%{opacity:0}50%{opacity:1}}
+.prog{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--red);transform:scaleX(0);transform-origin:0 50%}
+.trl[data-step="3"] .prog{transform:scaleX(.62);transition:transform 3.4s linear}
+.chap{grid-column:1/5;grid-row:1;list-style:none;display:flex;flex-direction:column;gap:8px}
+.chap li{flex:1;display:flex}
+.chap button{position:relative;flex:1;text-align:left;font:inherit;color:var(--muted);background:transparent;border:0;border-radius:18px;padding:22px 24px 26px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:8px;overflow:hidden;transition:background .3s,color .3s,transform .4s var(--spring)}
+.chap button:hover{color:var(--ink)}.chap button:active{transform:scale(.98)}
+.chap button:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.chap button[aria-current]{background:var(--step);color:var(--ink)}
+.chap button[aria-current] small{color:var(--red)}
+.chap small{font-family:var(--disp);font-variant-numeric:tabular-nums;font-weight:700;font-size:15px;color:rgba(255,255,255,.62)}
+.chap b{font-size:clamp(22px,2vw,28px);font-weight:750;letter-spacing:-.02em;line-height:1.1}
+.chap span{font-size:16px;line-height:1.4}
+
+/* 7 · fields */
+.field{min-height:72svh;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:1fr auto;gap:0 24px;padding:var(--m);position:relative;overflow:hidden}
+.field .pic{grid-column:1/13;grid-row:1;align-self:center;border-radius:14px;overflow:hidden;margin-bottom:48px}
+.field .pic img{transform:translateY(var(--py,0)) scale(1.08);will-change:transform}
+.field h3{grid-row:2;grid-column:1/8;font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.035em;line-height:.92}
+.field p{grid-row:2;grid-column:9/13;align-self:end;font-size:18px;line-height:1.5;padding-bottom:10px}
+.field.paper{background:var(--paper);color:var(--dark)}
+.field.surface{background:var(--surface)}
+.field.short{min-height:auto;padding-block:clamp(72px,8vw,120px);grid-template-rows:auto}
+.field.short h3,.field.short p{grid-row:1}
+
+/* 8 · from the maker */
+.maker{padding-block:clamp(80px,9vw,140px);display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:center}
+.maker figure{grid-column:1/5;aspect-ratio:1;border-radius:50%;overflow:hidden;max-width:420px}
+.maker figure img{width:100%;height:100%;object-fit:cover;object-position:50% 22%}
+.maker>div{grid-column:6/13}
+.maker h2{font-size:clamp(20px,1.6vw,24px);letter-spacing:-.01em;margin-bottom:28px;color:var(--muted)}
+.maker blockquote{font-size:clamp(18px,1.4vw,21px);font-weight:450;line-height:1.6;max-width:36em}
+.maker blockquote .lead{font-size:clamp(22px,2vw,28px);font-weight:600;letter-spacing:-.015em;line-height:1.35}
+.maker blockquote .end{font-weight:650}
+.maker blockquote i{font-style:italic}
+.maker blockquote p+p{margin-top:1.1em}
+.maker cite{display:block;margin-top:28px;font-style:normal;font-size:17px;color:var(--muted)}
+.maker cite b{color:var(--ink)}
+
+/* 9 · price */
+.price{background:var(--paper);color:var(--dark);padding:clamp(80px,9vw,140px) var(--m)}
+.price .ph{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.price .ph p{font-size:20px;line-height:1.45;max-width:30ch}
+.k{font-weight:600;font-size:13px}
+.tix{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.tk{--sw:clamp(120px,12vw,168px);--r:14px;position:relative;display:grid;grid-template-columns:1fr var(--sw);min-height:300px;border-radius:20px;transition:transform .6s var(--spring);
+  -webkit-mask:radial-gradient(circle at calc(100% - var(--sw)) 0,#0000 var(--r),#000 calc(var(--r) + .5px)) top/100% 51% no-repeat,radial-gradient(circle at calc(100% - var(--sw)) 100%,#0000 var(--r),#000 calc(var(--r) + .5px)) bottom/100% 51% no-repeat;
+  mask:radial-gradient(circle at calc(100% - var(--sw)) 0,#0000 var(--r),#000 calc(var(--r) + .5px)) top/100% 51% no-repeat,radial-gradient(circle at calc(100% - var(--sw)) 100%,#0000 var(--r),#000 calc(var(--r) + .5px)) bottom/100% 51% no-repeat}
+.tk.free{background:var(--dark);color:#fff}
+.tk.pro{background:var(--red);color:var(--dark)}
+@media (hover:hover){.tk:hover{transform:translateY(-6px) rotate(-.6deg)}.tk.pro:hover{transform:translateY(-6px) rotate(.6deg)}}
+.tb{padding:28px 32px;display:flex;flex-direction:column;gap:20px}
+.tb h3{font-family:var(--disp);font-size:clamp(34px,3.6vw,56px);font-weight:700;letter-spacing:-.03em;line-height:.95;margin-bottom:auto}
+.tb dl{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:8px clamp(18px,2.4vw,36px)}
+.tb dt{font-weight:500;font-size:13px;opacity:.66}
+.tb dd{font-size:16px;font-weight:600;margin-top:6px;white-space:nowrap}
+.st{border-left:2px dashed currentColor;border-color:rgba(255,255,255,.28);padding:28px 22px;display:flex;flex-direction:column;justify-content:space-between;gap:16px}
+.pro .st{border-color:rgba(5,5,7,.3)}
+.pro dt,.pro .no{opacity:1}.pro .st b s{color:var(--dark)}
+.st b{font-family:var(--disp);font-size:clamp(40px,4vw,60px);font-weight:700;letter-spacing:-.03em;line-height:1;display:flex;flex-direction:column}
+.st b s{font-size:max(18px,.4em);font-weight:650;letter-spacing:-.02em;color:rgba(5,5,7,.66);text-decoration-thickness:2px}
+.st .no{opacity:.66;white-space:nowrap}
+.terms{margin-top:32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-top:24px;border-top:1px solid rgba(5,5,7,.14)}
+.terms ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px 32px;font-size:16px;line-height:1.4}
+.terms li{display:flex;gap:10px;align-items:flex-start}
+.terms li::before{content:"";flex:none;margin-top:7px;width:8px;height:8px;border-radius:50%;background:var(--red)}
+
+/* 10 · questions */
+.faq{padding-block:clamp(80px,9vw,140px);display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
+.faq h2{grid-column:1/5}
+.faq .qs{grid-column:6/13}
+.faq details:first-child{margin-top:0}
+.faq details{background:var(--surface);border-radius:14px;margin-top:8px;overflow:hidden}
+.faq summary{list-style:none;cursor:pointer;padding:26px 28px;font-size:clamp(20px,1.7vw,26px);font-weight:700;letter-spacing:-.02em;display:flex;justify-content:space-between;align-items:center;gap:24px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{flex:none;position:relative;width:16px;height:16px;transition:transform .5s var(--spring)}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;background:var(--ink);border-radius:1px}
+.faq summary i::before{left:0;right:0;top:7px;height:2px}
+.faq summary i::after{top:0;bottom:0;left:7px;width:2px}
+.faq details[open] summary i{transform:rotate(135deg)}
+.faq details p{padding:0 28px 28px;font-size:18px;line-height:1.5;max-width:62ch;color:var(--muted)}
+
+/* close: the name rises out of the floor */
+.close{padding-top:clamp(40px,6vw,96px);overflow:hidden}
+.close .cta{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.close .cta p{font-family:var(--disp);font-size:clamp(30px,3.4vw,52px);font-weight:700;letter-spacing:-.025em}
+.close .giant{margin-top:48px;width:100%;transform:translateY(var(--gy,40%));will-change:transform}
+.close small{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);padding-block:28px;position:relative;background:var(--bg)}
+
+/* entrances: heading, then text, then picture */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform 1s var(--spring)}
+.rv.on{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  .rv,.table .r{opacity:1;transform:none}
+  .hero h1 .ln>span{transform:none;animation:none}.hero .row{opacity:1;animation:none}
+  .trio{transform:none}.close .giant{transform:none}
+  .scene,.pst::after,.paired,.tv .glow,.tv .play{transition:none!important}.demo *{animation:none!important}.scan{animation:none!important}.trl .where em{animation:none!important}
+  *{transition-duration:.01s!important}
+}
+
+@media (max-width:860px){
+  .table{grid-template-columns:1.25fr 1fr 1fr;margin-top:16px}.table [data-c].off{display:none}
+  .table .row>div{padding:14px 10px;font-size:14px;min-height:64px}.table .q{font-size:14px!important}.table .big{font-size:22px}
+  .pickc{display:flex;gap:6px;flex-wrap:wrap;margin-top:40px}
+  .pickc button{font:inherit;font-size:14px;font-weight:600;height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--step);color:var(--muted);cursor:pointer;transition:background .3s,color .3s,transform .4s var(--spring)}
+  .pickc button:active{transform:scale(.94)}.pickc button[aria-pressed="true"]{background:var(--ink);color:var(--dark)}
+  .fmt{width:272px}.fmt>b{font-size:20px}.reel{padding-block:24px}.reel .track{gap:12px}
+  .nav ul li:not(:last-child){display:none}
+  .hero h1{font-size:15vw}
+  .hero{min-height:auto;padding-top:140px;padding-bottom:16px}
+  :root{--h2:9.6vw}
+  .vs .head,.maker,.field,.faq{grid-template-columns:1fr}
+  .faq h2,.faq .qs{grid-column:1/-1}
+  .maker blockquote .lead{font-size:21px}
+  .vs h2,.vs .lede,.maker figure,.maker>div,.field h3,.field p,.field .pic{grid-column:1/-1}
+  .vs .lede{margin-top:20px}
+  .curpick{grid-column:1/-1;grid-row:auto;justify-self:start;margin-top:24px}.vs-l{grid-column:1/-1;grid-row:auto}
+  .yes::before,.no::before{width:8px;height:8px;margin-right:6px}
+  .scr,.chap,.cap{grid-column:1/-1}.chap{grid-row:2;flex-direction:row;gap:6px;align-items:stretch}.trl{margin-top:32px;gap:12px}
+  .chap button{padding:12px 14px;gap:4px;border-radius:14px;justify-content:flex-start}.chap b{font-size:16px}.chap span{display:none}
+  .cap{display:block;grid-row:3;font-size:16px;line-height:1.45;color:var(--muted);min-height:2.9em}
+  .stage{aspect-ratio:1/1}.mac{width:88%;aspect-ratio:auto}.mac .pst{aspect-ratio:3/4}
+  .mac .grid{grid-template-columns:repeat(3,1fr)}.mac .pst:nth-child(n+7){display:none}
+  .field{min-height:auto;padding-block:72px;grid-template-rows:auto auto auto}
+  .field .pic{grid-row:1;margin-bottom:36px}
+  .field p{grid-row:2;padding:0 0 18px}
+  .field h3{grid-row:3}
+  .field.short p{grid-row:1}.field.short h3{grid-row:2}
+  .maker figure{max-width:200px}
+  .mac-s{width:100%}.tv-s{width:56%;top:auto;bottom:0;padding:1.6%}.ph-s{width:25%;left:4%;bottom:-2%}.trio{padding-bottom:30%}.tv-s .bar b{display:none}
+  .tix{grid-template-columns:minmax(0,1fr);gap:16px}.tk{--sw:100px;--r:12px;min-height:0;grid-template-columns:minmax(0,1fr) var(--sw)}.tb{padding:22px 18px}.st{padding:22px 14px}.st b{font-size:34px}.tb h3{font-size:30px}.tb dl{grid-template-columns:1fr;gap:8px}.tb dl>div{display:flex;justify-content:space-between;align-items:center;gap:12px}.tb dd{font-size:15px;margin-top:0}.terms ul{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<header class="nav" id="nav">
+  <a href="#top" aria-label="Ownplay home"><img class="wm" src="/ownplay/img/ownplay-wordmark-white.svg" alt="Ownplay"></a>
+  <ul>
+    <li><a href="#vs">Why Ownplay</a></li>
+    <li><a href="#price">Price</a></li>
+    <li><a class="btn mag" href="#price">Coming to Mac</a></li>
+  </ul>
+</header>
+
+<main id="top">
+  <section class="hero wrap" aria-labelledby="h1">
+    <h1 id="h1"><span class="ln"><span>Your movies,</span></span><span class="ln"><span>everywhere.</span></span></h1>
+    <div class="row">
+      <div class="act">
+        <p class="lede">Your Mac becomes a private cinema for every screen you own.</p>
+        <a class="btn mag" href="#price">Coming to Mac</a>
+      </div>
+      <p class="on-list">On <b>Mac</b>, <b>iPhone</b>, <b>iPad</b>, <b>Apple TV</b> and <b>Android</b>.</p>
+    </div>
+  </section>
+
+  <section class="show wrap" aria-label="The library">
+    <div class="trio" id="showFig">
+      <figure class="dv mac-s"><img src="/ownplay/img/01-home.jpg" alt="The Ownplay library on a Mac, showing Night of the Living Dead"></figure>
+      <figure class="dv tv-s" aria-hidden="true"><span class="frm"><span class="bar"><b>Night of the Living Dead</b><i class="pg"><i></i></i><small class="tc">1:02:14</small></span></span></figure>
+      <figure class="dv ph-s" aria-hidden="true"><span class="scr2"><span class="frm"></span><b>Night of the Living Dead</b><i class="pg"><i></i></i><small class="tc">1:02:14</small></span></figure>
+    </div>
+    <p class="trio-cap">Start it on your Mac. Finish it on the TV, or on the train.</p>
+  </section>
+
+  <section aria-label="Plays almost any file">
+    <div class="reel">
+      <div class="track" data-dir="-1"><div class="fmt"><div class="demo d-cmp d-anime" aria-hidden="true"><canvas class="bef"></canvas><span class="aft"><span class="in"><canvas class="hi"></canvas></span></span><i class="div"></i><em class="tg l">Before</em><em class="tg r">Enhanced</em></div><i>Anime</i><b>Anime, sharper</b></div><div class="fmt"><div class="demo d-cmp d-hdr" aria-hidden="true"><span class="scn dim"><i class="sun"></i><i class="hill"></i></span><span class="aft"><span class="in"><span class="scn"><i class="sun"></i><i class="hill"></i></span></span></span><i class="div"></i><em class="tg l">SDR</em><em class="tg r">Auto HDR</em></div><i>Pro · Auto HDR</i><b>Older films, in HDR</b></div><div class="fmt"><div class="demo d-direct" aria-hidden="true"><span class="cloud"></span><span class="dev dph">Phone</span><span class="link"><i></i></span><span class="dev dmac">Your Mac</span></div><i>Private</i><b>No cloud in between</b></div><div class="fmt"><div class="demo d-code" aria-hidden="true"><span class="code">K7Q·4FD</span><i class="strike"></i><span class="used">Used</span></div><i>Pairing</i><b>Each code works once</b></div><div class="fmt"><div class="demo d-two" aria-hidden="true"><span class="src a">Studio Mac</span><span class="src b">Living room Mac</span><span class="lst"><i></i><i></i><i></i></span></div><i>Two Macs</i><b>Watch another Mac’s library</b></div></div>
+    </div>
+    <p class="reel-cap"><span><b>The parts that make it Ownplay.</b></span></p>
+  </section>
+
+  <section class="vs wrap" id="vs" aria-labelledby="vs-h">
+    <div class="head">
+      <h2 id="vs-h" class="rv">Less than a year of Plex, yours for life</h2>
+      <p class="vs-l rv">Plex costs <span class="cur" data-usd="69.99">$69.99</span> every year. Ownplay Pro is <span class="cur" data-usd="49">$49</span> until 1 January, then <span class="cur" data-usd="69">$69</span>. Pay once, and it's yours.</p>
+      <label class="curpick rv">Prices in
+        <select id="curSel" aria-label="Currency"><option value="USD">US dollar · $</option><option value="EUR">Euro · €</option><option value="GBP">British pound · £</option><option value="CAD">Canadian dollar · CA$</option><option value="AUD">Australian dollar · A$</option><option value="INR">Indian rupee · ₹</option><option value="JPY">Japanese yen · ¥</option><option value="BRL">Brazilian real · R$</option></select>
+      </label>
+    </div>
+        <div class="pickc" role="group" aria-label="Compare Ownplay with"><button aria-pressed="true" data-c="plex">Plex</button><button aria-pressed="false" data-c="jelly">Jellyfin</button><button aria-pressed="false" data-c="emby">Emby</button><button aria-pressed="false" data-c="infuse">Infuse</button><button aria-pressed="false" data-c="vlc">VLC</button></div>
+<div class="table" id="table" role="table" aria-label="Ownplay compared with Plex, Jellyfin, Emby, Infuse and VLC">
+      <div class="row hd" role="row"><div class="q r" role="columnheader"></div><div class="th r own" data-c="own" role="columnheader"><b><img src="/ownplay/img/ownplay-wordmark-white.svg" alt="Ownplay"></b><small><s><span class="cur" data-usd="69">$69</span></s> <span class="cur" data-usd="49">$49</span> till 1 Jan</small></div><div class="th r" data-c="plex" role="columnheader"><b>Plex</b><small><span class="cur" data-usd="6.99">$6.99</span> a month</small></div><div class="th r" data-c="jelly" role="columnheader"><b>Jellyfin</b><small>Free, self-run</small></div><div class="th r" data-c="emby" role="columnheader"><b>Emby</b><small><span class="cur" data-usd="4.99">$4.99</span> a month</small></div><div class="th r" data-c="infuse" role="columnheader"><b>Infuse</b><small><span class="cur" data-usd="1.99">$1.99</span> a month</small></div><div class="th r" data-c="vlc" role="columnheader"><b>VLC</b><small>Free</small></div></div>
+      <div class="row" role="row"><div class="q r" role="rowheader">Runs your library from your own Mac</div><div class="own r" data-c="own" role="cell"><span>Yes</span></div><div class="r" data-c="plex" role="cell"><span>Yes</span></div><div class="r" data-c="jelly" role="cell"><span>Yes</span></div><div class="r" data-c="emby" role="cell"><span>Yes</span></div><div class="dim r" data-c="infuse" role="cell"><span>Needs a server</span></div><div class="dim r" data-c="vlc" role="cell"><span>No</span></div></div>
+      <div class="row" role="row"><div class="q r" role="rowheader">Posters, Up Next and a real library</div><div class="own r" data-c="own" role="cell"><span>Yes</span></div><div class="r" data-c="plex" role="cell"><span>Yes</span></div><div class="r" data-c="jelly" role="cell"><span>Yes</span></div><div class="r" data-c="emby" role="cell"><span>Yes</span></div><div class="r" data-c="infuse" role="cell"><span>Yes</span></div><div class="dim r" data-c="vlc" role="cell"><span>No</span></div></div>
+      <div class="row" role="row"><div class="q r" role="rowheader">Watch away from home, no setup</div><div class="own r" data-c="own" role="cell"><span>Built in</span></div><div class="dim r" data-c="plex" role="cell"><span>Paid pass</span></div><div class="dim r" data-c="jelly" role="cell"><span>DIY network setup</span></div><div class="dim r" data-c="emby" role="cell"><span>DIY network setup</span></div><div class="dim r" data-c="infuse" role="cell"><span>Through a server</span></div><div class="dim r" data-c="vlc" role="cell"><span>No</span></div></div>
+      <div class="row" role="row"><div class="q r" role="rowheader">No account, one QR code to pair</div><div class="own r" data-c="own" role="cell"><span>Yes</span></div><div class="dim r" data-c="plex" role="cell"><span>Plex account</span></div><div class="dim r" data-c="jelly" role="cell"><span>Server login</span></div><div class="dim r" data-c="emby" role="cell"><span>Server login</span></div><div class="dim r" data-c="infuse" role="cell"><span>Server login</span></div><div class="r" data-c="vlc" role="cell"><span>No account</span></div></div>
+      <div class="row" role="row"><div class="q r" role="rowheader">iPhone, iPad, Apple TV and Android</div><div class="own r" data-c="own" role="cell"><span>Yes</span></div><div class="r" data-c="plex" role="cell"><span>Yes</span></div><div class="r" data-c="jelly" role="cell"><span>Yes</span></div><div class="r" data-c="emby" role="cell"><span>Yes</span></div><div class="dim r" data-c="infuse" role="cell"><span>Apple only</span></div><div class="r" data-c="vlc" role="cell"><span>Yes</span></div></div>
+      <div class="row" role="row"><div class="q r" role="rowheader">Lifetime price</div><div class="own r" data-c="own" role="cell"><span class="big"><span class="cur" data-usd="49">$49</span></span></div><div class="r" data-c="plex" role="cell"><span><span class="cur" data-usd="749.99">$749.99</span></span></div><div class="r" data-c="jelly" role="cell"><span>Free</span></div><div class="r" data-c="emby" role="cell"><span><span class="cur" data-usd="119">$119</span></span></div><div class="r" data-c="infuse" role="cell"><span><span class="cur" data-usd="99.99">$99.99</span></span></div><div class="r" data-c="vlc" role="cell"><span>Free</span></div></div>
+    </div>
+    <p class="vs-note"><span id="curNote">Prices in US dollars, checked November 2026.</span> Plex: <span class="cur" data-usd="6.99">$6.99</span> a month, or <span class="cur" data-usd="749.99">$749.99</span> lifetime. Emby Premiere: <span class="cur" data-usd="4.99">$4.99</span> a month, or <span class="cur" data-usd="119">$119</span> lifetime. Infuse Pro: <span class="cur" data-usd="1.99">$1.99</span> a month, or <span class="cur" data-usd="99.99">$99.99</span> lifetime.</p>
+
+  </section>
+
+  <section class="how wrap" aria-labelledby="how-h">
+    <h2 id="how-h" class="rv">Set up before the trailers end</h2>
+    <div class="trl" id="trl" data-step="1">
+      <div class="scr">
+        <div class="stage" aria-hidden="true">
+        <div class="scene sc1"><div class="mac"><div class="dots"><i></i><i></i><i></i></div><div class="grid"><i class="pst" style="--c:#4a2f45;--d:0ms"><span><b>Night of the Living Dead</b><small>1968</small></span></i><i class="pst" style="--c:#1f3b4d;--d:110ms"><span><b>Metropolis</b><small>1927</small></span></i><i class="pst" style="--c:#5a2e2e;--d:220ms"><span><b>Nosferatu</b><small>1922</small></span></i><i class="pst" style="--c:#2e4a3a;--d:330ms"><span><b>The General</b><small>1926</small></span></i><i class="pst" style="--c:#4a3f25;--d:440ms"><span><b>Sintel</b><small>2010</small></span></i><i class="pst" style="--c:#25304a;--d:550ms"><span><b>His Girl Friday</b><small>1940</small></span></i><i class="pst" style="--c:#3d2a55;--d:660ms"><span><b>Charade</b><small>1963</small></span></i><i class="pst" style="--c:#5b3a24;--d:770ms"><span><b>Big Buck Bunny</b><small>2008</small></span></i></div></div></div>
+        <div class="scene sc2"><div class="phone"><div class="view"><svg class="qr" id="qr" viewBox="0 0 25 25"></svg><i class="scan"></i><i class="cnr"></i></div><b class="paired">Paired</b></div></div>
+        <div class="scene sc3"><div class="tv"><span class="glow"></span><span class="play"></span><span class="where"><em>At home</em><em>Anywhere</em></span><i class="prog"></i></div></div>
+        </div>
+        <div class="ctl"><button class="pp" id="trlPP" aria-label="Pause" data-state="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/><path class="i-play" d="M8 5.5v13l10.5-6.5z"/></svg></button><span class="segs" aria-hidden="true"><i></i><i></i><i></i></span><span class="stp" id="trlStep">1 / 3</span></div>
+      </div>
+      <ol class="chap">
+        <li><button data-i="1" aria-current="step"><small>01</small><b>Install on your Mac</b><span>Posters and details fill in on their own.</span></button></li>
+        <li><button data-i="2"><small>02</small><b>Scan</b><span>One QR code per device.</span></button></li>
+        <li><button data-i="3"><small>03</small><b>Press play</b><span>At home or anywhere. Your phone finds your Mac on its own.</span></button></li>
+      </ol>
+      <p class="cap" id="trlCap">Posters and details fill in on their own.</p>
+    </div>
+  </section>
+
+  <section class="field surface" aria-labelledby="f1">
+    <figure class="pic rv"><img src="/ownplay/img/04-retro.jpg" alt="Retro TV in Ownplay" loading="lazy"></figure>
+    <h3 id="f1" class="rv">Nothing on? Everything is.</h3>
+    <p class="rv">Retro TV turns your library into live channels. Flip, and something is already playing.</p>
+  </section>
+  <section class="field paper short" aria-labelledby="f2">
+    <h3 id="f2" class="rv">Your Mac is the cloud</h3>
+    <p class="rv">Phone photos back up to your Mac at full quality, and your Mac's folders open on your phone. Your own disk is the only limit.</p>
+  </section>
+
+  <section class="maker wrap" aria-labelledby="mk">
+    <figure class="rv"><img src="/ownplay/img/blu.jpg" alt="Blu, who made Ownplay" loading="lazy"></figure>
+    <div>
+      <h2 id="mk" class="rv">Own what you love</h2>
+      <blockquote class="rv">
+        <p class="lead">The films and shows you love change how you see the world. They shouldn't come with an end date.</p>
+        <p>Discs are leaving the shops. Streaming is rent, and a film can vanish from an app overnight because someone else decided.</p>
+        <p class="end">Ownplay keeps them on your own drive and plays them on every screen. No one can take them back.</p>
+      </blockquote>
+      <cite class="rv"><b>Blu Shore</b></cite>
+    </div>
+  </section>
+
+  <section class="price" id="price" aria-labelledby="p">
+    <div class="ph">
+      <h2 id="p" class="rv">Pay once<i class="hbar" aria-hidden="true"></i>keep it</h2>
+      <p class="rv">Two tickets. Neither one expires. The apps for iPhone, iPad, Apple TV and Android are free.</p>
+    </div>
+    <div class="tix">
+      <article class="tk free rv" aria-label="Ownplay Free">
+        <div class="tb">
+          <span class="k">Ownplay · Free</span>
+          <h3>Admit two</h3>
+          <dl><div><dt>Screens</dt><dd>2 devices</dd></div><div><dt>Away</dt><dd>1 device</dd></div><div><dt>Valid</dt><dd>For good</dd></div></dl>
+        </div>
+        <div class="st"><span class="k">Price</span><b>Free</b><span class="k no">No. 000002</span></div>
+      </article>
+      <article class="tk pro rv" aria-label="Ownplay Pro">
+        <div class="tb">
+          <span class="k">Ownplay · Pro</span>
+          <h3>Admit every screen</h3>
+          <dl><div><dt>Screens</dt><dd>All you own</dd></div><div><dt>Extra</dt><dd>Auto HDR</dd></div><div><dt>Valid</dt><dd>Lifetime</dd></div></dl>
+        </div>
+        <div class="st"><span class="k">Until 1 Jan</span><b><s><span class="cur" data-usd="69">$69</span></s><span class="cur" data-usd="49">$49</span></b><span class="k no">Pay once</span></div>
+      </article>
+    </div>
+    <div class="terms rv">
+      <ul aria-label="What you need"><li>A Mac on macOS 13 or later, awake</li><li>Full quality at home on Wi-Fi</li><li>Away: about 8 Mbps upload for HD, 20 for 4K</li></ul>
+    </div>
+  </section>
+
+  <section class="faq wrap" id="faq" aria-labelledby="fq">
+    <h2 id="fq" class="rv">Before you ask</h2>
+    <div class="qs">
+    <details class="rv"><summary>Does anything go through a server?<i></i></summary><p>Your devices talk straight to your Mac, encrypted. Nothing passes through a server of mine.</p></details>
+    <details class="rv"><summary>What if my Mac goes to sleep?<i></i></summary><p>The library sleeps with it. Keep the Mac on and awake while you watch.</p></details>
+    <details class="rv"><summary>What happens after two devices?<i></i></summary><p>Devices you have already paired keep working for good. Ownplay Pro lets you add as many as you like.</p></details>
+    </div>
+  </section>
+
+  <footer class="close wrap">
+    <div class="cta"><p class="rv">Your library, for good</p><a class="btn mag" href="#price">Coming to Mac</a></div>
+    <img class="giant" id="giant" src="/ownplay/img/ownplay-wordmark-white.svg" alt="">
+    <small><span>Made by <a href="/">Blu Shore</a></span><span><a href="/terms">Terms</a> · <a href="/refunds">Refunds</a></span></small>
+  </footer>
+</main>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* comparison: on phones, Ownplay against one rival at a time */
+const pk=[...document.querySelectorAll('.pickc button')];
+function rival(c){pk.forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===c));document.querySelectorAll('#table [data-c]').forEach(el=>el.classList.toggle('off',el.dataset.c!=='own'&&el.dataset.c!==c))}
+pk.forEach(b=>b.addEventListener('click',()=>rival(b.dataset.c)));rival('plex');
+
+/* entrances, staggered inside each section */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('on');io.unobserve(e.target)}),{threshold:.15});
+document.querySelectorAll('section, footer').forEach(sec=>[...sec.querySelectorAll('.rv')].forEach((el,i)=>{el.style.transitionDelay=(i*80)+'ms';io.observe(el)}));
+const tio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;
+  e.target.classList.add('on');[...e.target.querySelectorAll('.r')].forEach((c,i)=>c.style.transitionDelay=(Math.floor(i/7)*70+(i%7)*25)+'ms');tio.unobserve(e.target)}),{threshold:.2});
+tio.observe(document.getElementById('table'));
+
+/* buttons lean toward the pointer */
+if(!reduce&&matchMedia('(hover:hover)').matches)document.querySelectorAll('.mag').forEach(b=>{
+  b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.18}px,${(e.clientY-r.top-r.height/2)*.28}px)`});
+  b.addEventListener('pointerleave',()=>b.style.transform='');});
+
+/* currency: live rates from the ECB (frankfurter.dev), last known rates if offline */
+let rates={USD:1,AUD:1.5221,BRL:5.9013,CAD:1.4258,EUR:0.91449,GBP:0.76571,INR:92.24,JPY:159.32},rateDay='2026-11-25',cur='USD';
+const EURO='AT BE CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK'.split(' ');
+const reg=(navigator.language.split('-')[1]||'').toUpperCase();
+cur=localStorage.getItem('op_cur')||({GB:'GBP',IN:'INR',JP:'JPY',BR:'BRL',CA:'CAD',AU:'AUD'}[reg]||(EURO.includes(reg)?'EUR':'USD'));
+function money(usd){const v=usd*rates[cur],whole=cur==='USD'?Number.isInteger(usd):(usd>=10||cur==='JPY'||cur==='INR'),d=whole?0:2;
+  return new Intl.NumberFormat('en-US',{style:'currency',currency:cur,minimumFractionDigits:d,maximumFractionDigits:d}).format(whole?Math.round(v):v)}
+const fmt=money;
+function paint(){document.querySelectorAll('.cur').forEach(el=>el.textContent=money(+el.dataset.usd));
+  curSel.value=cur;
+  const day=new Date(rateDay+'T12:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  curNote.textContent=cur==='USD'?'Prices in US dollars, checked November 2026.':`Converted from US dollars at the rate on ${day}; prices in your store may differ.`}
+const curSel=document.getElementById('curSel'),curNote=document.getElementById('curNote');
+curSel.addEventListener('change',()=>{cur=curSel.value;localStorage.setItem('op_cur',cur);paint()});
+fetch('https://api.frankfurter.dev/v1/latest?base=USD&symbols=EUR,GBP,CAD,AUD,INR,JPY,BRL').then(r=>r.ok?r.json():null).then(j=>{if(j&&j.rates){rates={USD:1,...j.rates};rateDay=j.date;paint()}}).catch(()=>{});
+paint();
+
+/* the same film, the same second, on every screen; still when off screen */
+{const tri=document.getElementById('showFig'),bars=tri.querySelectorAll('.pg i'),tcs=tri.querySelectorAll('.tc'),LEN=5760;let t=3734,iv=0;
+ const draw=()=>{const h=Math.floor(t/3600),m=Math.floor(t%3600/60),sec=t%60,txt=h+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+   tcs.forEach(e=>e.textContent=txt);bars.forEach(b=>b.style.transform='scaleX('+(t/LEN).toFixed(4)+')')};
+ draw();if(!reduce)new IntersectionObserver(([e])=>{clearInterval(iv);if(e.isIntersecting)iv=setInterval(()=>{t=t>=LEN?0:t+1;draw()},1000)}).observe(tri);}
+
+/* scroll: library grows in, pictures drift, the name rises, header hides going down */
+const fig=document.getElementById('showFig'),giant=document.getElementById('giant'),nav=document.getElementById('nav');
+const pics=[...document.querySelectorAll('.field .pic img')];
+let lastY=scrollY,vel=0,ticking=false;
+function frame(){
+  const vh=innerHeight,y=scrollY;
+  if(!reduce){
+    const r=fig.getBoundingClientRect(),p=Math.min(1,Math.max(0,(vh-r.top)/(vh*.9)));fig.style.setProperty('--s',(.84+.16*p).toFixed(4));
+    pics.forEach(im=>{const b=im.parentElement.getBoundingClientRect();if(b.bottom<0||b.top>vh)return;im.style.setProperty('--py',(((b.top+b.height/2)-vh/2)*-.06).toFixed(1)+'px')});
+    const g=giant.getBoundingClientRect();giant.style.setProperty('--gy',Math.max(0,Math.min(40,(g.top-vh*.55)/vh*80)).toFixed(1)+'%');
+  }
+  nav.classList.toggle('solid',y>40);nav.classList.toggle('hide',y>lastY&&y>400);
+  vel=vel*.85+(y-lastY)*.15;lastY=y;ticking=false;
+}
+addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(frame)}},{passive:true});frame();
+
+/* reel: two rows drift opposite ways, pushed by scroll speed; still when off screen */
+const rows=[...document.querySelectorAll('.reel .track')].map(el=>{const n=el.children.length;el.innerHTML+=el.innerHTML;[...el.children].forEach((c,i)=>{if(i>=n)c.setAttribute('aria-hidden','true')});return{el,dir:+el.dataset.dir,x:0}});
+let reelOn=false,hold=false;const reelEl=document.querySelector('.reel');reelEl.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')hold=true});reelEl.addEventListener('pointerleave',()=>hold=false);
+function run(){if(!reelOn)return;const push=hold?0:0.5+Math.min(14,Math.abs(vel)*.35);
+  rows.forEach(r=>{const half=r.el.scrollWidth/2;r.x+=push*r.dir;if(r.x<-half)r.x+=half;if(r.x>0)r.x-=half;r.el.style.transform=`translate3d(${r.x}px,0,0)`});vel*=.94;requestAnimationFrame(run)}
+new IntersectionObserver(([e])=>{const was=reelOn;reelOn=e.isIntersecting;reelEl.classList.toggle('live',reelOn);if(reelOn&&!was&&!reduce)requestAnimationFrame(run)}).observe(document.querySelector('.reel'));
+
+/* setup trailer: three chapters play like a trailer; tap a chapter to jump, pause any time; still when off screen */
+(()=>{const trl=document.getElementById('trl'),pp=document.getElementById('trlPP'),bs=[...trl.querySelectorAll('.chap button')],sg=[...trl.querySelectorAll('.segs i')],cap=document.getElementById('trlCap'),stp=document.getElementById('trlStep'),qr=document.getElementById('qr');
+  /* a QR-like pattern: three finder squares and a fixed scatter of modules */
+  let q='',seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+  const fin=(x,y)=>`<path d="M${x} ${y}h7v7h-7zM${x+1} ${y+1}v5h5v-5z" fill-rule="evenodd"/><rect x="${x+2}" y="${y+2}" width="3" height="3"/>`;
+  q+=fin(0,0)+fin(18,0)+fin(0,18);
+  for(let y=0;y<25;y++)for(let x=0;x<25;x++){if((x<8&&y<8)||(x>16&&y<8)||(x<8&&y>16))continue;if(rnd()>.52)q+=`<rect x="${x}" y="${y}" width="1" height="1"/>`}
+  qr.innerHTML=q;
+  const DUR=3600;let i=1,t0=0,el=0,playing=!reduce,seen=false,raf=0;
+  function go(n){i=n;el=0;t0=performance.now();trl.dataset.step=n;bs.forEach((b,k)=>{b.toggleAttribute('aria-current',k+1===n);if(k+1===n)b.setAttribute('aria-current','step')});sg.forEach((g,k)=>g.style.setProperty('--f',k+1<n?1:0));cap.textContent=bs[n-1].querySelector('span').textContent;stp.textContent=n+' / 3';
+    trl.querySelectorAll('.scene').forEach(sc=>{sc.style.animation='none';sc.offsetWidth;sc.style.animation=''});}
+  function tick(now){if(!playing||!seen){raf=0;return}el=now-t0;const f=Math.min(1,el/DUR);sg[i-1].style.setProperty('--f',f.toFixed(3));
+    if(f>=1)go(i%3+1);raf=requestAnimationFrame(tick)}
+  function run(){if(!raf&&playing&&seen){t0=performance.now()-el;raf=requestAnimationFrame(tick)}}
+  function setPlay(on){playing=on;pp.dataset.state=on?'play':'pause';pp.setAttribute('aria-label',on?'Pause':'Play');run()}
+  bs.forEach(b=>b.addEventListener('click',()=>{trl.dataset.started=1;go(+b.dataset.i);if(reduce)sg[i-1].style.setProperty('--f',1);run()}));
+  pp.addEventListener('click',()=>setPlay(!playing));
+  new IntersectionObserver(([e])=>{seen=e.isIntersecting;if(seen&&!trl.dataset.started){trl.dataset.started=1;go(1)}run()},{threshold:.35}).observe(trl);
+  if(reduce){setPlay(false);sg[0].style.setProperty('--f',1)}
+})();
+
+/* compare demos: drag across to compare, otherwise they sway on their own */
+const lineArt=(c,w,h)=>{c.width=w;c.height=h;const g=c.getContext('2d'),k=w/320;g.fillStyle='#f4e3d3';g.fillRect(0,0,w,h);g.fillStyle='#ff7aa8';g.fillRect(0,h*.62,w,h*.38);
+  g.strokeStyle='#14121c';g.lineWidth=Math.max(1,4*k);g.lineCap='round';g.beginPath();g.ellipse(160*k,78*k,64*k,58*k,0,0,Math.PI*2);g.stroke();
+  g.beginPath();g.moveTo(110*k,60*k);g.quadraticCurveTo(160*k,10*k,215*k,62*k);g.stroke();
+  g.fillStyle='#14121c';[[136,84],[184,84]].forEach(([x,y])=>{g.beginPath();g.ellipse(x*k,y*k,9*k,13*k,0,0,Math.PI*2);g.fill()});
+  g.beginPath();g.moveTo(150*k,112*k);g.quadraticCurveTo(160*k,118*k,170*k,112*k);g.stroke()};
+document.querySelectorAll('.d-anime').forEach(d=>{lineArt(d.querySelector('.bef'),40,23);lineArt(d.querySelector('.hi'),640,360)});
+document.querySelectorAll('.d-cmp').forEach((d,n)=>{let auto=!reduce,t=n*1.7;
+  const set=v=>d.style.setProperty('--x',Math.max(.04,Math.min(.96,v)).toFixed(3));
+  const size=()=>d.style.setProperty('--w',d.offsetWidth+'px');size();addEventListener('resize',size);
+  d.addEventListener('pointermove',e=>{auto=false;const r=d.getBoundingClientRect();set((e.clientX-r.left)/r.width)});
+  d.addEventListener('pointerleave',()=>auto=!reduce);
+  (function loop(){if(auto&&reelEl.classList.contains('live')){t+=.012;set(.5+.3*Math.sin(t))}requestAnimationFrame(loop)})();set(.5)});
+document.querySelectorAll('.d-direct').forEach(d=>{const l=d.querySelector('.link');const f=()=>d.style.setProperty('--lw',(l.offsetWidth-10)+'px');f();addEventListener('resize',f)});
+</script>
+</body>
+</html>
