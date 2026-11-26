@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ownplay · Your movies, everywhere</title>
-<meta name="description" content="Ownplay turns your Mac into a private cinema for every screen you own: iPhone, iPad, Apple TV and Android. No cloud, no account. Coming to Mac.">
+<meta name="description" content="Ownplay turns your Mac into a private cinema for every screen you own: iPhone, iPad, Apple TV and Android. No cloud, no account. For Mac and Windows.">
 <link rel="canonical" href="https://blushore.live/ownplay/">
 <meta name="theme-color" content="#050507">
 <link rel="icon" href="/ownplay/img/ownplay-icon-dark.svg" type="image/svg+xml">
@@ -40,6 +40,9 @@ h2{font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.
 .btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 24px;border-radius:999px;background:var(--red);color:var(--dark);font-weight:650;font-size:16px;transition:transform .45s var(--spring);will-change:transform}
 .btn:active{transform:scale(.94)!important}
 .btn.ink{background:var(--dark);color:#fff}
+.btn.paper{background:var(--paper);color:var(--dark)}
+button.btn{border:0;cursor:pointer}
+.btn[aria-busy="true"]{opacity:.6;pointer-events:none}
 
 /* nav */
 .nav{position:fixed;inset:0 0 auto;display:flex;align-items:center;justify-content:space-between;height:76px;padding-inline:var(--m);z-index:20;transition:transform .5s var(--ease),background .3s}
@@ -61,6 +64,8 @@ h2{font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.
 .hero .row{margin-top:44px;display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap;opacity:0;animation:fade .9s .5s var(--ease) forwards}
 @keyframes fade{to{opacity:1}}
 .hero .act{display:flex;flex-direction:column;gap:22px;align-items:flex-start}
+.get{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.get .alt{font-size:14px;color:var(--muted);line-height:1.4;max-width:34ch}.get .alt a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}.get .alt:empty{display:none}
 .btn:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:3px}
 
 /* 2 · the library grows into the screen as you scroll */
@@ -277,6 +282,7 @@ h2{font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.
 .tb dl{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:8px clamp(18px,2.4vw,36px)}
 .tb dt{font-weight:500;font-size:13px;opacity:.66}
 .tb dd{font-size:16px;font-weight:600;margin-top:6px;white-space:nowrap}
+.tb .btn{align-self:flex-start}
 .st{border-left:2px dashed currentColor;border-color:rgba(255,255,255,.28);padding:28px 22px;display:flex;flex-direction:column;justify-content:space-between;gap:16px}
 .pro .st{border-color:rgba(5,5,7,.3)}
 .pro dt,.pro .no{opacity:1}.pro .st b s{color:var(--dark)}
@@ -287,6 +293,17 @@ h2{font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.
 .terms ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px 32px;font-size:16px;line-height:1.4}
 .terms li{display:flex;gap:10px;align-items:flex-start}
 .terms li::before{content:"";flex:none;margin-top:7px;width:8px;height:8px;border-radius:50%;background:var(--red)}
+
+/* licence, right after checkout */
+.lic{margin:auto;width:min(560px,calc(100% - 32px));border:0;border-radius:24px;background:var(--paper);color:var(--dark);padding:32px;display:none;flex-direction:column;gap:20px}
+.lic[open]{display:flex;animation:licIn .6s var(--spring)}
+.lic::backdrop{background:rgba(5,5,7,.8)}
+.lic h2{font-size:clamp(36px,5vw,52px)}
+.lic p{font-size:16px;line-height:1.5}.lic a{text-decoration:underline;text-underline-offset:3px}
+.lic .code{font:500 14px/1.5 ui-monospace,Menlo,monospace;word-break:break-all;background:rgba(5,5,7,.07);padding:14px 16px;border-radius:12px;user-select:all}
+.lic .row{display:flex;gap:12px;justify-content:flex-end}
+@keyframes licIn{from{opacity:0;transform:scale(.94) translateY(12px)}}
+@media (prefers-reduced-motion:reduce){.lic[open]{animation:none}}
 
 /* 10 · questions */
 .faq{padding-block:clamp(80px,9vw,140px);display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
@@ -302,6 +319,7 @@ h2{font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.
 .faq summary i::after{top:0;bottom:0;left:7px;width:2px}
 .faq details[open] summary i{transform:rotate(135deg)}
 .faq details p{padding:0 28px 28px;font-size:18px;line-height:1.5;max-width:62ch;color:var(--muted)}
+.faq details p a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 
 /* close: the name rises out of the floor */
 .close{padding-top:clamp(40px,6vw,96px);overflow:hidden}
@@ -362,7 +380,7 @@ h2{font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.
   <ul>
     <li><a href="#vs">Why Ownplay</a></li>
     <li><a href="#price">Price</a></li>
-    <li><a class="btn mag" href="#price">Coming to Mac</a></li>
+    <li><a class="btn mag" data-dl href="#price">Download</a></li>
   </ul>
 </header>
 
@@ -372,9 +390,9 @@ h2{font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.
     <div class="row">
       <div class="act">
         <p class="lede">Your Mac becomes a private cinema for every screen you own.</p>
-        <a class="btn mag" href="#price">Coming to Mac</a>
+        <div class="get"><a class="btn mag" data-dl href="#price">Download</a><small class="alt" data-alt></small></div>
       </div>
-      <p class="on-list">On <b>Mac</b>, <b>iPhone</b>, <b>iPad</b>, <b>Apple TV</b> and <b>Android</b>.</p>
+      <p class="on-list">On <b>Mac</b>, <b>Windows</b>, <b>iPhone</b>, <b>iPad</b>, <b>Apple TV</b> and <b>Android</b>.</p>
     </div>
   </section>
 
@@ -470,6 +488,7 @@ h2{font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.
           <span class="k">Ownplay · Free</span>
           <h3>Admit two</h3>
           <dl><div><dt>Screens</dt><dd>2 devices</dd></div><div><dt>Away</dt><dd>1 device</dd></div><div><dt>Valid</dt><dd>For good</dd></div></dl>
+          <a class="btn paper mag" data-dl href="#price">Download</a>
         </div>
         <div class="st"><span class="k">Price</span><b>Free</b><span class="k no">No. 000002</span></div>
       </article>
@@ -478,12 +497,13 @@ h2{font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.
           <span class="k">Ownplay · Pro</span>
           <h3>Admit every screen</h3>
           <dl><div><dt>Screens</dt><dd>All you own</dd></div><div><dt>Extra</dt><dd>Auto HDR</dd></div><div><dt>Valid</dt><dd>Lifetime</dd></div></dl>
+          <button class="btn ink mag" id="buyPro" type="button">Buy Pro</button>
         </div>
         <div class="st"><span class="k">Until 1 Jan</span><b><s><span class="cur" data-usd="69">$69</span></s><span class="cur" data-usd="49">$49</span></b><span class="k no">Pay once</span></div>
       </article>
     </div>
     <div class="terms rv">
-      <ul aria-label="What you need"><li>A Mac on macOS 13 or later, awake</li><li>Full quality at home on Wi-Fi</li><li>Away: about 8 Mbps upload for HD, 20 for 4K</li></ul>
+      <ul aria-label="What you need"><li>A Mac with Apple silicon on macOS 13 or later, or a PC on Windows 10 or 11</li><li>Kept on and awake while you watch</li><li>Full quality at home on Wi-Fi</li><li>Away: about 8 Mbps upload for HD, 20 for 4K</li></ul>
     </div>
   </section>
 
@@ -493,15 +513,29 @@ h2{font-family:var(--disp);font-size:var(--h2);font-weight:700;letter-spacing:-.
     <details class="rv"><summary>Does anything go through a server?<i></i></summary><p>Your devices talk straight to your Mac, encrypted. Nothing passes through a server of mine.</p></details>
     <details class="rv"><summary>What if my Mac goes to sleep?<i></i></summary><p>The library sleeps with it. Keep the Mac on and awake while you watch.</p></details>
     <details class="rv"><summary>What happens after two devices?<i></i></summary><p>Devices you have already paired keep working for good. Ownplay Pro lets you add as many as you like.</p></details>
+    <details class="rv"><summary>Does it run on Windows?<i></i></summary><p>Yes, Windows 10 and 11. Auto HDR is Mac only for now. Windows may say it doesn't recognise the app the first time: choose More info, then Run anyway.</p></details>
+    <details class="rv"><summary>How does Pro unlock?<i></i></summary><p>Your licence appears right after you pay, and arrives by email too. Paste it in Ownplay under Settings, General, License. One licence per household, on the computer that runs your library. Lost it? <a href="/ownplay/licence">Find my licence</a>.</p></details>
     </div>
   </section>
 
   <footer class="close wrap">
-    <div class="cta"><p class="rv">Your library, for good</p><a class="btn mag" href="#price">Coming to Mac</a></div>
+    <div class="cta"><p class="rv">Your library, for good</p><a class="btn mag" data-dl href="#price">Download</a></div>
     <img class="giant" id="giant" src="/ownplay/img/ownplay-wordmark-white.svg" alt="">
-    <small><span>Made by <a href="/">Blu Shore</a></span><span><a href="/terms">Terms</a> · <a href="/refunds">Refunds</a></span></small>
+    <small><span>Made by <a href="/">Blu Shore</a></span><span><a href="/ownplay/licence">Find my licence</a> · <a href="/terms">Terms</a> · <a href="/refunds">Refunds</a></span></small>
   </footer>
 </main>
+
+<dialog class="lic" id="lic" aria-labelledby="licT">
+  <span class="k">Ownplay · Pro</span>
+  <h2 id="licT">Admit every screen.</h2>
+  <div id="licWait"><p>Writing your licence. A few seconds.</p></div>
+  <div id="licGot" hidden>
+    <p class="code" id="licCode"></p>
+    <p>In Ownplay, open Settings, General, License. Paste it, then Activate. <span id="licMail"></span></p>
+  </div>
+  <div id="licLate" hidden><p>It's taking longer than usual. Your licence will arrive by email, or get it again at <a href="/ownplay/licence">blushore.live/ownplay/licence</a>.</p></div>
+  <div class="row"><button class="btn" id="licCopy" type="button" hidden>Copy</button><button class="btn ink" id="licDone" type="button">Done</button></div>
+</dialog>
 
 <script>
 const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -589,6 +623,50 @@ new IntersectionObserver(([e])=>{const was=reelOn;reelOn=e.isIntersecting;reelEl
   new IntersectionObserver(([e])=>{seen=e.isIntersecting;if(seen&&!trl.dataset.started){trl.dataset.started=1;go(1)}run()},{threshold:.35}).observe(trl);
   if(reduce){setPlay(false);sg[0].style.setProperty('--f',1)}
 })();
+
+/* downloads: the visitor's computer first, the other one as a quiet line; phones and tablets go to the price */
+const DL={mac:'https://github.com/blushore/ownplay-releases/releases/latest/download/Ownplay-Apple-Silicon.dmg',
+  win:'https://github.com/blushore/ownplay-releases/releases/latest/download/Ownplay-Setup.exe'};
+{const ua=navigator.userAgent,touch=navigator.maxTouchPoints>1,
+   os=/Windows/.test(ua)?'win':(/Macintosh/.test(ua)&&!touch)?'mac':null,
+   name={mac:'Mac',win:'Windows'};
+ if(os){const other=os==='mac'?'win':'mac';
+   document.querySelectorAll('[data-dl]').forEach(a=>{a.href=DL[os];a.textContent=a.closest('.nav')?'Download':'Download for '+name[os];a.setAttribute('download','')});
+   const alt=document.querySelector('[data-alt]');
+   if(alt)alt.innerHTML=(os==='win'?'Windows may not recognise it at first: More info, then Run anyway. ':'')+`Also for <a href="${DL[other]}" download>${name[other]}</a>.`;}
+ else{document.querySelectorAll('.tk [data-dl]').forEach(a=>a.remove());
+   document.querySelectorAll('[data-dl]').forEach(a=>a.textContent=a.closest('.nav')?'Get it':'Get it for Mac or Windows');
+   const alt=document.querySelector('[data-alt]');if(alt)alt.innerHTML=`Download on your computer: <a href="${DL.mac}">Mac</a> or <a href="${DL.win}">Windows</a>.`;}}
+
+/* Ownplay Pro: Paddle overlay checkout. Client token and price id are public by design.
+   OWNPLAY49 ($20 off, $49) is applied by the checkout itself until it expires on 1 Jan, 00:00 PT. */
+const KEYS='https://ownplay-keys.metro-player.workers.dev';
+/* after payment the licence service needs a few seconds: ask every 2 s for up to 60 s */
+const lic=document.getElementById('lic'),$l=id=>document.getElementById(id);let licRun=0;
+function showLic(txn){const run=++licRun,t0=Date.now();
+  const set=st=>{$l('licWait').hidden=st!=='wait';$l('licGot').hidden=st!=='got';$l('licLate').hidden=st!=='late';$l('licCopy').hidden=st!=='got'};
+  set('wait');$l('licCopy').textContent='Copy';if(!lic.open)lic.showModal();
+  if(!txn)return set('late');
+  const ask=async()=>{if(run!==licRun)return;
+    try{const r=await fetch(`${KEYS}/key?txn=${encodeURIComponent(txn)}`);if(run!==licRun)return;
+      if(r.ok){const{key,email}=await r.json();$l('licCode').textContent=key;$l('licMail').textContent=email?`It's in your email too (${email}).`:'';set('got');$l('licCopy').focus();return}
+      if(r.status!==404)return set('late')}catch{}
+    if(Date.now()-t0>60000)return set('late');setTimeout(ask,2000)};ask()}
+lic.addEventListener('close',()=>licRun++);$l('licDone').addEventListener('click',()=>lic.close());
+$l('licCopy').addEventListener('click',async()=>{const k=$l('licCode').textContent,b=$l('licCopy');
+  try{await navigator.clipboard.writeText(k)}catch{const r=document.createRange();r.selectNodeContents($l('licCode'));getSelection().removeAllRanges();getSelection().addRange(r);document.execCommand('copy')}
+  b.textContent='Copied'});
+const PRO={token:'live_6b9ecef5bf1daa0eb3bba2227d9',price:'pri_01m8c3fqa245avew51rds63hc0',code:'OWNPLAY49',until:Date.parse('2027-01-01T00:00:00-08:00')};
+{const buy=document.getElementById('buyPro');let pp=null;
+ const load=()=>pp||(pp=new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='https://cdn.paddle.com/paddle/v2/paddle.js';
+   sc.onload=()=>{Paddle.Initialize({token:PRO.token,eventCallback:ev=>{if(ev.name==='checkout.completed'){const m=ev.data&&ev.data.customer&&ev.data.customer.email;
+     buy.textContent='Thank you';buy.disabled=true;Paddle.Checkout.close();showLic(ev.data.transaction_id)}}});ok()};
+   sc.onerror=()=>{pp=null;sc.remove();no()};document.head.appendChild(sc)}));
+ new IntersectionObserver(([e],o)=>{if(e.isIntersecting){o.disconnect();load().catch(()=>{})}},{rootMargin:'800px 0px'}).observe(buy);
+ buy.addEventListener('click',async()=>{buy.setAttribute('aria-busy','true');
+   try{await load();Paddle.Checkout.open({items:[{priceId:PRO.price,quantity:1}],...(Date.now()<PRO.until?{discountCode:PRO.code}:{}),settings:{displayMode:'overlay',theme:'dark'}})}
+   catch{location.href='mailto:hello@blushore.live?subject=Ownplay%20Pro'}finally{buy.removeAttribute('aria-busy')}});
+ if(location.hash==='#buy')addEventListener('load',()=>document.getElementById('price').scrollIntoView())}
 
 /* compare demos: drag across to compare, otherwise they sway on their own */
 const lineArt=(c,w,h)=>{c.width=w;c.height=h;const g=c.getContext('2d'),k=w/320;g.fillStyle='#f4e3d3';g.fillRect(0,0,w,h);g.fillStyle='#ff7aa8';g.fillRect(0,h*.62,w,h*.38);

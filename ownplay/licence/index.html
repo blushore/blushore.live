@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Find my licence · Ownplay</title>
+<meta name="description" content="Bought Ownplay Pro? Type your email and your licence comes to your inbox again.">
+<link rel="canonical" href="https://blushore.live/ownplay/licence/">
+<meta name="theme-color" content="#050507">
+<link rel="icon" href="/ownplay/img/ownplay-icon-dark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050507;--ink:#fff;--muted:rgba(255,255,255,.66);--red:#FF0033;--field:#0E0E12;--line:rgba(255,255,255,.16);--spring:cubic-bezier(.32,1.28,.5,1);color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font:400 17px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+main{max-width:680px;margin:0 auto;padding:40px 16px 64px;min-height:100svh;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;height:48px}.top img{height:22px}
+h1{font-family:"League Spartan",Inter,sans-serif;font-weight:700;font-size:clamp(52px,12vw,96px);letter-spacing:-.035em;line-height:.9;margin:clamp(64px,12vh,120px) 0 24px}
+.lead{font-size:20px;line-height:1.45;color:var(--muted);max-width:32ch;margin-bottom:40px}
+form{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+input{flex:1 1 260px;min-width:0;height:52px;padding:0 22px;border:1px solid var(--line);border-radius:999px;background:var(--field);color:var(--ink);font:inherit}
+input:focus{outline:none;border-color:var(--ink)}
+button{flex:none;height:52px;padding:0 26px;border:0;border-radius:999px;background:var(--red);color:var(--bg);font:650 16px Inter,system-ui,sans-serif;cursor:pointer;transition:transform .45s var(--spring),opacity .3s}
+button:active{transform:scale(.94)}button[disabled]{opacity:.5;pointer-events:none}
+#msg{min-height:1.55em}.done{font-size:20px;color:var(--ink)}.err{color:#ff8099}
+.note{margin-top:auto;padding-top:64px;color:var(--muted);font-size:15px;max-width:52ch}
+.note a,footer a{color:var(--ink);text-underline-offset:3px}
+footer{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px;color:var(--muted)}
+footer a{color:var(--muted);text-decoration:none}
+@media (prefers-reduced-motion:reduce){button{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <a class="top" href="/ownplay" aria-label="Ownplay"><img src="/ownplay/img/ownplay-wordmark-white.svg" alt="Ownplay"></a>
+  <h1>Find my licence</h1>
+  <p class="lead">Type the email you bought Ownplay Pro with. Your licence comes back to your inbox.</p>
+  <form id="f" novalidate>
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+    <button type="submit" id="go">Send it</button>
+  </form>
+  <p id="msg" role="status" aria-live="polite"></p>
+  <p class="note">In Ownplay, open Settings, General, License, paste the key and choose Activate. Still stuck? Write to <a href="mailto:hello@blushore.live">hello@blushore.live</a>.</p>
+  <footer><a href="/ownplay">Ownplay</a><a href="/terms">Terms</a><a href="/refunds">Refunds</a><a href="mailto:hello@blushore.live">hello@blushore.live</a></footer>
+</main>
+<script>
+const f=document.getElementById('f'),input=document.getElementById('email'),go=document.getElementById('go'),msg=document.getElementById('msg');
+f.addEventListener('submit',async e=>{
+  e.preventDefault();const email=input.value.trim();msg.className='';
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.className='err';msg.textContent='That doesn’t look like an email address.';input.focus();return}
+  go.disabled=true;go.textContent='Sending…';
+  try{ // JSON as text/plain: a simple request, no CORS preflight
+    const r=await fetch('https://ownplay-keys.metro-player.workers.dev/resend',{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({email})});
+    if(!r.ok)throw new Error(r.status);
+    f.hidden=true;msg.className='done';msg.textContent='If that address bought Ownplay Pro, its licence is on its way.';
+  }catch{msg.className='err';msg.textContent='Couldn’t reach the licence service. Try again in a moment, or write to hello@blushore.live.';go.disabled=false;go.textContent='Send it'}
+});
+</script>
+</body>
+</html>
