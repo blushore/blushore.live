@@ -302,6 +302,7 @@ button.btn{border:0;cursor:pointer}
 .tb dl{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:8px clamp(18px,2.4vw,36px)}
 .tb dt{font-weight:500;font-size:13px;opacity:.66}
 .tb dd{font-size:16px;font-weight:600;margin-top:6px;white-space:nowrap}
+.tb dl .wide{grid-column:1/-1;margin-top:8px}.tb dl .wide dd{white-space:normal}
 .tb .btn{align-self:flex-start}
 .st{border-left:2px dashed currentColor;border-color:rgba(255,255,255,.28);padding:28px 22px;display:flex;flex-direction:column;justify-content:space-between;gap:16px}
 .pro .st{border-color:rgba(5,5,7,.3)}
@@ -423,7 +424,7 @@ button.btn{border:0;cursor:pointer}
   .maker figure{max-width:200px}
   .mac-s{width:100%}.tv-s{width:56%;top:auto;bottom:0;padding:1.6%}.ph-s{width:25%;left:4%;bottom:-2%}.trio{padding-bottom:30%}.tv-s .bar b{display:none}
   .sync{grid-row:3;margin-top:40px;grid-template-columns:88px 1fr 150px;gap:0 12px}.s-ph .s-shots{border-radius:16px;padding:10px 7px;gap:3px}.s-mac ul{padding:4px;font-size:11px}.lid{padding:6px 6px 9px;border-radius:10px 10px 3px 3px}.win .tb{font-size:9px;padding:5px 6px}.s-mac li{padding:5px 6px;gap:6px}.s-mac li:nth-child(n+3){display:none}.s-lane em,.s-dn,.s-lane::after{display:none}.s-up i{width:24px;height:24px}.s-disk{flex-direction:column;align-items:flex-start;gap:2px;font-size:12px}
-  .tix{grid-template-columns:minmax(0,1fr);gap:16px}.tk{--sw:100px;--r:12px;min-height:0;grid-template-columns:minmax(0,1fr) var(--sw)}.tb{padding:22px 18px}.st{padding:22px 14px}.st b{font-size:34px}.tb h3{font-size:30px}.tb dl{grid-template-columns:1fr;gap:8px}.tb dl>div{display:flex;justify-content:space-between;align-items:center;gap:12px}.tb dd{font-size:15px;margin-top:0}.terms ul{flex-direction:column}
+  .tix{grid-template-columns:minmax(0,1fr);gap:16px}.tk{--sw:100px;--r:12px;min-height:0;grid-template-columns:minmax(0,1fr) var(--sw)}.tb{padding:22px 18px}.st{padding:22px 14px}.st b{font-size:34px}.tb h3{font-size:30px}.tb dl{grid-template-columns:1fr;gap:8px}.tb dl>div{display:flex;justify-content:space-between;align-items:center;gap:12px}.tb dl .wide{margin-top:0;align-items:flex-start;gap:24px}.tb dl .wide dd{text-align:right}.tb dd{font-size:15px;margin-top:0}.terms ul{flex-direction:column}
 }
 </style>
 </head>
@@ -556,7 +557,7 @@ button.btn{border:0;cursor:pointer}
         <div class="tb">
           <span class="k">Ownplay · Pro</span>
           <h3>Admit every screen</h3>
-          <dl><div><dt>Screens</dt><dd>All you own</dd></div><div><dt>Extra</dt><dd>Auto HDR</dd></div><div><dt>Valid</dt><dd>Lifetime</dd></div></dl>
+          <dl><div><dt>Screens</dt><dd>All you own</dd></div><div><dt>Away</dt><dd>Every device</dd></div><div><dt>Valid</dt><dd>Lifetime</dd></div><div class="wide"><dt>Extras</dt><dd>Auto HDR, anime upscaling and the Retro TV sets</dd></div></dl>
           <button class="btn ink mag" id="buyPro" type="button">Buy Pro</button>
         </div>
         <div class="st"><span class="k">Until 1 Jan</span><b><s><span class="cur" data-usd="69">$69</span></s><span class="cur" data-usd="49">$49</span></b></div>
