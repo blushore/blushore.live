@@ -26,7 +26,12 @@ const LP33_PRO = {
   token: 'live_6b9ecef5bf1daa0eb3bba2227d9',
   price: 'pri_01m7862egyxw6jyknh5vw2aez9',
   keys: 'https://lp33-keys.metro-player.workers.dev', // GET /key?txn= → { key, email }; 404 not-ready for a few seconds
+  // Launch price (owner, 2026-11-25): from launch day (8 Dec, 00:00 PT, with Product Hunt) the checkout applies the
+  // LAUNCH code ($5 off) itself and the page shows $14; the code expires at 2 Jan 2027 00:00 UTC, so does this.
+  launchFrom: Date.parse('2026-12-08T00:00:00-08:00'),
+  launchTo: Date.parse('2027-01-02T00:00:00Z'),
 };
+const lpLaunch = () => Date.now() >= LP33_PRO.launchFrom && Date.now() < LP33_PRO.launchTo;
 const TWITCH_CHANNEL = 'blushorelive';
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -605,13 +610,15 @@ const loadPaddle = () => paddleP || (paddleP = new Promise((ok, no) => {
 if (LP33_PRO.live && $('#lpBuyRow')) {
   $('#lpBuyRow').innerHTML = '<button class="pill pink" type="button" id="lpBuy">Buy LP33 Pro</button>';
   const soon = $('#lpSoonTxt'); soon && soon.remove();
+  const tag = $('.lp-lic .lp-soon');
+  if (lpLaunch() && tag) tag.innerHTML = '<s>$19</s> $14 until 1 January';
   const buy = $('#lpBuy');
   new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); loadPaddle().catch(() => {}); } }, { rootMargin: '800px 0px' }).observe(buy);
   buy.addEventListener('click', async () => {
     buy.textContent = 'Opening…';
     try {
       await loadPaddle();
-      Paddle.Checkout.open({ items: [{ priceId: LP33_PRO.price, quantity: 1 }], settings: { displayMode: 'overlay', theme: 'dark' } });
+      Paddle.Checkout.open({ items: [{ priceId: LP33_PRO.price, quantity: 1 }], ...(lpLaunch() ? { discountCode: 'LAUNCH' } : {}), settings: { displayMode: 'overlay', theme: 'dark' } });
       buy.textContent = 'Buy LP33 Pro';
     } catch (e) { buy.textContent = 'Try again'; }
   });
