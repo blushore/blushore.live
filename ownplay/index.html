@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ownplay · Your movies, everywhere</title>
-<meta name="description" content="Ownplay turns your Mac into a private cinema for every screen you own: iPhone, iPad, Apple TV and Android. No cloud, no account. For Mac and Windows.">
+<meta name="description" content="Ownplay keeps your films, shows and photos on your own computer and plays them on every screen: iPhone, iPad, Apple TV and Android. Your own streaming service, photo backup and drive. No cloud, no account. For Mac and Windows.">
 <link rel="canonical" href="https://blushore.live/ownplay/">
 <meta name="theme-color" content="#050507">
 <link rel="icon" href="/ownplay/img/ownplay-icon-dark.svg" type="image/svg+xml">
 <meta property="og:title" content="Ownplay · Your movies, everywhere">
-<meta property="og:description" content="Your Mac becomes a private cinema for every screen you own.">
+<meta property="og:description" content="Your films, shows and photos on your own computer, on every screen you own.">
 <meta property="og:image" content="https://blushore.live/ownplay/img/01-home.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,7 +52,9 @@ button.btn{border:0;cursor:pointer}
 .nav ul{display:flex;gap:30px;list-style:none;align-items:center;font-size:15px;font-weight:500}
 .nav ul a:not(.btn){color:var(--muted);transition:color .2s}
 .nav ul a:not(.btn):hover{color:var(--ink)}
-.nav .btn{height:42px;font-size:15px;padding:0 20px}
+.nav .btn{height:42px;font-size:15px;padding:0 20px;white-space:nowrap}
+.nav ul a{white-space:nowrap}
+@media (max-width:420px){.nav ul{gap:20px}.nav ul li:first-child{display:none}}
 
 /* 1 · hero: the sentence holds the film */
 .hero{min-height:min(100svh,940px);display:flex;flex-direction:column;justify-content:center;padding-top:76px}
@@ -92,13 +94,8 @@ button.btn{border:0;cursor:pointer}
 
 
 /* 4 · formats run past, faster when you scroll faster */
-.reel{position:relative;overflow:hidden;padding-block:24px;margin-top:clamp(48px,6vw,96px);display:grid;gap:16px;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
-.reel .track{display:flex;gap:0;width:max-content;will-change:transform;padding:46px 0 40px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14'%3E%3Crect x='7' y='0' width='14' height='14' rx='3' fill='%2326262e'/%3E%3C/svg%3E") 0 12px/28px 14px repeat-x,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14'%3E%3Crect x='7' y='0' width='14' height='14' rx='3' fill='%2326262e'/%3E%3C/svg%3E") 0 calc(100% - 12px)/28px 14px repeat-x,#0b0b0e}
-.fmt{flex:none;width:340px;display:flex;flex-direction:column;gap:10px;padding:0 14px;position:relative;border-right:3px solid #050507}
-.fmt::before{content:attr(data-ec);position:absolute;top:-21px;left:14px;font-size:10px;font-weight:600;letter-spacing:.12em;color:rgba(255,196,110,.55);white-space:nowrap}
-.fmt .demo{position:relative;aspect-ratio:16/9;border-radius:6px;margin-bottom:8px;overflow:hidden;background:radial-gradient(120% 100% at 50% 0%,#1d1d25,#0b0b0f);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);font-size:13px;font-weight:600;color:#fff}
-.reel:not(.live) .demo *{animation-play-state:paused!important}
+.demo{position:relative;aspect-ratio:16/9;border-radius:6px;margin-bottom:8px;overflow:hidden;background:radial-gradient(120% 100% at 50% 0%,#1d1d25,#0b0b0f);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);font-size:13px;font-weight:600;color:#fff}
+.ix:not(.live) .demo *{animation-play-state:paused!important}
 .demo .tg{position:absolute;top:8%;font-style:normal;font-weight:600;font-size:11px;padding:4px 7px;border-radius:6px;background:rgba(5,5,7,.6);color:#fff}
 .demo .tg.l{left:5%}.demo .tg.r{right:5%}
 .d-cmp{cursor:ew-resize;touch-action:pan-y}
@@ -130,12 +127,6 @@ button.btn{border:0;cursor:pointer}
 .d-two .a i{background:linear-gradient(160deg,#5a4a7a,#1a1a22)}.d-two .b i{background:linear-gradient(160deg,#7a3a3a,#1a1a22)}
 .d-two .row i:nth-child(3){animation-delay:.15s}.d-two .row i:nth-child(4){animation-delay:.3s}.d-two .b i{animation-delay:.45s!important}
 @keyframes rowIn{0%,8%{opacity:0;transform:translateX(-14px)}22%,88%{opacity:1;transform:none}100%{opacity:0}}
-.fmt>i,.fmt>b{padding-inline:10px}
-.fmt>i{font-style:normal;font-size:14px;font-weight:600;color:rgba(255,255,255,.72)}
-.fmt>b{font-family:var(--disp);font-size:clamp(22px,1.8vw,27px);font-weight:700;letter-spacing:-.02em;line-height:1.15}
-.reel-cap{padding:8px var(--m) 0;display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;font-size:18px;color:var(--muted)}
-.reel-cap b{color:var(--ink);font-weight:600}
-.reel-cap small{font-size:13px;color:rgba(255,255,255,.5)}
 .on-list{font-size:16px;color:var(--muted);align-self:flex-end;line-height:1.4;padding-block:12.8px}
 .on-list b{color:var(--ink);font-weight:600}
 
@@ -360,6 +351,31 @@ button.btn{border:0;cursor:pointer}
 /* entrances: heading, then text, then picture */
 .rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform 1s var(--spring)}
 .rv.on{opacity:1;transform:none}
+
+/* the index: big numbered rows; on a computer the row's live demo follows the pointer, on a phone it sits under the row */
+.idx{padding-block:clamp(80px,9vw,140px) 0}
+.ix{list-style:none;margin-top:clamp(32px,4vw,56px);border-top:1px solid rgba(255,255,255,.12)}
+.ix li{--tb:clamp(30px,4.4vw,68px);display:grid;grid-template-columns:80px 1fr auto;align-items:start;gap:24px;padding:28px 0;border-bottom:1px solid rgba(255,255,255,.12);cursor:default;outline:none}
+.ix .n{line-height:1;margin-top:calc((var(--tb) - 18px)/2);font-family:var(--disp);font-weight:700;font-size:18px;color:rgba(255,255,255,.4);font-variant-numeric:tabular-nums;transition:color .3s}
+.ix .t{display:flex;flex-direction:column;gap:10px;min-width:0}
+.ix .t b{font-family:var(--disp);font-weight:700;font-size:var(--tb);letter-spacing:-.03em;line-height:1;transition:transform .6s var(--spring)}
+.ix .t span{font-size:17px;line-height:1.4;color:var(--muted);max-width:52ch;transition:color .3s var(--ease),transform .6s var(--spring)}
+.ix .tg2{line-height:1;margin-top:calc((var(--tb) - 14px)/2);font-size:14px;font-weight:600;color:rgba(255,255,255,.62)}
+.ix li:hover .n,.ix li:focus-visible .n{color:var(--red)}
+.ix li:hover .t span,.ix li:focus-visible .t span{color:#fff;transform:translateX(10px)}
+.ix li:hover .t b,.ix li:focus-visible .t b{transform:translateX(10px)}
+.ix .demo{margin:0}
+@media (hover:hover) and (min-width:861px){
+  .ix .demo{position:fixed;left:0;top:0;width:340px;z-index:15;pointer-events:none;opacity:0;translate:var(--lx,0) var(--ly,0);scale:.86;transform-origin:0 0;transition:opacity .25s var(--ease),scale .5s var(--spring);will-change:translate;box-shadow:0 30px 60px -20px #000}
+  .ix li:hover .demo{opacity:1;scale:1.1}
+  .ix li:not(:hover) .demo *{animation-play-state:paused!important}
+}
+@media (hover:none),(max-width:860px){
+  .ix li{grid-template-columns:44px 1fr;row-gap:14px;padding:24px 0}
+  .ix .tg2{display:none}
+  .ix .t{gap:8px}
+  .ix .demo{grid-column:1/-1}
+}
 /* small details */
 ::selection{background:var(--red);color:#050507}
 .hero h1 .dot{color:var(--red);font-weight:inherit}
@@ -390,8 +406,6 @@ button.btn{border:0;cursor:pointer}
   .pickc{display:flex;gap:6px;flex-wrap:wrap;margin-top:40px}
   .pickc button{font:inherit;font-size:14px;font-weight:600;height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--step);color:var(--muted);cursor:pointer;transition:background .3s,color .3s,transform .4s var(--spring)}
   .pickc button:active{transform:scale(.94)}.pickc button[aria-pressed="true"]{background:var(--ink);color:var(--dark)}
-  .fmt{width:272px}.fmt>b{font-size:20px}.reel{padding-block:24px}.reel .track{gap:12px}
-  .nav ul li:not(:last-child){display:none}
   .hero h1{font-size:15vw}
   .hero{min-height:auto;padding-top:140px;padding-bottom:16px}
   :root{--h2:9.6vw}
@@ -435,7 +449,7 @@ button.btn{border:0;cursor:pointer}
     <h1 id="h1"><span class="ln"><span>Your movies,</span></span><span class="ln"><span>everywhere<b class="dot">.</b></span></span></h1>
     <div class="row">
       <div class="act">
-        <p class="lede">Your Mac becomes a private cinema for every screen you own.</p>
+        <p class="lede">Your films, shows and photos live on your own computer, and play on every screen you own. Your own streaming service, photo backup and drive, with no cloud.</p>
         <div class="get"><a class="btn mag" data-dl href="#price">Download</a><small class="alt" data-alt></small></div>
       </div>
       <p class="on-list">On <b>Mac</b>, <b>Windows</b>, <b>iPhone</b>, <b>iPad</b>, <b>Apple TV</b> and <b>Android</b>.</p>
@@ -451,11 +465,9 @@ button.btn{border:0;cursor:pointer}
     <p class="trio-cap"><span>Start it on your Mac. Finish it on the TV, or on the train.</span><span class="live-s"><i></i>Streaming to 3 devices</span></p>
   </section>
 
-  <section aria-label="Plays almost any file">
-    <div class="reel">
-      <div class="track" data-dir="-1"><div class="fmt" data-ec="OWNPLAY ▸ 01A"><div class="demo d-cmp d-anime" aria-hidden="true"><canvas class="bef"></canvas><span class="aft"><span class="in"><canvas class="hi"></canvas></span></span><i class="div"></i><em class="tg l">Before</em><em class="tg r">Enhanced</em></div><i>Anime</i><b>Anime, sharper</b></div><div class="fmt" data-ec="OWNPLAY ▸ 02A"><div class="demo d-cmp d-hdr" aria-hidden="true"><span class="scn dim"><i class="sun"></i><i class="hill"></i></span><span class="aft"><span class="in"><span class="scn"><i class="sun"></i><i class="hill"></i></span></span></span><i class="div"></i><em class="tg l">SDR</em><em class="tg r">Auto HDR</em></div><i>Pro · Auto HDR</i><b>Older films, in HDR</b></div><div class="fmt" data-ec="OWNPLAY ▸ 03A"><div class="demo d-direct" aria-hidden="true"><span class="cloud"></span><span class="dev dph">Phone</span><span class="link"><i></i></span><span class="dev dmac">Your Mac</span></div><i>Private</i><b>No cloud in between</b></div><div class="fmt" data-ec="OWNPLAY ▸ 04A"><div class="demo d-code" aria-hidden="true"><span class="code">K7Q·4FD</span><i class="strike"></i><span class="used">Used</span></div><i>Pairing</i><b>Each code works once</b></div><div class="fmt" data-ec="OWNPLAY ▸ 05A"><div class="demo d-two" aria-hidden="true"><span class="row a"><b>Studio Mac</b><i></i><i></i><i></i></span><span class="row b"><b>Living room Mac</b><i></i><i></i><i></i></span></div><i>Two Macs</i><b>Watch another Mac’s library</b></div></div>
-    </div>
-    <p class="reel-cap"><span><b>The parts that make it Ownplay.</b></span></p>
+  <section class="idx wrap" aria-labelledby="ix-h">
+    <h2 id="ix-h" class="rv">The parts that make it Ownplay</h2>
+    <ol class="ix" id="ix"><li tabindex="0"><span class="n">01</span><span class="t"><b>Anime, sharper</b><span>Enhance Resolution cleans up older anime as it plays.</span></span><span class="tg2">Enhance</span><div class="demo d-cmp d-anime" aria-hidden="true"><canvas class="bef"></canvas><span class="aft"><span class="in"><canvas class="hi"></canvas></span></span><i class="div"></i><em class="tg l">Before</em><em class="tg r">Enhanced</em></div></li><li tabindex="0"><span class="n">02</span><span class="t"><b>Older films, in HDR</b><span>Auto HDR lifts standard films for HDR screens.</span></span><span class="tg2">Pro</span><div class="demo d-cmp d-hdr" aria-hidden="true"><span class="scn dim"><i class="sun"></i><i class="hill"></i></span><span class="aft"><span class="in"><span class="scn"><i class="sun"></i><i class="hill"></i></span></span></span><i class="div"></i><em class="tg l">SDR</em><em class="tg r">Auto HDR</em></div></li><li tabindex="0"><span class="n">03</span><span class="t"><b>No cloud in between</b><span>Your phone talks straight to your computer, encrypted.</span></span><span class="tg2">Private</span><div class="demo d-direct" aria-hidden="true"><span class="cloud"></span><span class="dev dph">Phone</span><span class="link"><i></i></span><span class="dev dmac">Your computer</span></div></li><li tabindex="0"><span class="n">04</span><span class="t"><b>Each code works once</b><span>A pairing code expires after one use, so nobody can reuse it.</span></span><span class="tg2">Pairing</span><div class="demo d-code" aria-hidden="true"><span class="code">K7Q·4FD</span><i class="strike"></i><span class="used">Used</span></div></li><li tabindex="0"><span class="n">05</span><span class="t"><b>Watch another library</b><span>Pair with a second computer, yours or a friend's, and browse both.</span></span><span class="tg2">Two computers</span><div class="demo d-two" aria-hidden="true"><span class="row a"><b>Studio Mac</b><i></i><i></i><i></i></span><span class="row b"><b>Living room PC</b><i></i><i></i><i></i></span></div></li></ol>
   </section>
 
   <section class="vs wrap" id="vs" aria-labelledby="vs-h">
@@ -657,12 +669,12 @@ function frame(){
 }
 addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(frame)}},{passive:true});frame();
 
-/* reel: two rows drift opposite ways, pushed by scroll speed; still when off screen */
-const rows=[...document.querySelectorAll('.reel .track')].map(el=>{const n=el.children.length;el.innerHTML+=el.innerHTML;[...el.children].forEach((c,i)=>{if(i>=n)c.setAttribute('aria-hidden','true')});return{el,dir:+el.dataset.dir,x:0}});
-let reelOn=false,hold=false;const reelEl=document.querySelector('.reel');reelEl.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')hold=true});reelEl.addEventListener('pointerleave',()=>hold=false);
-function run(){if(!reelOn)return;const push=hold?0:0.5+Math.min(14,Math.abs(vel)*.35);
-  rows.forEach(r=>{const half=r.el.scrollWidth/2;r.x+=push*r.dir;if(r.x<-half)r.x+=half;if(r.x>0)r.x-=half;r.el.style.transform=`translate3d(${r.x}px,0,0)`});vel*=.94;requestAnimationFrame(run)}
-new IntersectionObserver(([e])=>{const was=reelOn;reelOn=e.isIntersecting;reelEl.classList.toggle('live',reelOn);if(reelOn&&!was&&!reduce)requestAnimationFrame(run)}).observe(document.querySelector('.reel'));
+/* index: the hovered row's demo follows the pointer with a little lag; demos run only while the list is on screen */
+const ixEl=document.getElementById('ix');new IntersectionObserver(([e])=>ixEl.classList.toggle('live',e.isIntersecting)).observe(ixEl);
+if(matchMedia('(hover:hover) and (min-width:861px)').matches){let tx=0,ty=0,cx=0,cy=0,on=false;
+  const step=()=>{cx+=(tx-cx)*(reduce?1:.18);cy+=(ty-cy)*(reduce?1:.18);ixEl.style.setProperty('--lx',cx.toFixed(1)+'px');ixEl.style.setProperty('--ly',cy.toFixed(1)+'px');if(on||Math.abs(tx-cx)+Math.abs(ty-cy)>.5)requestAnimationFrame(step)};
+  ixEl.addEventListener('pointermove',e=>{const W=400,H=232;tx=Math.max(e.clientX+40,innerWidth*.56);tx=Math.min(innerWidth-W-120,tx);ty=Math.min(innerHeight-H-32,Math.max(88,e.clientY-H/2));if(!on){on=true;if(!cx){cx=tx;cy=ty}requestAnimationFrame(step)}});
+  ixEl.addEventListener('pointerleave',()=>on=false);}
 
 /* setup trailer: three chapters play like a trailer; tap a chapter to jump, pause any time; still when off screen */
 (()=>{const trl=document.getElementById('trl'),pp=document.getElementById('trlPP'),bs=[...trl.querySelectorAll('.chap button')],sg=[...trl.querySelectorAll('.segs i')],cap=document.getElementById('trlCap'),stp=document.getElementById('trlStep'),qr=document.getElementById('qr');
@@ -741,7 +753,7 @@ document.querySelectorAll('.d-cmp').forEach((d,n)=>{let auto=!reduce,t=n*1.7;
   const size=()=>d.style.setProperty('--w',d.offsetWidth+'px');size();addEventListener('resize',size);
   d.addEventListener('pointermove',e=>{auto=false;const r=d.getBoundingClientRect();set((e.clientX-r.left)/r.width)});
   d.addEventListener('pointerleave',()=>auto=!reduce);
-  (function loop(){if(auto&&reelEl.classList.contains('live')){t+=.012;set(.5+.3*Math.sin(t))}requestAnimationFrame(loop)})();set(.5)});
+  (function loop(){if(auto&&ixEl.classList.contains('live')){t+=.012;set(.5+.3*Math.sin(t))}requestAnimationFrame(loop)})();set(.5)});
 document.querySelectorAll('.d-direct').forEach(d=>{const l=d.querySelector('.link');const f=()=>d.style.setProperty('--lw',(l.offsetWidth-10)+'px');f();addEventListener('resize',f)});
 </script>
 </body>
