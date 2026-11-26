@@ -92,13 +92,12 @@ button.btn{border:0;cursor:pointer}
 
 
 /* 4 · formats run past, faster when you scroll faster */
-.reel{position:relative;overflow:hidden;padding-block:40px;margin-top:clamp(48px,6vw,96px);display:grid;gap:16px;
+.reel{position:relative;overflow:hidden;padding-block:24px;margin-top:clamp(48px,6vw,96px);display:grid;gap:16px;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
-.reel::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(40% 90% at 50% 50%,rgba(255,255,255,.07),transparent 70%)}
-.reel .track{display:flex;gap:16px;width:max-content;will-change:transform}
-.fmt{flex:none;width:340px;display:flex;flex-direction:column;gap:10px;padding:12px 12px 22px;border-radius:24px;
-  background:linear-gradient(180deg,#15151b,#0c0c10);box-shadow:inset 0 1px 0 rgba(255,255,255,.09),inset 0 0 0 1px rgba(255,255,255,.06)}
-.fmt .demo{position:relative;aspect-ratio:16/9;border-radius:14px;margin-bottom:8px;overflow:hidden;background:radial-gradient(120% 100% at 50% 0%,#1d1d25,#0b0b0f);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);font-size:13px;font-weight:600;color:#fff}
+.reel .track{display:flex;gap:0;width:max-content;will-change:transform;padding:46px 0 40px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14'%3E%3Crect x='7' y='0' width='14' height='14' rx='3' fill='%2326262e'/%3E%3C/svg%3E") 0 12px/28px 14px repeat-x,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14'%3E%3Crect x='7' y='0' width='14' height='14' rx='3' fill='%2326262e'/%3E%3C/svg%3E") 0 calc(100% - 12px)/28px 14px repeat-x,#0b0b0e}
+.fmt{flex:none;width:340px;display:flex;flex-direction:column;gap:10px;padding:0 14px;position:relative;border-right:3px solid #050507}
+.fmt::before{content:attr(data-ec);position:absolute;top:-21px;left:14px;font-size:10px;font-weight:600;letter-spacing:.12em;color:rgba(255,196,110,.55);white-space:nowrap}
+.fmt .demo{position:relative;aspect-ratio:16/9;border-radius:6px;margin-bottom:8px;overflow:hidden;background:radial-gradient(120% 100% at 50% 0%,#1d1d25,#0b0b0f);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);font-size:13px;font-weight:600;color:#fff}
 .reel:not(.live) .demo *{animation-play-state:paused!important}
 .demo .tg{position:absolute;top:8%;font-style:normal;font-weight:600;font-size:11px;padding:4px 7px;border-radius:6px;background:rgba(5,5,7,.6);color:#fff}
 .demo .tg.l{left:5%}.demo .tg.r{right:5%}
@@ -125,11 +124,11 @@ button.btn{border:0;cursor:pointer}
 .d-code .used{position:absolute;left:50%;bottom:14%;translate:-50% 0;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;background:var(--red);color:var(--dark);opacity:0;animation:usedIn 5s infinite var(--spring)}
 @keyframes strike{0%,35%{transform:scaleX(0)}48%,90%{transform:scaleX(1)}100%{transform:scaleX(0)}}
 @keyframes usedIn{0%,45%{opacity:0;transform:translateY(6px)}55%,90%{opacity:1;transform:none}100%{opacity:0}}
-.d-two .src{position:absolute;left:6%;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);font-size:12px}
-.d-two .a{top:18%}.d-two .b{bottom:18%}
-.d-two .lst{position:absolute;right:6%;top:18%;bottom:18%;width:38%;display:flex;flex-direction:column;justify-content:space-between}
-.d-two .lst i{height:24%;border-radius:6px;background:rgba(255,255,255,.1);opacity:0;transform:translateX(-14px);animation:rowIn 4.5s infinite var(--spring)}
-.d-two .lst i:nth-child(2){animation-delay:.25s;background:rgba(255,0,51,.35)}.d-two .lst i:nth-child(3){animation-delay:.5s}
+.d-two .row{position:absolute;left:7%;right:7%;display:flex;align-items:center;gap:6px}.d-two .a{top:14%}.d-two .b{bottom:14%}
+.d-two .row b{margin-right:auto;font-size:12px;font-weight:600;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.d-two .row i{width:12%;aspect-ratio:2/3;border-radius:3px;opacity:0;transform:translateX(-10px);animation:rowIn 4.5s infinite var(--spring)}
+.d-two .a i{background:linear-gradient(160deg,#5a4a7a,#1a1a22)}.d-two .b i{background:linear-gradient(160deg,#7a3a3a,#1a1a22)}
+.d-two .row i:nth-child(3){animation-delay:.15s}.d-two .row i:nth-child(4){animation-delay:.3s}.d-two .b i{animation-delay:.45s!important}
 @keyframes rowIn{0%,8%{opacity:0;transform:translateX(-14px)}22%,88%{opacity:1;transform:none}100%{opacity:0}}
 .fmt>i,.fmt>b{padding-inline:10px}
 .fmt>i{font-style:normal;font-size:14px;font-weight:600;color:rgba(255,255,255,.72)}
@@ -354,12 +353,27 @@ button.btn{border:0;cursor:pointer}
 /* entrances: heading, then text, then picture */
 .rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform 1s var(--spring)}
 .rv.on{opacity:1;transform:none}
+/* small details */
+::selection{background:var(--red);color:#050507}
+.hero h1 .dot{color:var(--red);font-weight:inherit}
+.trio-cap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.live-s{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:rgba(255,255,255,.62)}
+.live-s i{width:7px;height:7px;border-radius:50%;background:var(--red)}
+.scrub{position:fixed;top:0;left:0;right:0;height:2px;z-index:30;background:var(--red);transform-origin:0 50%;transform:scaleX(0);pointer-events:none}
+.hbar{transform:scaleY(0);transform-origin:50% 100%;transition:transform .8s var(--spring) .35s}
+.rv.on .hbar{transform:none}
+.table .row:not(.hd):hover>div:not(.own){background:rgba(255,255,255,.025)}
+.close small a{background:linear-gradient(var(--red),var(--red)) 0 100%/0 1px no-repeat;transition:background-size .4s var(--ease)}
+.close small a:hover{background-size:100% 1px}
+.cur.roll{display:inline-block;animation:roll .5s var(--spring)}
+@keyframes roll{from{opacity:0;transform:translateY(.45em)}to{opacity:1;transform:none}}
+
 
 @media (prefers-reduced-motion:reduce){
   .rv,.table .r{opacity:1;transform:none}
   .hero h1 .ln>span{transform:none;animation:none}.hero .row{opacity:1;animation:none}
   .trio{transform:none}.close .giant{transform:none}
-  .scene,.pst::after,.paired,.tv .glow,.tv .play{transition:none!important}.demo *{animation:none!important}.sync *{animation:none!important}.scan{animation:none!important}.trl .where em{animation:none!important}
+  .scene,.pst::after,.paired,.tv .glow,.tv .play{transition:none!important}.demo *{animation:none!important}.hbar{transition:none}.cur.roll{animation:none}.sync *{animation:none!important}.scan{animation:none!important}.trl .where em{animation:none!important}
   *{transition-duration:.01s!important}
 }
 
@@ -399,6 +413,7 @@ button.btn{border:0;cursor:pointer}
 </style>
 </head>
 <body>
+<i class="scrub" id="scrub" aria-hidden="true"></i>
 <header class="nav" id="nav">
   <a href="#top" aria-label="Ownplay home"><img class="wm" src="/ownplay/img/ownplay-wordmark-white.svg" alt="Ownplay"></a>
   <ul>
@@ -410,7 +425,7 @@ button.btn{border:0;cursor:pointer}
 
 <main id="top">
   <section class="hero wrap" aria-labelledby="h1">
-    <h1 id="h1"><span class="ln"><span>Your movies,</span></span><span class="ln"><span>everywhere.</span></span></h1>
+    <h1 id="h1"><span class="ln"><span>Your movies,</span></span><span class="ln"><span>everywhere<b class="dot">.</b></span></span></h1>
     <div class="row">
       <div class="act">
         <p class="lede">Your Mac becomes a private cinema for every screen you own.</p>
@@ -426,12 +441,12 @@ button.btn{border:0;cursor:pointer}
       <figure class="dv tv-s" aria-hidden="true"><span class="frm"><span class="bar"><b>Night of the Living Dead</b><i class="pg"><i></i></i><small class="tc">1:02:14</small></span></span></figure>
       <figure class="dv ph-s" aria-hidden="true"><span class="scr2"><span class="frm"></span><b>Night of the Living Dead</b><i class="pg"><i></i></i><small class="tc">1:02:14</small></span></figure>
     </div>
-    <p class="trio-cap">Start it on your Mac. Finish it on the TV, or on the train.</p>
+    <p class="trio-cap"><span>Start it on your Mac. Finish it on the TV, or on the train.</span><span class="live-s"><i></i>Streaming to 3 devices</span></p>
   </section>
 
   <section aria-label="Plays almost any file">
     <div class="reel">
-      <div class="track" data-dir="-1"><div class="fmt"><div class="demo d-cmp d-anime" aria-hidden="true"><canvas class="bef"></canvas><span class="aft"><span class="in"><canvas class="hi"></canvas></span></span><i class="div"></i><em class="tg l">Before</em><em class="tg r">Enhanced</em></div><i>Anime</i><b>Anime, sharper</b></div><div class="fmt"><div class="demo d-cmp d-hdr" aria-hidden="true"><span class="scn dim"><i class="sun"></i><i class="hill"></i></span><span class="aft"><span class="in"><span class="scn"><i class="sun"></i><i class="hill"></i></span></span></span><i class="div"></i><em class="tg l">SDR</em><em class="tg r">Auto HDR</em></div><i>Pro · Auto HDR</i><b>Older films, in HDR</b></div><div class="fmt"><div class="demo d-direct" aria-hidden="true"><span class="cloud"></span><span class="dev dph">Phone</span><span class="link"><i></i></span><span class="dev dmac">Your Mac</span></div><i>Private</i><b>No cloud in between</b></div><div class="fmt"><div class="demo d-code" aria-hidden="true"><span class="code">K7Q·4FD</span><i class="strike"></i><span class="used">Used</span></div><i>Pairing</i><b>Each code works once</b></div><div class="fmt"><div class="demo d-two" aria-hidden="true"><span class="src a">Studio Mac</span><span class="src b">Living room Mac</span><span class="lst"><i></i><i></i><i></i></span></div><i>Two Macs</i><b>Watch another Mac’s library</b></div></div>
+      <div class="track" data-dir="-1"><div class="fmt" data-ec="OWNPLAY ▸ 01A"><div class="demo d-cmp d-anime" aria-hidden="true"><canvas class="bef"></canvas><span class="aft"><span class="in"><canvas class="hi"></canvas></span></span><i class="div"></i><em class="tg l">Before</em><em class="tg r">Enhanced</em></div><i>Anime</i><b>Anime, sharper</b></div><div class="fmt" data-ec="OWNPLAY ▸ 02A"><div class="demo d-cmp d-hdr" aria-hidden="true"><span class="scn dim"><i class="sun"></i><i class="hill"></i></span><span class="aft"><span class="in"><span class="scn"><i class="sun"></i><i class="hill"></i></span></span></span><i class="div"></i><em class="tg l">SDR</em><em class="tg r">Auto HDR</em></div><i>Pro · Auto HDR</i><b>Older films, in HDR</b></div><div class="fmt" data-ec="OWNPLAY ▸ 03A"><div class="demo d-direct" aria-hidden="true"><span class="cloud"></span><span class="dev dph">Phone</span><span class="link"><i></i></span><span class="dev dmac">Your Mac</span></div><i>Private</i><b>No cloud in between</b></div><div class="fmt" data-ec="OWNPLAY ▸ 04A"><div class="demo d-code" aria-hidden="true"><span class="code">K7Q·4FD</span><i class="strike"></i><span class="used">Used</span></div><i>Pairing</i><b>Each code works once</b></div><div class="fmt" data-ec="OWNPLAY ▸ 05A"><div class="demo d-two" aria-hidden="true"><span class="row a"><b>Studio Mac</b><i></i><i></i><i></i></span><span class="row b"><b>Living room Mac</b><i></i><i></i><i></i></span></div><i>Two Macs</i><b>Watch another Mac’s library</b></div></div>
     </div>
     <p class="reel-cap"><span><b>The parts that make it Ownplay.</b></span></p>
   </section>
@@ -571,6 +586,10 @@ button.btn{border:0;cursor:pointer}
 
 <script>
 const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const scrub=document.getElementById('scrub');
+/* leave the tab and the film pauses */
+{const t0=document.title;document.addEventListener('visibilitychange',()=>{document.title=document.hidden?'Paused · Ownplay':t0});}
+console.log('%cown|play','font:700 28px sans-serif;color:#fff;background:#050507;padding:6px 12px');console.log('Own what you love. Made by Blu Shore.');
 
 /* comparison: on phones, Ownplay against one rival at a time */
 const pk=[...document.querySelectorAll('.pickc button')];
@@ -603,7 +622,7 @@ function paint(){document.querySelectorAll('.cur').forEach(el=>el.textContent=mo
   const day=new Date(rateDay+'T12:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
   curNote.textContent=cur==='USD'?'Prices in US dollars, checked November 2026.':`Converted from US dollars at the rate on ${day}; prices in your store may differ.`}
 const curSel=document.getElementById('curSel'),curSel2=document.getElementById('curSel2'),curNote=document.getElementById('curNote');
-[curSel,curSel2].forEach(sel=>sel.addEventListener('change',()=>{cur=sel.value;localStorage.setItem('op_cur',cur);paint()}));
+[curSel,curSel2].forEach(sel=>sel.addEventListener('change',()=>{cur=sel.value;localStorage.setItem('op_cur',cur);paint();if(!reduce)document.querySelectorAll('.cur').forEach(el=>{el.classList.remove('roll');void el.offsetWidth;el.classList.add('roll')})}));
 fetch('https://api.frankfurter.dev/v1/latest?base=USD&symbols=EUR,GBP,CAD,AUD,INR,JPY,BRL').then(r=>r.ok?r.json():null).then(j=>{if(j&&j.rates){rates={USD:1,...j.rates};rateDay=j.date;paint()}}).catch(()=>{});
 paint();
 
@@ -625,6 +644,7 @@ function frame(){
     pics.forEach(im=>{const b=im.parentElement.getBoundingClientRect();if(b.bottom<0||b.top>vh)return;im.style.setProperty('--py',(((b.top+b.height/2)-vh/2)*-.06).toFixed(1)+'px')});
     const g=giant.getBoundingClientRect();giant.style.setProperty('--gy',Math.max(0,Math.min(40,(g.top-vh*.55)/vh*80)).toFixed(1)+'%');
   }
+  scrub.style.transform='scaleX('+(y/Math.max(1,document.documentElement.scrollHeight-vh)).toFixed(4)+')';
   nav.classList.toggle('solid',y>40);nav.classList.toggle('hide',y>lastY&&y>400);
   vel=vel*.85+(y-lastY)*.15;lastY=y;ticking=false;
 }
