@@ -1,0 +1,27 @@
+# Blu Shore
+
+> Blu Shore is a solo musician and app developer. blushore.live is the home of Blu Shore's music, live streams and three apps, each made by Blu alone: LP33, Ownplay and Yohaku. Each app is a one-time purchase with no subscription, no account, no tracking and no ads.
+
+## LP33: a music player for album people
+- What it is: your saved albums from Spotify or Apple Music on one living wall, played as whole records. LP33 does not stream music itself; it plays through your own Spotify or Apple Music.
+- Platforms: Mac (Apple Silicon and Intel, notarised), Windows 10 and 11, iPhone and iPad (App Store).
+- Price: free to download. LP33 Pro is $19 once (a lifetime licence, one key for Mac and Windows) and adds the METRO 8 and HALO looks, the visualizer, every light, the mixtape deck and Snap & Whistle Control. On iPhone, Pro is an in-app purchase.
+- Privacy: no account, no tracking, no ads. Your library never leaves your device. On the computer it controls the Spotify desktop app, so you never sign in to Spotify inside LP33.
+- Buying: sold on blushore.live through Paddle (Merchant of Record). 14-day refund, no questions asked.
+- Page: https://blushore.live/lp33
+- Privacy policy: https://blushore.live/lp33/privacy/
+
+## Ownplay: your own private streaming service
+- What it is: your films, shows and photos stay on your own computer and play on every screen you own. Your own streaming service, photo backup and drive. No cloud, no account.
+- Platforms: server for Mac and Windows; free apps for iPhone, iPad, Apple TV and Android.
+- Price: Ownplay Free works with two devices. Ownplay Pro is a one-time lifetime licence ($69; $49 until 1 January 2027) for unlimited devices and more.
+- Page: https://blushore.live/ownplay/
+
+## Yohaku: a month planner and a whiteboard on one sheet
+- Plan by hand, think out loud. On Google Play now; iPhone and Mac soon.
+- Page: https://blushore.live/yohaku
+
+## Policies and contact
+- Terms: https://blushore.live/terms
+- Refunds: https://blushore.live/refunds (14 days, no questions)
+- Contact: hello@blushore.live
