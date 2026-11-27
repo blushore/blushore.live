@@ -174,7 +174,7 @@ button.btn{border:0;cursor:pointer}
 
 
 /* 6 · three steps: a red line runs through them in order */
-.how{padding-bottom:clamp(80px,9vw,140px)}
+.how{padding-block:clamp(80px,9vw,140px) 0}
 .pp{flex:none;width:38px;height:38px;border-radius:50%;border:0;background:var(--step);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:transform .4s var(--spring),background .3s}
 .pp:hover{background:#26262e}.pp:active{transform:scale(.92)}.pp:focus-visible{outline:2px solid var(--red);outline-offset:3px}
 .pp svg{width:16px;height:16px;fill:currentColor}.pp .i-play{display:none}.pp[data-state="pause"] .i-play{display:block}.pp[data-state="pause"] .i-pause{display:none}
@@ -487,26 +487,6 @@ button.btn{border:0;cursor:pointer}
 
   </section>
 
-  <section class="how wrap" aria-labelledby="how-h">
-    <h2 id="how-h" class="rv">Set up before the trailers end</h2>
-    <div class="trl" id="trl" data-step="1">
-      <div class="scr">
-        <div class="stage" aria-hidden="true">
-        <div class="scene sc1"><div class="mac"><div class="dots"><i></i><i></i><i></i></div><div class="grid"><i class="pst" style="--c:#4a2f45;--d:0ms"><span><b>Night of the Living Dead</b><small>1968</small></span></i><i class="pst" style="--c:#1f3b4d;--d:110ms"><span><b>Metropolis</b><small>1927</small></span></i><i class="pst" style="--c:#5a2e2e;--d:220ms"><span><b>Nosferatu</b><small>1922</small></span></i><i class="pst" style="--c:#2e4a3a;--d:330ms"><span><b>The General</b><small>1926</small></span></i><i class="pst" style="--c:#4a3f25;--d:440ms"><span><b>Sintel</b><small>2010</small></span></i><i class="pst" style="--c:#25304a;--d:550ms"><span><b>His Girl Friday</b><small>1940</small></span></i><i class="pst" style="--c:#3d2a55;--d:660ms"><span><b>Charade</b><small>1963</small></span></i><i class="pst" style="--c:#5b3a24;--d:770ms"><span><b>Big Buck Bunny</b><small>2008</small></span></i></div></div></div>
-        <div class="scene sc2"><div class="phone"><div class="view"><svg class="qr" id="qr" viewBox="0 0 25 25"></svg><i class="scan"></i><i class="cnr"></i></div><b class="paired">Paired</b></div></div>
-        <div class="scene sc3"><div class="tv"><span class="glow"></span><span class="play"></span><span class="where"><em>At home</em><em>Anywhere</em></span><i class="prog"></i></div></div>
-        </div>
-        <div class="ctl"><button class="pp" id="trlPP" aria-label="Pause" data-state="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/><path class="i-play" d="M8 5.5v13l10.5-6.5z"/></svg></button><span class="segs" aria-hidden="true"><i></i><i></i><i></i></span><span class="stp" id="trlStep">1 / 3</span></div>
-      </div>
-      <ol class="chap">
-        <li><button data-i="1" aria-current="step"><small>01</small><b>Install on your Mac</b><span>Posters and details fill in on their own.</span></button></li>
-        <li><button data-i="2"><small>02</small><b>Scan</b><span>One QR code per device.</span></button></li>
-        <li><button data-i="3"><small>03</small><b>Press play</b><span>At home or anywhere. Your phone finds your Mac on its own.</span></button></li>
-      </ol>
-      <p class="cap" id="trlCap">Posters and details fill in on their own.</p>
-    </div>
-  </section>
-
   <section class="field surface" aria-labelledby="f1">
     <figure class="pic rv"><img src="/ownplay/img/04-retro.jpg" width="1800" height="1125" alt="Retro TV in Ownplay" decoding="async"></figure>
     <h3 id="f1" class="rv">Nothing on? Everything is.</h3>
@@ -565,6 +545,26 @@ button.btn{border:0;cursor:pointer}
     </div>
     <div class="terms rv">
       <ul aria-label="What you need"><li>A Mac with Apple silicon on macOS 13 or later, or a PC on Windows 10 or 11</li><li>Kept on and awake while you watch</li><li>Full quality at home on Wi-Fi</li><li>Away: about 8 Mbps upload for HD, 20 for 4K</li></ul>
+    </div>
+  </section>
+
+  <section class="how wrap" aria-labelledby="how-h">
+    <h2 id="how-h" class="rv">Set up before the trailers end</h2>
+    <div class="trl" id="trl" data-step="1">
+      <div class="scr">
+        <div class="stage" aria-hidden="true">
+        <div class="scene sc1"><div class="mac"><div class="dots"><i></i><i></i><i></i></div><div class="grid"><i class="pst" style="--c:#4a2f45;--d:0ms"><span><b>Night of the Living Dead</b><small>1968</small></span></i><i class="pst" style="--c:#1f3b4d;--d:110ms"><span><b>Metropolis</b><small>1927</small></span></i><i class="pst" style="--c:#5a2e2e;--d:220ms"><span><b>Nosferatu</b><small>1922</small></span></i><i class="pst" style="--c:#2e4a3a;--d:330ms"><span><b>The General</b><small>1926</small></span></i><i class="pst" style="--c:#4a3f25;--d:440ms"><span><b>Sintel</b><small>2010</small></span></i><i class="pst" style="--c:#25304a;--d:550ms"><span><b>His Girl Friday</b><small>1940</small></span></i><i class="pst" style="--c:#3d2a55;--d:660ms"><span><b>Charade</b><small>1963</small></span></i><i class="pst" style="--c:#5b3a24;--d:770ms"><span><b>Big Buck Bunny</b><small>2008</small></span></i></div></div></div>
+        <div class="scene sc2"><div class="phone"><div class="view"><svg class="qr" id="qr" viewBox="0 0 25 25"></svg><i class="scan"></i><i class="cnr"></i></div><b class="paired">Paired</b></div></div>
+        <div class="scene sc3"><div class="tv"><span class="glow"></span><span class="play"></span><span class="where"><em>At home</em><em>Anywhere</em></span><i class="prog"></i></div></div>
+        </div>
+        <div class="ctl"><button class="pp" id="trlPP" aria-label="Pause" data-state="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/><path class="i-play" d="M8 5.5v13l10.5-6.5z"/></svg></button><span class="segs" aria-hidden="true"><i></i><i></i><i></i></span><span class="stp" id="trlStep">1 / 3</span></div>
+      </div>
+      <ol class="chap">
+        <li><button data-i="1" aria-current="step"><small>01</small><b>Install on your Mac</b><span>Posters and details fill in on their own.</span></button></li>
+        <li><button data-i="2"><small>02</small><b>Scan</b><span>One QR code per device.</span></button></li>
+        <li><button data-i="3"><small>03</small><b>Press play</b><span>At home or anywhere. Your phone finds your Mac on its own.</span></button></li>
+      </ol>
+      <p class="cap" id="trlCap">Posters and details fill in on their own.</p>
     </div>
   </section>
 
